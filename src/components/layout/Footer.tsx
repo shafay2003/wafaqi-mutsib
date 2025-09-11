@@ -1,15 +1,127 @@
+import { Facebook, Phone, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
+import { Logo } from "../icons";
+
 export function Footer() {
   return (
-    <footer className="border-t bg-background text-sm text-muted-foreground p-4 md:p-6">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>
-          © {new Date().getFullYear()} Wafaqi Mohtasib Secretariat
+    <footer className="bg-card text-card-foreground border-t">
+        <div className="container px-4 md:px-8 py-12">
+            <div className="grid gap-8 lg:grid-cols-4">
+                <div className="space-y-4">
+                    <Link href="/" className="flex items-center gap-2 font-semibold">
+                        <Logo className="h-10 w-10 text-primary" />
+                        <span className="font-headline text-lg">Wafaqi Mohtasib</span>
+                    </Link>
+                    <p className="text-muted-foreground text-sm">Providing transparent and speedy justice against administrative injustices.</p>
+                     <div className="flex items-center gap-2">
+                        <Phone className="h-6 w-6 text-primary" />
+                        <div>
+                            <p className="font-semibold">Helpline</p>
+                            <a href="tel:1056" className="text-muted-foreground hover:text-primary">1056</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 className="font-semibold mb-4">Quick Links</h3>
+                        <ul className="space-y-2 text-sm">
+                            <li>
+                                <Link href="/complaint" className="text-muted-foreground hover:text-primary">
+                                File Complaint
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/track-complaint" className="text-muted-foreground hover:text-primary">
+                                Track Status
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/faq" className="text-muted-foreground hover:text-primary">
+                                FAQs
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/contact" className="text-muted-foreground hover:text-primary">
+                                Contact Us
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 className="font-semibold mb-4">Resources</h3>
+                        <ul className="space-y-2 text-sm">
+                             <li>
+                                <Link href="/publications" className="text-muted-foreground hover:text-primary">
+                                Annual Reports
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/publications" className="text-muted-foreground hover:text-primary">
+                                Laws & Regulations
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/notifications" className="text-muted-foreground hover:text-primary">
+                                Notifications
+                                </Link>
+                            </li>
+                             <li>
+                                <Link href="/media-gallery" className="text-muted-foreground hover:text-primary">
+                                Media Gallery
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 className="font-semibold mb-4">About</h3>
+                        <ul className="space-y-2 text-sm">
+                             <li>
+                                <Link href="/about" className="text-muted-foreground hover:text-primary">
+                                Our Mission
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/about" className="text-muted-foreground hover:text-primary">
+                                Organizational Structure
+                                </Link>
+                            </li>
+                             <li>
+                                <Link href="/success-stories" className="text-muted-foreground hover:text-primary">
+                                Success Stories
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <div className="space-y-4">
+                    <h3 className="font-semibold">Follow Us</h3>
+                    <div className="flex space-x-4">
+                        <Link href="#" className="text-muted-foreground hover:text-primary">
+                            <Twitter className="h-6 w-6" />
+                            <span className="sr-only">Twitter</span>
+                        </Link>
+                        <Link href="#" className="text-muted-foreground hover:text-primary">
+                            <Facebook className="h-6 w-6" />
+                            <span className="sr-only">Facebook</span>
+                        </Link>
+                        <Link href="#" className="text-muted-foreground hover:text-primary">
+                            <Youtube className="h-6 w-6" />
+                            <span className="sr-only">YouTube</span>
+                        </Link>
+                    </div>
+                 </div>
+            </div>
+
+            <div className="mt-8 border-t pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
+                <p>&copy; {new Date().getFullYear() + 1} Wafaqi Mohtasib Secretariat. All rights reserved.</p>
+                 <div className="flex gap-4 mt-4 sm:mt-0">
+                    <Link href="#" className="hover:text-primary">Privacy Policy</Link>
+                    <Link href="#" className="hover:text-primary">Terms of Service</Link>
+                </div>
+            </div>
         </div>
-        <div>
-            <a href="#" className="hover:text-primary">Privacy Policy</a>
-            <a href="#" className="ml-4 hover:text-primary">Terms of Service</a>
-        </div>
-      </div>
     </footer>
   );
 }
