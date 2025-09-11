@@ -1,20 +1,21 @@
 import {
-  LayoutDashboard,
-  Building2,
-  FilePenLine,
-  SearchCheck,
-  BookOpen,
+  Home,
+  Users,
+  FileText,
+  Search,
+  Book,
   Bell,
   Phone,
   HelpCircle,
+  Info
 } from 'lucide-react';
 
 export const navLinks = [
-  { href: '/', label: 'Home', icon: LayoutDashboard },
-  { href: '/about', label: 'About Us', icon: Building2 },
-  { href: '/complaint', label: 'File a Complaint', icon: FilePenLine },
-  { href: '/track-complaint', label: 'Track Complaint', icon: SearchCheck },
-  { href: '/publications', label: 'Publications', icon: BookOpen },
+  { href: '/', label: 'Dashboard', icon: Home },
+  { href: '/about', label: 'About Us', icon: Info },
+  { href: '/complaint', label: 'File a Complaint', icon: FileText },
+  { href: '/track-complaint', label: 'Track Complaint', icon: Search },
+  { href: '/publications', label: 'Publications', icon: Book },
   { href: '/notifications', label: 'Notifications', icon: Bell },
   { href: '/contact', label: 'Contact Us', icon: Phone },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },

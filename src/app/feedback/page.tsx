@@ -69,59 +69,55 @@ export default function FeedbackPage() {
 
 
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-2xl mx-auto">
-            <header className="text-center space-y-3 mb-10">
-                <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
-                Feedback & Suggestions
-                </h1>
-                <p className="text-lg text-muted-foreground">
-                We value your input. Please share your thoughts to help us improve our services.
-                </p>
-            </header>
+    <div className="flex flex-col gap-4">
+        <header className="text-left space-y-1.5">
+            <h1 className="text-2xl font-semibold tracking-tight">
+            Feedback & Suggestions
+            </h1>
+            <p className="text-sm text-muted-foreground">
+            We value your input. Please share your thoughts to help us improve our services.
+            </p>
+        </header>
 
-            {state.status === 'success' ? (
-                 <Alert variant="default" className="border-green-500 bg-green-50 mb-8">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                    <AlertTitle className="text-green-800">Thank You!</AlertTitle>
-                    <AlertDescription className="text-green-700">
-                        {state.message}
-                    </AlertDescription>
-                </Alert>
-            ): null}
+        {state.status === 'success' ? (
+              <Alert variant="default" className="border-green-500 bg-green-50">
+                <CheckCircle className="h-4 w-4 text-green-600" />
+                <AlertTitle className="text-green-800">Thank You!</AlertTitle>
+                <AlertDescription className="text-green-700">
+                    {state.message}
+                </AlertDescription>
+            </Alert>
+        ): null}
 
-            <Card>
-                <CardContent className="pt-6">
-                    <Form {...form}>
-                    <form action={formAction} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField control={form.control} name="name" render={({ field }) => (
-                                <FormItem><FormLabel>Your Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                            )}/>
-                            <FormField control={form.control} name="email" render={({ field }) => (
-                                <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
-                            )}/>
-                        </div>
-                        <FormField control={form.control} name="subject" render={({ field }) => (
-                            <FormItem><FormLabel>Subject</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+        <Card>
+            <CardContent className="pt-6">
+                <Form {...form}>
+                <form action={formAction} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField control={form.control} name="name" render={({ field }) => (
+                            <FormItem><FormLabel>Your Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
-                        <FormField control={form.control} name="message" render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Message</FormLabel>
-                                <FormControl>
-                                    <Textarea placeholder="Your feedback or suggestion..." rows={6} {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                        <FormField control={form.control} name="email" render={({ field }) => (
+                            <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
                         )}/>
-                        <SubmitButton />
-                    </form>
-                    </Form>
-                </CardContent>
-            </Card>
-        </div>
-      </div>
+                    </div>
+                    <FormField control={form.control} name="subject" render={({ field }) => (
+                        <FormItem><FormLabel>Subject</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="message" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Message</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Your feedback or suggestion..." rows={6} {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                    <SubmitButton />
+                </form>
+                </Form>
+            </CardContent>
+        </Card>
     </div>
   );
 }

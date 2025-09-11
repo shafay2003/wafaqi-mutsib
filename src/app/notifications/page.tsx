@@ -16,9 +16,9 @@ const renderNotificationList = (type: string) => {
   return (
     <div className="space-y-4">
       {filtered.map(item => (
-        <div key={item.id} className="border-b pb-4">
-          <p className="font-semibold text-base">{item.title}</p>
-          <p className="text-sm text-muted-foreground">{item.date}</p>
+        <div key={item.id} className="border-b pb-4 last:border-b-0 last:pb-0">
+          <p className="font-medium text-sm">{item.title}</p>
+          <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
         </div>
       ))}
     </div>
@@ -28,19 +28,17 @@ const renderNotificationList = (type: string) => {
 
 export default function NotificationsPage() {
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <header className="text-center space-y-3 mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+    <div className="flex flex-col gap-4">
+      <header className="text-left space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight">
             Updates & Announcements
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Find all official notifications, circulars, and press releases here.
           </p>
-        </header>
+      </header>
         
-        <div className="max-w-4xl mx-auto">
-        <Tabs defaultValue="notifications" className="w-full">
+      <Tabs defaultValue="notifications" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="notifications">Notifications</TabsTrigger>
                 <TabsTrigger value="press-releases">Press Releases</TabsTrigger>
@@ -48,8 +46,8 @@ export default function NotificationsPage() {
             <TabsContent value="notifications">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Notifications & Circulars</CardTitle>
-                        <CardDescription>Official announcements and directives.</CardDescription>
+                        <CardTitle className="text-lg">Notifications & Circulars</CardTitle>
+                        <CardDescription className="text-sm">Official announcements and directives.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {renderNotificationList('Notification')}
@@ -59,8 +57,8 @@ export default function NotificationsPage() {
             <TabsContent value="press-releases">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Press Releases</CardTitle>
-                        <CardDescription>Media briefings and public statements.</CardDescription>
+                        <CardTitle className="text-lg">Press Releases</CardTitle>
+                        <CardDescription className="text-sm">Media briefings and public statements.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {renderNotificationList('Press Release')}
@@ -68,8 +66,6 @@ export default function NotificationsPage() {
                 </Card>
             </TabsContent>
         </Tabs>
-        </div>
-      </div>
     </div>
   );
 }

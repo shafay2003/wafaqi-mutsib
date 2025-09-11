@@ -18,10 +18,10 @@ const renderPublicationList = (category: string) => {
   return (
     <div className="space-y-4">
       {filtered.map(pub => (
-        <div key={pub.id} className="flex items-center justify-between border-b pb-4">
+        <div key={pub.id} className="flex items-center justify-between border-b pb-4 last:pb-0 last:border-b-0">
           <div>
-            <p className="font-semibold text-base">{pub.title}</p>
-            <p className="text-sm text-muted-foreground">Published on: {pub.date}</p>
+            <p className="font-medium text-sm">{pub.title}</p>
+            <p className="text-xs text-muted-foreground">Published on: {pub.date}</p>
           </div>
           <Button variant="outline" size="sm" asChild>
             <a href={pub.url} download>
@@ -39,40 +39,36 @@ export default function PublicationsPage() {
   const categories = [...new Set(publications.map(p => p.category))];
   
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <header className="text-center space-y-3 mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+    <div className="flex flex-col gap-4">
+        <header className="text-left space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight">
             Publications & Resources
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             A comprehensive library of official documents and research materials.
           </p>
         </header>
 
-        <div className="max-w-4xl mx-auto">
-          <Tabs defaultValue={categories[0]} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              {categories.map(cat => (
-                <TabsTrigger key={cat} value={cat}>{cat}</TabsTrigger>
-              ))}
-            </TabsList>
-
+        <Tabs defaultValue={categories[0]} className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
             {categories.map(cat => (
-              <TabsContent key={cat} value={cat}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{cat}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {renderPublicationList(cat)}
-                  </CardContent>
-                </Card>
-              </TabsContent>
+              <TabsTrigger key={cat} value={cat}>{cat}</TabsTrigger>
             ))}
-          </Tabs>
-        </div>
-      </div>
+          </TabsList>
+
+          {categories.map(cat => (
+            <TabsContent key={cat} value={cat}>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">{cat}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {renderPublicationList(cat)}
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ))}
+        </Tabs>
     </div>
   );
 }

@@ -21,55 +21,55 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="bg-background">
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-20">
-        <div className="max-w-4xl mx-auto">
-          <header className="text-center space-y-4 mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">About The Wafaqi Mohtasib</h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+    <div className="flex flex-col gap-4">
+        <header className="text-left space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight">About The Wafaqi Mohtasib</h1>
+            <p className="text-muted-foreground max-w-3xl">
               A commitment to upholding administrative accountability and safeguarding citizen rights against governmental maladministration.
             </p>
-          </header>
+        </header>
 
-          <section className="space-y-12">
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-4">
-                <p>The mission of the Wafaqi Mohtasib is to provide an effective and efficient mechanism for protecting the rights of the people, ensuring adherence to the rule of law, and promoting good governance. We are dedicated to providing speedy relief to citizens who have suffered from maladministration by any agency of the Federal Government.</p>
-              </CardContent>
-            </Card>
+        <main className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="grid auto-rows-max items-start gap-4 lg:gap-8 xl:col-span-2">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Our Mission</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-muted-foreground space-y-4">
+                    <p>The mission of the Wafaqi Mohtasib is to provide an effective and efficient mechanism for protecting the rights of the people, ensuring adherence to the rule of law, and promoting good governance. We are dedicated to providing speedy relief to citizens who have suffered from maladministration by any agency of the Federal Government.</p>
+                  </CardContent>
+                </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">History & Establishment</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-4">
-                <p>The institution of Wafaqi Mohtasib (Ombudsman) was established in Pakistan on January 24, 1983, through the Establishment of the Office of Wafaqi Mohtasib (Ombudsman) Order, 1983 (President's Order No. 1 of 1983). It is an independent and impartial body, accountable to the President and the Parliament, that provides a check on the executive branch of the government.</p>
-                <p>Since its inception, the institution has played a crucial role in redressing grievances and has resolved millions of cases, providing relief to the common man without any cost.</p>
-              </CardContent>
-            </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>History & Establishment</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-muted-foreground space-y-4">
+                    <p>The institution of Wafaqi Mohtasib (Ombudsman) was established in Pakistan on January 24, 1983, through the Establishment of the Office of Wafaqi Mohtasib (Ombudsman) Order, 1983 (President's Order No. 1 of 1983). It is an independent and impartial body, accountable to the President and the Parliament, that provides a check on the executive branch of the government.</p>
+                    <p>Since its inception, the institution has played a crucial role in redressing grievances and has resolved millions of cases, providing relief to the common man without any cost.</p>
+                  </CardContent>
+                </Card>
 
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Core Functions</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-4">
+                      {functions.map((func, index) => (
+                        <li key={index} className="flex items-start gap-4">
+                          <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
+                          <span className="text-muted-foreground">{func}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+            </div>
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline text-2xl">Core Functions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-4">
-                  {functions.map((func, index) => (
-                    <li key={index} className="flex items-start gap-4">
-                      <CheckCircle2 className="h-6 w-6 text-primary flex-shrink-0 mt-1" />
-                      <span className="text-muted-foreground">{func}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">Organizational Structure</CardTitle>
+                <CardTitle>Organizational Structure</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-6">The Wafaqi Mohtasib Secretariat is headed by the Wafaqi Mohtasib, who is assisted by a team of secretaries, investigation officers, and administrative staff. The structure is designed to ensure efficient case management and investigation.</p>
@@ -87,9 +87,8 @@ export default function AboutPage() {
                 )}
               </CardContent>
             </Card>
-          </section>
-        </div>
+          </div>
+        </main>
       </div>
-    </div>
   );
 }

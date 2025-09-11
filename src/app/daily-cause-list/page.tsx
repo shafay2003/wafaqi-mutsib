@@ -17,19 +17,18 @@ export default function DailyCauseListPage() {
   });
 
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <header className="text-center space-y-3 mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+    <div className="flex flex-col gap-4">
+        <header className="text-left space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight">
             Daily Cause List
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Cases scheduled for hearing on {today}.
           </p>
         </header>
         
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -53,6 +52,5 @@ export default function DailyCauseListPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
   );
 }

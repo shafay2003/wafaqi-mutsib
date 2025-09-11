@@ -14,32 +14,28 @@ export const metadata: Metadata = {
 
 export default function FAQPage() {
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto">
-          <header className="text-center space-y-3 mb-10">
-            <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+    <div className="flex flex-col gap-4">
+        <header className="text-left space-y-1.5">
+            <h1 className="text-2xl font-semibold tracking-tight">
               Frequently Asked Questions
             </h1>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Have questions? We have answers. If you can't find what you're looking for, feel free to contact us.
             </p>
-          </header>
+        </header>
 
-          <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq) => (
               <AccordionItem key={faq.id} value={faq.id}>
-                <AccordionTrigger className="text-left font-semibold text-lg hover:no-underline">
+                <AccordionTrigger className="text-left font-semibold text-base hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-base">
+                <AccordionContent className="text-muted-foreground text-sm">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
             ))}
-          </Accordion>
-        </div>
-      </div>
+        </Accordion>
     </div>
   );
 }

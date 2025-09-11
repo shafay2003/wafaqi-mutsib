@@ -2,45 +2,36 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from '@/components/ui/sidebar';
+import { Package2 } from 'lucide-react';
 import { navLinks } from '@/lib/placeholder-data';
-import { Logo } from '@/components/icons';
 
 export function Nav() {
   const pathname = usePathname();
 
   return (
-    <div className="flex h-full flex-col p-4">
-       <div className="flex items-center gap-3 px-2 pb-4 border-b mb-4">
-          <Logo className="h-10 w-10 text-primary" />
-          <div className="flex flex-col">
-            <span className="font-headline text-lg font-bold leading-none">Wafaqi Mohtasib</span>
-            <span className="text-sm text-muted-foreground">Pakistan</span>
-          </div>
+    <div className="hidden border-r bg-muted/40 md:block">
+      <div className="flex h-full max-h-screen flex-col gap-2">
+        <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <Package2 className="h-6 w-6" />
+            <span>Wafaqi Mohtasib</span>
+          </Link>
         </div>
-      <SidebarMenu>
-        {navLinks.map((link) => (
-          <SidebarMenuItem key={link.href}>
-            <Link href={link.href}>
-              <SidebarMenuButton
-                isActive={
-                  link.href === '/'
-                    ? pathname === link.href
-                    : pathname.startsWith(link.href)
-                }
-                className="w-full"
+        <div className="flex-1">
+          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all ${pathname.startsWith(link.href) && link.href !== '/' || pathname === '/' && link.href === '/' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-primary'}`}
               >
-                <link.icon className="h-5 w-5" />
-                <span>{link.label}</span>
-              </SidebarMenuButton>
-            </Link>
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+                <link.icon className="h-4 w-4" />
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
     </div>
   );
 }

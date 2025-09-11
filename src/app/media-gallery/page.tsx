@@ -50,18 +50,17 @@ const mediaItems = [
 
 export default function MediaGalleryPage() {
   return (
-    <div className="bg-background py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <header className="text-center space-y-3 mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">
+    <div className="flex flex-col gap-4">
+      <header className="text-left space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight">
             Media Gallery
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             A glimpse into our activities, events, and initiatives.
           </p>
-        </header>
+      </header>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
                  const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 3) + 1}`);
                  return (
@@ -77,22 +76,21 @@ export default function MediaGalleryPage() {
                             />
                              {item.type === 'Video' && (
                                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
                                 </div>
                             )}
                         </div>
                         )}
                         <CardHeader>
-                            <CardTitle className="font-headline text-lg">{item.title}</CardTitle>
+                            <CardTitle className="text-base">{item.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <CardDescription>{item.description}</CardDescription>
+                            <CardDescription className="text-xs">{item.description}</CardDescription>
                         </CardContent>
                     </Card>
                  );
             })}
         </div>
-      </div>
     </div>
   );
 }

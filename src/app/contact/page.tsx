@@ -14,33 +14,32 @@ export default function ContactPage() {
   const mapImage = PlaceHolderImages.find(p => p.id === 'map-pakistan');
 
   return (
-    <div className="bg-background">
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-20">
-        <header className="text-center space-y-4 mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline tracking-tight">Get in Touch</h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+    <div className="flex flex-col gap-8">
+        <header className="text-left space-y-1.5">
+          <h1 className="text-2xl font-semibold tracking-tight">Get in Touch</h1>
+          <p className="text-sm text-muted-foreground">
             We are here to help. Find the contact details for our head office and regional centers below.
           </p>
         </header>
 
-        <section className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <section>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {regionalOffices.map((office) => (
               <Card key={office.name}>
                 <CardHeader>
-                  <CardTitle className="font-headline">{office.name}</CardTitle>
+                  <CardTitle className="text-lg">{office.name}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4 text-sm">
+                <CardContent className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                    <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                     <span className="text-muted-foreground">{office.address}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     <a href={`tel:${office.phone}`} className="text-muted-foreground hover:text-primary">{office.phone}</a>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                    <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                     <a href={`mailto:${office.email}`} className="text-muted-foreground hover:text-primary break-all">{office.email}</a>
                   </div>
                 </CardContent>
@@ -50,21 +49,20 @@ export default function ContactPage() {
         </section>
 
         <section>
-            <h2 className="text-3xl font-bold text-center font-headline mb-8">Our Locations</h2>
+            <h2 className="text-xl font-semibold tracking-tight mb-4">Our Locations</h2>
             {mapImage && (
-                <div className="w-full border rounded-lg p-4 bg-secondary/30 overflow-hidden">
+                <div className="w-full border rounded-lg overflow-hidden">
                     <Image
                     src={mapImage.imageUrl}
                     alt={mapImage.description}
                     width={1200}
                     height={800}
-                    className="w-full h-auto object-contain rounded-md"
+                    className="w-full h-auto object-cover"
                     data-ai-hint={mapImage.imageHint}
                     />
                 </div>
             )}
         </section>
-      </div>
     </div>
   );
 }
