@@ -7,7 +7,14 @@ import {
   Bell,
   Phone,
   HelpCircle,
-  Info
+  Info,
+  BarChart,
+  Landmark,
+  Gavel,
+  ShieldCheck,
+  Briefcase,
+  Handshake,
+  FileInput
 } from 'lucide-react';
 
 export const navLinks = [
@@ -16,9 +23,15 @@ export const navLinks = [
   { href: '/complaint', label: 'File a Complaint', icon: FileText },
   { href: '/track-complaint', label: 'Track Complaint', icon: Search },
   { href: '/publications', label: 'Publications', icon: Book },
+  { href: '/judgments', label: 'Judgments', icon: Gavel },
   { href: '/notifications', label: 'Notifications', icon: Bell },
+  { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies', icon: Briefcase },
+  { href: '/complaint-statistics', label: 'Statistics', icon: BarChart },
+  { href: '/international-collaborations', label: 'Collaborations', icon: Handshake },
+  { href: '/rti', label: 'RTI', icon: FileInput },
   { href: '/contact', label: 'Contact Us', icon: Phone },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
+  { href: '/feedback', label: 'Feedback', icon: ShieldCheck },
 ];
 
 export const faqs = [
@@ -93,4 +106,50 @@ export const dailyCauseList = [
   { caseNo: 'WM-2024-34567', complainant: 'Zubair Hussain', agency: 'PTCL', hearingTime: '11:00 AM' },
   { caseNo: 'WM-2024-45678', complainant: 'Ayesha Siddiqa', agency: 'Nadra', hearingTime: '11:30 AM' },
   { caseNo: 'WM-2024-56789', complainant: 'Imran Malik', agency: 'FBR', hearingTime: '12:00 PM' },
+];
+
+export const complaintStats = [
+    { label: 'Received (YTD)', value: '125,342', change: '+15.2% from last year', icon: FileInput },
+    { label: 'Resolved (YTD)', value: '119,876', change: '+18.1% from last year', icon: ShieldCheck },
+    { label: 'In-Process', value: '5,466', change: '-5.7% from last month', icon: Users },
+    { label: 'Resolution Rate', value: '95.6%', change: '+2.4% from last year', icon: Landmark },
+];
+
+export const monthlyStats = [
+    { month: 'Jan', received: 430, resolved: 390 },
+    { month: 'Feb', received: 450, resolved: 410 },
+    { month: 'Mar', received: 520, resolved: 480 },
+    { month: 'Apr', received: 480, resolved: 450 },
+    { month: 'May', received: 550, resolved: 510 },
+    { month: 'Jun', received: 530, resolved: 500 },
+    { month: 'Jul', received: 580, resolved: 540 },
+];
+
+export const judgments = [
+    { id: 'jud1', caseNo: 'WM-2023-54321', title: 'Landmark Decision on Pensioner Benefits', date: '2023-11-10', url: '#' },
+    { id: 'jud2', caseNo: 'WM-2023-98765', title: 'Order Regarding Overseas Pakistani Property Dispute', date: '2023-09-22', url: '#' },
+    { id: 'jud3', caseNo: 'WM-2022-11223', title: 'Ruling on University Degree Issuance Delay', date: '2022-12-05', url: '#' },
+];
+
+export const rtiDocs = [
+    { id: 'rti1', title: 'Powers and Functions of the Wafaqi Mohtasib', category: 'Statutory Information', url: '#' },
+    { id: 'rti2', title: 'Budget Allocation and Expenditure Report 2023-24', category: 'Financials', url: '#' },
+    { id: 'rti3', title: 'Directory of Officers and Employees', category: 'Organizational', url: '#' },
+    { id: 'rti4', title: 'Rules, Regulations, and Instructions', category: 'Legal Framework', url: '#' },
+];
+
+export const tenders = [
+    { id: 'ten1', title: 'Tender for Procurement of IT Equipment', publishDate: '2024-07-15', deadline: '2024-08-05', url: '#' },
+    { id: 'ten2', title: 'Expression of Interest for Media Campaign', publishDate: '2024-07-10', deadline: '2024-07-30', url: '#' },
+];
+
+export const vacancies = [
+    { id: 'vac1', title: 'Investigation Officer (BS-17)', location: 'Islamabad', deadline: '2024-08-10', url: '#' },
+    { id: 'vac2', title: 'Assistant Director (IT) (BS-17)', location: 'Head Office', deadline: '2024-08-10', url: '#' },
+];
+
+export const internationalAffiliations = [
+    { name: 'International Ombudsman Institute (IOI)', description: 'A global organization of ombudsman institutions, promoting cooperation and development.', url: '#' },
+    { name: 'Asian Ombudsman Association (AOA)', description: 'A regional body for ombudsman offices in Asia, facilitating knowledge sharing.', url: '#' },
+    { name: 'Organisation of Islamic Cooperation Ombudsman Association (OICOA)', description: 'An association fostering collaboration among ombudsman institutions in OIC member states.', url: '#' },
 ];
