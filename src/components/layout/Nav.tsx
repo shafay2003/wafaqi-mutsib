@@ -30,7 +30,7 @@ export function Nav() {
         <div className="flex items-center gap-2.5">
           <Logo className="h-10 w-10 text-primary" />
           <div className="flex flex-col">
-            <h2 className="text-lg font-semibold font-headline tracking-tight">
+            <h2 className="text-lg font-semibold tracking-tight">
               Wafaqi Mohtasib
             </h2>
             <p className="text-xs text-muted-foreground">Ombudsman's Secretariat</p>
@@ -89,7 +89,7 @@ export function Nav() {
       </SidebarContent>
       <SidebarFooter>
         <div className="border-t -mx-2 p-4">
-            <div className="p-4 rounded-lg bg-muted/50 text-center space-y-3">
+            <div className="p-4 rounded-lg bg-secondary text-center space-y-3">
                 <h4 className="font-semibold text-sm">Need Help?</h4>
                 <p className="text-xs text-muted-foreground">
                     Visit our help center or contact support for assistance.

@@ -38,20 +38,20 @@ export default function Dashboard() {
               src={heroImage.imageUrl}
               alt={heroImage.description}
               fill
-              className="object-cover -z-10 opacity-30"
+              className="object-cover -z-10 opacity-20"
               data-ai-hint={heroImage.imageHint}
               priority
             />
            }
             <div className="max-w-4xl space-y-6 z-10">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight !leading-tight">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight">
                   Your Advocate for Administrative Justice
                 </h1>
                 <p className="text-lg md:text-xl text-white/80">
                   The Wafaqi Mohtasib (Federal Ombudsman) provides a transparent and speedy platform for resolving grievances against federal government agencies in Pakistan.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button size="lg" asChild className="bg-white text-primary hover:bg-white/90 text-base font-semibold py-7 px-8">
+                    <Button size="lg" asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold py-7 px-8">
                       <Link href="/complaint">Lodge a Complaint <ArrowRight className="ml-2 h-5 w-5" /></Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
