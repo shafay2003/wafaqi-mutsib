@@ -85,7 +85,7 @@ export default function MediaGalleryPage() {
                             <CardTitle>{item.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <CardDescription className="text-xs">{item.description}</CardDescription>
+                            <CardDescription>{item.description}</CardDescription>
                         </CardContent>
                     </Card>
                  );

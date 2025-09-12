@@ -69,10 +69,8 @@ export default function TendersAndVacanciesPage() {
             <TabsContent value="tenders">
                 <Card>
                     <CardHeader>
-                        <div className="flex-1 space-y-1">
-                            <CardTitle>Procurement Tenders</CardTitle>
-                            <CardDescription>Current tender notices for goods and services.</CardDescription>
-                        </div>
+                        <CardTitle>Procurement Tenders</CardTitle>
+                        <CardDescription>Current tender notices for goods and services.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {renderTenderList()}
@@ -82,10 +80,8 @@ export default function TendersAndVacanciesPage() {
             <TabsContent value="vacancies">
                 <Card>
                     <CardHeader>
-                        <div className="flex-1 space-y-1">
-                            <CardTitle>Career Opportunities</CardTitle>
-                            <CardDescription>Join our team and contribute to public service.</CardDescription>
-                        </div>
+                        <CardTitle>Career Opportunities</CardTitle>
+                        <CardDescription>Join our team and contribute to public service.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {renderVacancyList()}

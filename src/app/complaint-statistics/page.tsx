@@ -21,7 +21,7 @@ export default function ComplaintStatisticsPage() {
                 {complaintStats.map(stat => (
                     <Card key={stat.label}>
                         <CardHeader>
-                            <CardTitle className="text-sm font-medium">{stat.label}</CardTitle>
+                            <CardTitle>{stat.label}</CardTitle>
                             <stat.icon className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -35,10 +35,8 @@ export default function ComplaintStatisticsPage() {
             <section>
                 <Card>
                     <CardHeader>
-                        <div className="flex-1 space-y-1">
-                            <CardTitle>Monthly Complaint Overview - 2024</CardTitle>
-                            <CardDescription>Number of complaints received vs. resolved each month.</CardDescription>
-                        </div>
+                        <CardTitle>Monthly Complaint Overview - 2024</CardTitle>
+                        <CardDescription>Number of complaints received vs. resolved each month.</CardDescription>
                     </CardHeader>
                     <CardContent className="h-96">
                         <ResponsiveContainer width="100%" height="100%">
