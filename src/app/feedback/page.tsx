@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -40,7 +41,7 @@ function SubmitButton() {
 }
 
 export default function FeedbackPage() {
-  const [state, formAction] = useFormState(submitFeedback, {
+  const [state, formAction] = useActionState(submitFeedback, {
     message: "",
     status: "error",
   });

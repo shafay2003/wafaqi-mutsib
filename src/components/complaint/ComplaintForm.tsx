@@ -1,9 +1,10 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
@@ -43,7 +44,7 @@ function SubmitButton() {
 }
 
 export default function ComplaintForm() {
-  const [state, formAction] = useFormState(submitComplaint, {
+  const [state, formAction] = useActionState(submitComplaint, {
     message: "",
     status: "error",
   });
