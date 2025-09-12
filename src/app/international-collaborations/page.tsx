@@ -25,12 +25,12 @@ export default function InternationalCollaborationsPage() {
         <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
                  <Card>
-                    <CardHeader>
+                    <CardHeader className="flex-col items-start">
                         <CardTitle className="flex items-center gap-2">
                             <Globe className="h-6 w-6" />
                             Our Global Network
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="mt-1">
                             The Wafaqi Mohtasib is an active member of the international ombudsman community, engaging in dialogue and cooperation to enhance its effectiveness and learn from global experiences.
                         </CardDescription>
                     </CardHeader>
@@ -64,7 +64,7 @@ export default function InternationalCollaborationsPage() {
                         data-ai-hint={collaborationImage.imageHint}
                         />
                     )}
-                    <CardHeader>
+                    <CardHeader className="flex-col items-start">
                         <CardTitle>Strengthening Ties</CardTitle>
                     </CardHeader>
                     <CardContent>

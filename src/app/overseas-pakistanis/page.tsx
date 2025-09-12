@@ -24,7 +24,7 @@ export default function OverseasPakistanisPage() {
 
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-col items-start">
             <CardTitle className="flex items-center gap-3">
               <ShieldQuestion className="h-6 w-6 text-primary" />
               <span>Grievance Cell</span>
@@ -40,7 +40,7 @@ export default function OverseasPakistanisPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-col items-start">
             <CardTitle className="flex items-center gap-3">
                 <Book className="h-6 w-6 text-primary" />
                 <span>Special Handbook</span>
@@ -56,7 +56,7 @@ export default function OverseasPakistanisPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-col items-start">
             <CardTitle className="flex items-center gap-3">
                 <Plane className="h-6 w-6 text-primary" />
                 <span>One Window Desks</span>
@@ -72,9 +72,9 @@ export default function OverseasPakistanisPage() {
 
       <section>
         <Card className="bg-secondary/50">
-            <CardHeader>
+            <CardHeader className="flex-col items-start">
                 <CardTitle>One Window Facilitation Desk Services</CardTitle>
-                <CardDescription>
+                <CardDescription className="mt-1">
                     Our desks at airports provide immediate assistance for issues like lost luggage, immigration concerns, and other travel-related problems. Find our representatives in the international arrival lounges.
                 </CardDescription>
             </CardHeader>

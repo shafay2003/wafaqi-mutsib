@@ -93,9 +93,9 @@ export default function TrackComplaintPage() {
 
           {status && (
             <Card className="mt-4">
-              <CardHeader>
+              <CardHeader className="flex-col items-start">
                 <CardTitle>Status for Tracking ID: {status.id}</CardTitle>
-                <CardDescription className="text-sm">
+                <CardDescription className="text-sm mt-1">
                   Submitted by {status.complainant} on {status.submittedDate} regarding {status.agency}.
                 </CardDescription>
               </CardHeader>
