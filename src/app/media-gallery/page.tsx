@@ -81,7 +81,7 @@ export default function MediaGalleryPage() {
                             )}
                         </div>
                         )}
-                        <CardHeader className="flex-col items-start">
+                        <CardHeader>
                             <CardTitle>{item.title}</CardTitle>
                         </CardHeader>
                         <CardContent>

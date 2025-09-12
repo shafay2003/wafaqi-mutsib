@@ -34,9 +34,11 @@ export default function ComplaintStatisticsPage() {
             
             <section>
                 <Card>
-                    <CardHeader className="flex-col items-start">
-                        <CardTitle>Monthly Complaint Overview - 2024</CardTitle>
-                        <CardDescription>Number of complaints received vs. resolved each month.</CardDescription>
+                    <CardHeader>
+                        <div className="flex-1 space-y-1">
+                            <CardTitle>Monthly Complaint Overview - 2024</CardTitle>
+                            <CardDescription>Number of complaints received vs. resolved each month.</CardDescription>
+                        </div>
                     </CardHeader>
                     <CardContent className="h-96">
                         <ResponsiveContainer width="100%" height="100%">

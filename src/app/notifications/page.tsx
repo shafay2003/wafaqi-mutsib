@@ -45,9 +45,11 @@ export default function NotificationsPage() {
             </TabsList>
             <TabsContent value="notifications">
                 <Card>
-                    <CardHeader className="flex-col items-start">
-                        <CardTitle>Notifications & Circulars</CardTitle>
-                        <CardDescription className="text-sm mt-1">Official announcements and directives.</CardDescription>
+                    <CardHeader>
+                        <div className="flex-1 space-y-1">
+                            <CardTitle>Notifications & Circulars</CardTitle>
+                            <CardDescription>Official announcements and directives.</CardDescription>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         {renderNotificationList('Notification')}
@@ -56,9 +58,11 @@ export default function NotificationsPage() {
             </TabsContent>
             <TabsContent value="press-releases">
                 <Card>
-                    <CardHeader className="flex-col items-start">
-                        <CardTitle>Press Releases</CardTitle>
-                        <CardDescription className="text-sm mt-1">Media briefings and public statements.</CardDescription>
+                    <CardHeader>
+                        <div className="flex-1 space-y-1">
+                            <CardTitle>Press Releases</CardTitle>
+                            <CardDescription>Media briefings and public statements.</CardDescription>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         {renderNotificationList('Press Release')}

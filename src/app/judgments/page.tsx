@@ -23,20 +23,18 @@ export default function JudgmentsPage() {
             </header>
 
             <Card>
-                <CardHeader className="flex-col items-start">
-                    <div className="flex justify-between items-center w-full">
-                        <div>
-                            <CardTitle>Judgment Archive</CardTitle>
-                            <CardDescription className="text-sm mt-1">Browse or search for judgments.</CardDescription>
-                        </div>
-                         <div className="relative w-full max-w-sm">
-                            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                            type="search"
-                            placeholder="Search judgments..."
-                            className="w-full appearance-none bg-background pl-8 shadow-none"
-                            />
-                        </div>
+                <CardHeader>
+                    <div className="flex-1 space-y-1">
+                        <CardTitle>Judgment Archive</CardTitle>
+                        <CardDescription>Browse or search for judgments.</CardDescription>
+                    </div>
+                     <div className="relative w-full max-w-sm">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                        type="search"
+                        placeholder="Search judgments..."
+                        className="w-full appearance-none bg-background pl-8 shadow-none"
+                        />
                     </div>
                 </CardHeader>
                 <CardContent>
