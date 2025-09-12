@@ -36,7 +36,7 @@ const renderPublicationList = (category: string) => {
 };
 
 export default function PublicationsPage() {
-  const categories = [...new Set(publications.map(p => p.category))];
+  const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
   
   return (
     <div className="flex flex-col gap-4">
