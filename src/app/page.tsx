@@ -23,9 +23,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { successStories, notifications, complaintStats } from '@/lib/placeholder-data'
+import { successStories, notifications, complaintStats, mediaItems } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
+import { Badge } from '@/components/ui/badge'
+
 
 export default function Dashboard() {
 
@@ -144,6 +146,50 @@ export default function Dashboard() {
              <div className="text-center mt-8">
                 <Button asChild>
                     <Link href="/complaint-statistics">View Detailed Statistics</Link>
+                </Button>
+            </div>
+        </section>
+
+        <section>
+           <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tight">Photo & Video Gallery</h2>
+              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">A glimpse into our activities, events, and initiatives.</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {mediaItems.slice(0, 6).map((item, index) => {
+                    const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                    return (
+                        <Card key={item.id} className="overflow-hidden group flex flex-col">
+                            {itemImage && (
+                            <div className="relative aspect-video">
+                                <Image
+                                    src={itemImage.imageUrl}
+                                    alt={itemImage.description}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    data-ai-hint={itemImage.imageHint}
+                                />
+                                {item.type === 'Video' && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                    </div>
+                                )}
+                            </div>
+                            )}
+                            <div className="p-4 flex flex-col flex-grow">
+                                <div className="flex items-center justify-between mb-2">
+                                     <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'}>{item.type}</Badge>
+                                     <p className="text-xs text-muted-foreground">{item.date}</p>
+                                </div>
+                                <h3 className="font-semibold text-base leading-snug flex-grow">{item.title}</h3>
+                            </div>
+                        </Card>
+                    );
+                })}
+            </div>
+            <div className="text-center mt-8">
+                <Button asChild>
+                    <Link href="/media-gallery">View Full Gallery</Link>
                 </Button>
             </div>
         </section>

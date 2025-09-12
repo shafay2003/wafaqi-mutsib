@@ -25,7 +25,9 @@ import {
   Newspaper,
   CalendarDays,
   Megaphone,
-  Star
+  Star,
+  Image as ImageIcon,
+  Video
 } from 'lucide-react';
 
 export const navLinks = [
@@ -199,4 +201,91 @@ export const internationalAffiliations = [
     { name: 'International Ombudsman Institute (IOI)', description: 'A global organization of ombudsman institutions, promoting cooperation and development.', url: '#' },
     { name: 'Asian Ombudsman Association (AOA)', description: 'A regional body for ombudsman offices in Asia, facilitating knowledge sharing.', url: '#' },
     { name: 'Organisation of Islamic Cooperation Ombudsman Association (OICOA)', description: 'An association fostering collaboration among ombudsman institutions in OIC member states.', url: '#' },
+];
+
+export const mediaItems = [
+  {
+    id: 'media-1',
+    title: 'Seminar on Administrative Justice',
+    description: 'The Hon\'ble Wafaqi Mohtasib addressing a seminar in Islamabad.',
+    type: 'Photo',
+    date: '2024-07-15'
+  },
+  {
+    id: 'media-2',
+    title: 'Press Conference Highlights',
+    description: 'Key points from the recent press conference on annual performance.',
+    type: 'Video',
+    date: '2024-07-12'
+  },
+  {
+    id: 'media-3',
+    title: 'Awareness Campaign Launch',
+    description: 'Launch event for the nationwide awareness campaign on citizen rights.',
+    type: 'Photo',
+    date: '2024-07-10'
+  },
+  {
+    id: 'media-4',
+    title: 'International Collaboration Meeting',
+    description: 'Meeting with delegates from the International Ombudsman Institute.',
+    type: 'Photo',
+    date: '2024-07-05'
+  },
+  {
+    id: 'media-5',
+    title: 'How to File a Complaint',
+    description: 'An instructional video guiding users through the complaint process.',
+    type: 'Video',
+    date: '2024-07-01'
+  },
+   {
+    id: 'media-6',
+    title: 'Open Kachehri in Lahore',
+    description: 'Photos from the public hearing session held in Lahore.',
+    type: 'Photo',
+    date: '2024-06-28'
+  },
+  {
+    id: 'media-7',
+    title: 'Visit to a Regional Office',
+    description: 'The Mohtasib inspecting the facilities at the Peshawar regional office.',
+    type: 'Photo',
+    date: '2024-06-20'
+  },
+  {
+    id: 'media-8',
+    title: 'Annual Report 2023 Launch',
+    description: 'Official launch ceremony of the Annual Report 2023.',
+    type: 'Video',
+    date: '2024-06-15'
+  },
+  {
+    id: 'media-9',
+    title: 'Children\'s Rights Symposium',
+    description: 'A symposium focused on protecting the rights of children, with various stakeholders.',
+    type: 'Photo',
+    date: '2024-06-10'
+  },
+  {
+    id: 'media-10',
+    title: 'Training Workshop for Staff',
+    description: 'Investigation officers attending a workshop on modern investigative techniques.',
+    type: 'Photo',
+    date: '2024-06-05'
+  },
+  {
+    id: 'media-11',
+    title: 'Interview with PTV World',
+    description: 'The Wafaqi Mohtasib discusses the role of the institution on national television.',
+    type: 'Video',
+    date: '2024-05-30'
+  },
+  {
+    id: 'media-12',
+    title: 'One Window Desk Inauguration',
+    description: 'Inauguration of the One Window Facilitation Desk at Sialkot Airport.',
+    type: 'Photo',
+    date: '2024-05-25'
+  },
 ];
