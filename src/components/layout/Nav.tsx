@@ -15,11 +15,11 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { navLinks } from "@/lib/placeholder-data";
 import { Logo } from "../icons";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
+import { Button } from "../ui/button";
 
 export function Nav() {
   const pathname = usePathname();
@@ -27,13 +27,13 @@ export function Nav() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <Logo className="h-10 w-10 text-primary" />
           <div className="flex flex-col">
-            <h2 className="text-lg font-semibold font-headline">
+            <h2 className="text-lg font-semibold font-headline tracking-tight">
               Wafaqi Mohtasib
             </h2>
-            <p className="text-xs text-muted-foreground">Pakistan</p>
+            <p className="text-xs text-muted-foreground">Ombudsman's Secretariat</p>
           </div>
         </div>
       </SidebarHeader>
@@ -41,36 +41,33 @@ export function Nav() {
         <SidebarMenu>
           {navLinks.map((link, index) =>
             link.links ? (
-              <Collapsible key={index}>
+              <Collapsible key={index} className="w-full">
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton
                     className="w-full justify-between"
                     variant="ghost"
                   >
-                    <div className="flex items-center gap-2">
-                      <link.icon />
+                    <div className="flex items-center gap-3">
+                      <link.icon className="h-5 w-5" />
                       <span>{link.label}</span>
                     </div>
                     <ChevronDown className="h-4 w-4" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <SidebarMenu>
+                  <div className="pl-8 py-1 space-y-1 border-l-2 ml-5">
                     {link.links.map((subLink) => (
-                      <SidebarMenuItem key={subLink.href}>
-                        <Link href={subLink.href} className="w-full">
+                      <Link key={subLink.href} href={subLink.href} className="block">
                           <SidebarMenuButton
                             isActive={pathname === subLink.href}
-                            tooltip={{ children: subLink.label }}
                             variant="ghost"
-                            className="w-full justify-start ml-6"
+                            className="w-full justify-start h-8 text-sm font-normal"
                           >
                             <span>{subLink.label}</span>
                           </SidebarMenuButton>
                         </Link>
-                      </SidebarMenuItem>
                     ))}
-                  </SidebarMenu>
+                  </div>
                 </CollapsibleContent>
               </Collapsible>
             ) : (
@@ -79,8 +76,9 @@ export function Nav() {
                   <SidebarMenuButton
                     isActive={pathname === link.href}
                     tooltip={{ children: link.label }}
+                    className="gap-3"
                   >
-                    <link.icon />
+                    <link.icon className="h-5 w-5" />
                     <span>{link.label}</span>
                   </SidebarMenuButton>
                 </Link>
@@ -90,11 +88,18 @@ export function Nav() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarTrigger />
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <div className="border-t -mx-2 p-4">
+            <div className="p-4 rounded-lg bg-muted/50 text-center space-y-3">
+                <h4 className="font-semibold text-sm">Need Help?</h4>
+                <p className="text-xs text-muted-foreground">
+                    Visit our help center or contact support for assistance.
+                </p>
+                <Button size="sm" className="w-full">
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Help Center
+                </Button>
+            </div>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

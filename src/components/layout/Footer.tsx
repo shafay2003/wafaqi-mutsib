@@ -6,25 +6,25 @@ export function Footer() {
   return (
     <footer className="bg-card text-card-foreground border-t">
         <div className="container px-4 md:px-8 py-12">
-            <div className="grid gap-8 lg:grid-cols-4">
+            <div className="grid gap-10 lg:grid-cols-4">
                 <div className="space-y-4">
                     <Link href="/" className="flex items-center gap-2 font-semibold">
                         <Logo className="h-10 w-10 text-primary" />
                         <span className="font-headline text-lg">Wafaqi Mohtasib</span>
                     </Link>
                     <p className="text-muted-foreground text-sm">Providing transparent and speedy justice against administrative injustices.</p>
-                     <div className="flex items-center gap-2">
+                     <div className="flex items-center gap-2 pt-2">
                         <Phone className="h-6 w-6 text-primary" />
                         <div>
-                            <p className="font-semibold">Helpline</p>
-                            <a href="tel:1056" className="text-muted-foreground hover:text-primary">1056</a>
+                            <p className="font-semibold text-sm">Helpline</p>
+                            <a href="tel:1056" className="text-muted-foreground hover:text-primary text-sm">1056</a>
                         </div>
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
                     <div>
-                        <h3 className="font-semibold mb-4">Quick Links</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <Link href="/complaint" className="text-muted-foreground hover:text-primary">
@@ -54,7 +54,7 @@ export function Footer() {
                         </ul>
                     </div>
                      <div>
-                        <h3 className="font-semibold mb-4">Resources</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight">Resources</h3>
                         <ul className="space-y-2 text-sm">
                              <li>
                                 <Link href="/publications" className="text-muted-foreground hover:text-primary">
@@ -79,7 +79,7 @@ export function Footer() {
                         </ul>
                     </div>
                      <div>
-                        <h3 className="font-semibold mb-4">About</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight">About</h3>
                         <ul className="space-y-2 text-sm">
                              <li>
                                 <Link href="/about" className="text-muted-foreground hover:text-primary">
@@ -101,33 +101,33 @@ export function Footer() {
                 </div>
 
                  <div className="space-y-4">
-                    <h3 className="font-semibold">Follow Us</h3>
+                    <h3 className="font-semibold tracking-tight">Follow Us</h3>
                     <div className="flex space-x-4">
                         <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Twitter className="h-6 w-6" />
+                            <Twitter className="h-5 w-5" />
                             <span className="sr-only">Twitter</span>
                         </Link>
                         <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Facebook className="h-6 w-6" />
+                            <Facebook className="h-5 w-5" />
                             <span className="sr-only">Facebook</span>
                         </Link>
                         <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Youtube className="h-6 w-6" />
+                            <Youtube className="h-5 w-5" />
                             <span className="sr-only">YouTube</span>
                         </Link>
                          <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <Instagram className="h-6 w-6" />
+                            <Instagram className="h-5 w-5" />
                             <span className="sr-only">Instagram</span>
                         </Link>
                          <Link href="#" className="text-muted-foreground hover:text-primary">
-                            <MessageCircle className="h-6 w-6" />
+                            <MessageCircle className="h-5 w-5" />
                             <span className="sr-only">WhatsApp</span>
                         </Link>
                     </div>
                  </div>
             </div>
 
-            <div className="mt-8 border-t pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
+            <div className="mt-12 border-t pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
                 <p>&copy; {new Date().getFullYear()} Wafaqi Mohtasib Secretariat. All rights reserved.</p>
                  <div className="flex gap-4 mt-4 sm:mt-0">
                     <Link href="#" className="hover:text-primary">Privacy Policy</Link>
