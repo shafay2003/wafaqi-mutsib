@@ -54,6 +54,24 @@
       "description": "An awareness campaign banner.",
       "imageUrl": "https://picsum.photos/seed/awareness-campaign/600/400",
       "imageHint": "public event"
+    },
+    {
+      "id": "media-4",
+      "description": "A group of professionals in a meeting, symbolizing international collaboration.",
+      "imageUrl": "https://picsum.photos/seed/collaboration/600/400",
+      "imageHint": "business meeting"
+    },
+    {
+      "id": "media-5",
+      "description": "A diverse group of people, representing the public.",
+      "imageUrl": "https://picsum.photos/seed/diverse-public/600/400",
+      "imageHint": "diverse people"
+    },
+    {
+      "id": "media-6",
+      "description": "An open book on a table, symbolizing knowledge and reports.",
+      "imageUrl": "https://picsum.photos/seed/open-book/600/400",
+      "imageHint": "book report"
     }
   ]
 }
