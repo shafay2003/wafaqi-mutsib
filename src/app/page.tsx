@@ -55,7 +55,7 @@ export default function Dashboard() {
                     <Button size="lg" asChild className="bg-white text-primary hover:bg-gray-200 text-base font-semibold py-7 px-8 shadow-lg transition-transform hover:scale-105">
                       <Link href="/complaint">File a Complaint Online <ArrowRight className="ml-2 h-5 w-5" /></Link>
                     </Button>
-                    <Button size="lg" variant="outline" asChild className="border-white/80 text-white hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
+                    <Button size="lg" variant="outline" asChild className="border-white/80 text-white bg-transparent hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
                       <Link href="/track-complaint">Track Your Case</Link>
                     </Button>
                 </div>
