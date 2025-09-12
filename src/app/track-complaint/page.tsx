@@ -55,7 +55,7 @@ export default function TrackComplaintPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
           <header className="text-left space-y-1.5">
             <h1 className="text-2xl font-semibold tracking-tight">
               Track Your Complaint
@@ -67,56 +67,65 @@ export default function TrackComplaintPage() {
           
           <Card>
             <CardContent className="pt-6">
-              <form onSubmit={handleTrack} className="flex flex-col sm:flex-row items-start gap-2">
-                <Input
-                  type="text"
-                  placeholder="Enter Tracking ID (e.g., WM-20240720-12345)"
-                  value={trackingId}
-                  onChange={(e) => setTrackingId(e.target.value)}
-                  className="flex-grow"
-                />
-                <Button type="submit" disabled={loading} className="w-full sm:w-auto">
+              <form onSubmit={handleTrack} className="flex flex-col sm:flex-row items-start gap-4">
+                <div className="relative flex-grow w-full">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder="Enter Tracking ID (e.g., WM-20240720-12345)"
+                      value={trackingId}
+                      onChange={(e) => setTrackingId(e.target.value)}
+                      className="pl-10 h-12 text-base"
+                    />
+                </div>
+                <Button type="submit" disabled={loading} className="w-full sm:w-auto h-12 px-8">
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Tracking...
                     </>
                   ) : (
                     <>
-                      <Search className="mr-2 h-4 w-4" /> Track Status
+                      Track Status
                     </>
                   )}
                 </Button>
               </form>
-               {error && <p className="text-sm font-medium text-destructive mt-2">{error}</p>}
+               {error && <p className="text-sm font-medium text-destructive mt-4">{error}</p>}
             </CardContent>
           </Card>
 
           {status && (
             <Card className="mt-4">
-              <CardHeader className="flex-col items-start">
-                <CardTitle>Status for Tracking ID: {status.id}</CardTitle>
-                <CardDescription className="text-sm mt-1">
+              <CardHeader>
+                <CardTitle className="text-lg">Status for Tracking ID: {status.id}</CardTitle>
+                <CardDescription>
                   Submitted by {status.complainant} on {status.submittedDate} regarding {status.agency}.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6 text-sm">
-                <div>
-                  <h3 className="font-semibold mb-2">Current Status</h3>
-                   <p className="text-lg text-primary font-bold">{status.currentStatus}</p>
-                   <p className="text-muted-foreground text-xs">Last Update: {status.lastUpdate}</p>
-                </div>
+              <CardContent className="space-y-8">
+                <Card className="bg-primary/10 border-primary/50">
+                    <CardHeader>
+                        <CardTitle className="text-base">Current Status</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-2xl text-primary font-bold">{status.currentStatus}</p>
+                        <p className="text-muted-foreground text-xs mt-1">Last Update: {status.lastUpdate}</p>
+                    </CardContent>
+                </Card>
                 
                 <div>
-                  <h3 className="font-semibold mb-4">Complaint History</h3>
-                  <div className="space-y-8 relative pl-6 before:absolute before:inset-y-0 before:w-px before:bg-border before:left-2">
+                  <h3 className="text-lg font-semibold mb-6">Complaint History</h3>
+                  <div className="space-y-10 relative pl-8 before:absolute before:inset-y-0 before:w-px before:bg-border before:left-3">
                     {status.history.map((item: StatusHistoryItem, index: number) => (
-                      <div key={index} className="relative">
-                        <div className={`absolute -left-7 top-1 h-4 w-4 rounded-full flex items-center justify-center ${item.isCompleted ? 'bg-primary text-primary-foreground' : 'bg-muted-foreground'}`}>
-                           {item.isCompleted && <CheckCircle className="h-4 w-4" />}
+                      <div key={index} className="relative flex items-start gap-4">
+                        <div className={`absolute -left-1 top-1 h-8 w-8 rounded-full flex items-center justify-center ${item.isCompleted ? 'bg-primary' : 'bg-muted border'}`}>
+                           {item.isCompleted && <CheckCircle className="h-5 w-5 text-primary-foreground" />}
                         </div>
-                        <p className="font-semibold text-primary">{item.status}</p>
-                        <p className="text-xs text-muted-foreground mb-1">{item.date}</p>
-                        <p className="text-muted-foreground">{item.details}</p>
+                        <div className="flex-1">
+                          <p className="font-semibold text-base">{item.status}</p>
+                          <p className="text-xs text-muted-foreground mb-2">{item.date}</p>
+                          <p className="text-sm text-muted-foreground">{item.details}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
