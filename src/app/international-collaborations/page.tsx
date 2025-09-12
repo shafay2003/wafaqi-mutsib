@@ -26,7 +26,7 @@ export default function InternationalCollaborationsPage() {
             <div className="lg:col-span-2 space-y-8">
                  <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-xl">
+                        <CardTitle className="flex items-center gap-2">
                             <Globe className="h-6 w-6" />
                             Our Global Network
                         </CardTitle>

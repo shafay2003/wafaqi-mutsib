@@ -1,20 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { dailyCauseList } from "@/lib/placeholder-data";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Daily Cause List',
-  description: 'View the list of cases scheduled for hearing today at the Wafaqi Mohtasib.',
-};
 
 export default function DailyCauseListPage() {
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  const [displayDate, setDisplayDate] = useState('');
+
+  useEffect(() => {
+    setDisplayDate(new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }));
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
@@ -23,7 +24,7 @@ export default function DailyCauseListPage() {
             Daily Cause List
           </h1>
           <p className="text-sm text-muted-foreground">
-            Cases scheduled for hearing on {today}.
+            {displayDate ? `Cases scheduled for hearing on ${displayDate}.` : 'Loading...'}
           </p>
         </header>
         

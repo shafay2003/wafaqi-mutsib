@@ -82,7 +82,7 @@ export default function MediaGalleryPage() {
                         </div>
                         )}
                         <CardHeader>
-                            <CardTitle className="text-base">{item.title}</CardTitle>
+                            <CardTitle>{item.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <CardDescription className="text-xs">{item.description}</CardDescription>

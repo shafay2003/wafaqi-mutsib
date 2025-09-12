@@ -23,7 +23,7 @@ export default function RTIPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-lg">Proactive Disclosure</CardTitle>
+                    <CardTitle>Proactive Disclosure</CardTitle>
                     <CardDescription className="text-sm">Documents and information disclosed under Section 5 of the RTI Act.</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -48,7 +48,7 @@ export default function RTIPage() {
 
              <Card className="mt-8">
                 <CardHeader>
-                    <CardTitle className="text-lg">Designated Official</CardTitle>
+                    <CardTitle>Designated Official</CardTitle>
                     <CardDescription className="text-sm">Contact person for RTI requests.</CardDescription>
                 </CardHeader>
                 <CardContent className="text-sm">

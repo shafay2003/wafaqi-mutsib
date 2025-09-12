@@ -2,15 +2,7 @@ import Link from 'next/link'
 import {
   FileText,
   Search,
-  Book,
-  Bell,
-  BarChart,
-  Briefcase,
   Gavel,
-  ShieldCheck,
-  Users,
-  Landmark,
-  FileInput,
   ArrowRight,
   Smile,
   Plane
@@ -20,7 +12,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {

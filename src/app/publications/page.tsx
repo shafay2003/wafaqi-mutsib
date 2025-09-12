@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
@@ -60,7 +60,7 @@ export default function PublicationsPage() {
             <TabsContent key={cat} value={cat}>
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">{cat}</CardTitle>
+                  <CardTitle>{cat}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {renderPublicationList(cat)}

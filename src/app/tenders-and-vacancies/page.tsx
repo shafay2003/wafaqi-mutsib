@@ -69,7 +69,7 @@ export default function TendersAndVacanciesPage() {
             <TabsContent value="tenders">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Procurement Tenders</CardTitle>
+                        <CardTitle>Procurement Tenders</CardTitle>
                         <CardDescription className="text-sm">Current tender notices for goods and services.</CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -80,7 +80,7 @@ export default function TendersAndVacanciesPage() {
             <TabsContent value="vacancies">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Career Opportunities</CardTitle>
+                        <CardTitle>Career Opportunities</CardTitle>
                         <CardDescription className="text-sm">Join our team and contribute to public service.</CardDescription>
                     </CardHeader>
                     <CardContent>

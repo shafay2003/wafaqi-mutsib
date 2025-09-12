@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, Loader2, CheckCircle } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type StatusHistoryItem = {
   date: string;
@@ -95,7 +94,7 @@ export default function TrackComplaintPage() {
           {status && (
             <Card className="mt-4">
               <CardHeader>
-                <CardTitle className="text-lg">Status for Tracking ID: {status.id}</CardTitle>
+                <CardTitle>Status for Tracking ID: {status.id}</CardTitle>
                 <CardDescription className="text-sm">
                   Submitted by {status.complainant} on {status.submittedDate} regarding {status.agency}.
                 </CardDescription>

@@ -46,7 +46,7 @@ export default function NotificationsPage() {
             <TabsContent value="notifications">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Notifications & Circulars</CardTitle>
+                        <CardTitle>Notifications & Circulars</CardTitle>
                         <CardDescription className="text-sm">Official announcements and directives.</CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -57,7 +57,7 @@ export default function NotificationsPage() {
             <TabsContent value="press-releases">
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-lg">Press Releases</CardTitle>
+                        <CardTitle>Press Releases</CardTitle>
                         <CardDescription className="text-sm">Media briefings and public statements.</CardDescription>
                     </CardHeader>
                     <CardContent>

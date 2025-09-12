@@ -26,7 +26,7 @@ export default function JudgmentsPage() {
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <div>
-                            <CardTitle className="text-lg">Judgment Archive</CardTitle>
+                            <CardTitle>Judgment Archive</CardTitle>
                             <CardDescription className="text-sm">Browse or search for judgments.</CardDescription>
                         </div>
                          <div className="relative w-full max-w-sm">

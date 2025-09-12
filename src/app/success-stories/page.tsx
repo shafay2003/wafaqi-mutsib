@@ -41,7 +41,7 @@ export default function SuccessStoriesPage() {
                         )}
                         <div className="flex flex-col flex-grow">
                             <CardHeader>
-                                <CardTitle className="text-base">{story.title}</CardTitle>
+                                <CardTitle>{story.title}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <CardDescription className="text-xs">{story.summary}</CardDescription>

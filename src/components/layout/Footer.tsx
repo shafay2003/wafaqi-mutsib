@@ -88,7 +88,7 @@ export function Footer() {
                             </li>
                              <li>
                                 <Link href="/international-collaborations" className="text-muted-foreground hover:text-primary">
-                                Asian Ombudsman
+                                Int. Collaborations
                                 </Link>
                             </li>
                              <li>

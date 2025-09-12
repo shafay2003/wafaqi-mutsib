@@ -17,8 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, CheckCircle, Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { feedbackSchema, type FeedbackFormValues } from "@/lib/definitions";
 import { submitFeedback } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
@@ -79,16 +78,6 @@ export default function FeedbackPage() {
             We value your input. Please share your thoughts to help us improve our services.
             </p>
         </header>
-
-        {state.status === 'success' ? (
-              <Alert variant="default" className="border-green-500 bg-green-50">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <AlertTitle className="text-green-800">Thank You!</AlertTitle>
-                <AlertDescription className="text-green-700">
-                    {state.message}
-                </AlertDescription>
-            </Alert>
-        ): null}
 
         <Card>
             <CardContent className="pt-6">
