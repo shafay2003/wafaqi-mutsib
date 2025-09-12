@@ -23,7 +23,7 @@ export default function JudgmentsPage() {
             </header>
 
             <Card>
-                <CardHeader>
+                <CardHeader className="flex-row items-center justify-between">
                     <div className="flex-1 space-y-1">
                         <CardTitle>Judgment Archive</CardTitle>
                         <CardDescription>Browse or search for judgments.</CardDescription>
