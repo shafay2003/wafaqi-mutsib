@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -95,12 +96,14 @@ export function Nav() {
                 <p className="text-xs text-muted-foreground">
                     Visit our help center or contact support for assistance.
                 </p>
-                <Button size="sm" className="w-full" asChild>
-                  <Link href="/faq">
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    Help Center
-                  </Link>
-                </Button>
+                <Link href="/faq" legacyBehavior passHref>
+                  <Button asChild size="sm" className="w-full">
+                    <a>
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Help Center
+                    </a>
+                  </Button>
+                </Link>
             </div>
         </div>
       </SidebarFooter>
