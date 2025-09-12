@@ -1,4 +1,4 @@
-import { Facebook, Phone, Twitter, Youtube } from "lucide-react";
+import { Facebook, Phone, Twitter, Youtube, Instagram, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "../icons";
 
@@ -41,9 +41,14 @@ export function Footer() {
                                 FAQs
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/contact" className="text-muted-foreground hover:text-primary">
-                                Contact Us
+                             <li>
+                                <Link href="/tenders-and-vacancies" className="text-muted-foreground hover:text-primary">
+                                Career
+                                </Link>
+                            </li>
+                             <li>
+                                <Link href="/feedback" className="text-muted-foreground hover:text-primary">
+                                Feedback
                                 </Link>
                             </li>
                         </ul>
@@ -81,9 +86,9 @@ export function Footer() {
                                 Our Mission
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/about" className="text-muted-foreground hover:text-primary">
-                                Organizational Structure
+                             <li>
+                                <Link href="/international-collaborations" className="text-muted-foreground hover:text-primary">
+                                Asian Ombudsman
                                 </Link>
                             </li>
                              <li>
@@ -110,15 +115,24 @@ export function Footer() {
                             <Youtube className="h-6 w-6" />
                             <span className="sr-only">YouTube</span>
                         </Link>
+                         <Link href="#" className="text-muted-foreground hover:text-primary">
+                            <Instagram className="h-6 w-6" />
+                            <span className="sr-only">Instagram</span>
+                        </Link>
+                         <Link href="#" className="text-muted-foreground hover:text-primary">
+                            <MessageCircle className="h-6 w-6" />
+                            <span className="sr-only">WhatsApp</span>
+                        </Link>
                     </div>
                  </div>
             </div>
 
             <div className="mt-8 border-t pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-                <p>&copy; {new Date().getFullYear() + 1} Wafaqi Mohtasib Secretariat. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Wafaqi Mohtasib Secretariat. All rights reserved.</p>
                  <div className="flex gap-4 mt-4 sm:mt-0">
                     <Link href="#" className="hover:text-primary">Privacy Policy</Link>
                     <Link href="#" className="hover:text-primary">Terms of Service</Link>
+                    <Link href="#" className="hover:text-primary">Sitemap</Link>
                 </div>
             </div>
         </div>

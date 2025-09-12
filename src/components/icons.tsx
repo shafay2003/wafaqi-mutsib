@@ -1,5 +1,5 @@
 import type { SVGProps } from "react";
-import { ArrowRight, FileText, Search, Gavel } from 'lucide-react';
+import { ArrowRight, FileText, Search, Gavel, Library, Newspaper, Star, Megaphone } from 'lucide-react';
 
 
 export function Logo(props: SVGProps<SVGSVGElement>) {

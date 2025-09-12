@@ -19,17 +19,65 @@ import {
   Plane,
   GalleryVertical,
   Award,
-  BookOpen
+  BookOpen,
+  File,
+  Library,
+  Newspaper,
+  CalendarDays,
+  Megaphone,
+  Star
 } from 'lucide-react';
 
 export const navLinks = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/about', label: 'About Us', icon: Info },
-  { href: '/complaint', label: 'File a Complaint', icon: FileText },
-  { href: '/track-complaint', label: 'Track Complaint', icon: Search },
-  { href: '/publications', label: 'Publications', icon: BookOpen },
-  { href: '/contact', label: 'Contact Us', icon: Phone },
+  {
+    label: 'About Us',
+    icon: Info,
+    links: [
+      { href: '/about', label: 'About the Mohtasib' },
+      { href: '/success-stories', label: 'Success Stories' },
+      { href: '/international-collaborations', label: 'Int. Collaborations' },
+    ],
+  },
+  {
+    label: 'Complaints & Redressal',
+    icon: FileText,
+    links: [
+        { href: '/complaint', label: 'Lodge a Complaint' },
+        { href: '/track-complaint', label: 'Track Complaint' },
+        { href: '/daily-cause-list', label: 'Daily Cause List' },
+        { href: '/judgments', label: 'Judgments' },
+    ]
+  },
+  {
+    label: 'Special Portals',
+    icon: Star,
+    links: [
+        { href: '/childrens-complaints', label: 'Childrens Complaints' },
+        { href: '/overseas-pakistanis', label: 'Overseas Pakistanis' },
+    ]
+  },
+  {
+    label: 'Resources',
+    icon: Library,
+    links: [
+        { href: '/publications', label: 'Publications' },
+        { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies' },
+        { href: '/rti', label: 'Right to Information' },
+    ]
+  },
+    {
+    label: 'Media & Updates',
+    icon: Newspaper,
+    links: [
+        { href: '/media-gallery', label: 'Media Gallery' },
+        { href: '/notifications', label: 'Notifications' },
+    ]
+  },
+  { href: '/complaint-statistics', label: 'Statistics', icon: BarChart },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
+  { href: '/contact', label: 'Contact Us', icon: Phone },
+  { href: '/feedback', label: 'Feedback', icon: Megaphone },
 ];
 
 
