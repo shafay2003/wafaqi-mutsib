@@ -4,8 +4,16 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2 } from 'lucide-react';
+import { Search, Loader2, CheckCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+type StatusHistoryItem = {
+  date: string;
+  status: string;
+  details: string;
+  isCompleted: boolean;
+};
+
 
 export default function TrackComplaintPage() {
   const [trackingId, setTrackingId] = useState('');
@@ -33,7 +41,12 @@ export default function TrackComplaintPage() {
           submittedDate: '2024-07-20',
           currentStatus: 'Under Investigation',
           lastUpdate: '2024-07-22',
-          details: 'Your complaint has been forwarded to the concerned department for comments. A response is awaited.'
+          details: 'Your complaint has been forwarded to the concerned department for comments. A response is awaited.',
+          history: [
+            { date: '2024-07-22', status: 'Under Investigation', details: 'Forwarded to the concerned agency for comments.', isCompleted: true },
+            { date: '2024-07-21', status: 'Admitted for Investigation', details: 'Complaint admitted after initial scrutiny.', isCompleted: true },
+            { date: '2024-07-20', status: 'Received', details: 'Your complaint has been successfully received.', isCompleted: true },
+          ] as StatusHistoryItem[],
         });
       } else {
         setError('No complaint found with this Tracking ID.');
@@ -49,7 +62,7 @@ export default function TrackComplaintPage() {
               Track Your Complaint
             </h1>
             <p className="text-sm text-muted-foreground">
-              Enter your complaint tracking ID to view its current status.
+              Enter your complaint tracking ID to view its current status and history.
             </p>
           </header>
           
@@ -83,20 +96,31 @@ export default function TrackComplaintPage() {
             <Card className="mt-4">
               <CardHeader>
                 <CardTitle className="text-lg">Status for Tracking ID: {status.id}</CardTitle>
-                <CardDescription className="text-sm">Submitted on: {status.submittedDate}</CardDescription>
+                <CardDescription className="text-sm">
+                  Submitted by {status.complainant} on {status.submittedDate} regarding {status.agency}.
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 text-sm">
+              <CardContent className="space-y-6 text-sm">
                 <div>
-                  <h3 className="font-semibold">Current Status</h3>
-                   <p className="text-primary font-bold">{status.currentStatus}</p>
+                  <h3 className="font-semibold mb-2">Current Status</h3>
+                   <p className="text-lg text-primary font-bold">{status.currentStatus}</p>
+                   <p className="text-muted-foreground text-xs">Last Update: {status.lastUpdate}</p>
                 </div>
-                 <div>
-                  <h3 className="font-semibold">Last Update</h3>
-                  <p className="text-muted-foreground">{status.lastUpdate}</p>
-                </div>
+                
                 <div>
-                  <h3 className="font-semibold">Details</h3>
-                  <p className="text-muted-foreground">{status.details}</p>
+                  <h3 className="font-semibold mb-4">Complaint History</h3>
+                  <div className="space-y-8 relative pl-6 before:absolute before:inset-y-0 before:w-px before:bg-border before:left-2">
+                    {status.history.map((item: StatusHistoryItem, index: number) => (
+                      <div key={index} className="relative">
+                        <div className={`absolute -left-7 top-1 h-4 w-4 rounded-full flex items-center justify-center ${item.isCompleted ? 'bg-primary text-primary-foreground' : 'bg-muted-foreground'}`}>
+                           {item.isCompleted && <CheckCircle className="h-4 w-4" />}
+                        </div>
+                        <p className="font-semibold text-primary">{item.status}</p>
+                        <p className="text-xs text-muted-foreground mb-1">{item.date}</p>
+                        <p className="text-muted-foreground">{item.details}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
