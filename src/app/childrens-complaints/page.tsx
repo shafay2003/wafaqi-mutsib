@@ -24,7 +24,7 @@ export default function ChildrensComplaintsPage() {
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
         <Card>
-          <CardHeader className="flex-col items-center">
+          <CardHeader>
             <CardTitle className="flex flex-col items-center gap-2">
               <BookOpen className="h-10 w-10 text-primary" />
               <span>Know Your Rights</span>
@@ -35,7 +35,7 @@ export default function ChildrensComplaintsPage() {
           </CardContent>
         </Card>
         <Card className="bg-primary/10 border-primary">
-            <CardHeader className="flex-col items-center">
+            <CardHeader>
                 <CardTitle className="flex flex-col items-center gap-2">
                     <Phone className="h-10 w-10 text-primary" />
                     <span>Talk to Someone</span>
@@ -47,7 +47,7 @@ export default function ChildrensComplaintsPage() {
             </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex-col items-center">
+          <CardHeader>
             <CardTitle className="flex flex-col items-center gap-2">
                <Smile className="h-10 w-10 text-primary" />
               <span>Our Promise to You</span>
@@ -61,7 +61,7 @@ export default function ChildrensComplaintsPage() {
 
       <section className="text-center">
         <Card className="max-w-4xl mx-auto">
-            <CardHeader className="flex-col items-center">
+            <CardHeader>
                 <CardTitle>Ready to File a Complaint?</CardTitle>
                 <CardDescription className="mt-1">
                     It's okay to speak up. Our simplified complaint form is easy to fill out. You can ask a trusted adult to help you.
