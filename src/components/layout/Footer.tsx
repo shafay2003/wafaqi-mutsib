@@ -84,8 +84,7 @@ export function Footer() {
                              <li>
                                 <Link href="/about" className="text-muted-foreground hover:text-primary">
                                 Our Mission
-                                </Link>
-                            </li>
+                                </Link>                            </li>
                              <li>
                                 <Link href="/international-collaborations" className="text-muted-foreground hover:text-primary">
                                 Int. Collaborations
