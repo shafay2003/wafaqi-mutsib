@@ -130,7 +130,7 @@ export default function Dashboard() {
                 {complaintStats.map(stat => (
                     <Card key={stat.label}>
                         <CardHeader>
-                            <CardTitle className="text-sm font-medium">{stat.label}</CardTitle>
+                            <CardTitle>{stat.label}</CardTitle>
                             <stat.icon className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>

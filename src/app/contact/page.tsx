@@ -27,7 +27,7 @@ export default function ContactPage() {
             {regionalOffices.map((office) => (
               <Card key={office.name}>
                 <CardHeader>
-                  <CardTitle className="text-lg">{office.name}</CardTitle>
+                  <CardTitle>{office.name}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm">
                   <div className="flex items-start gap-3">
