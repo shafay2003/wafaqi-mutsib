@@ -1,4 +1,6 @@
 import type { SVGProps } from "react";
+import { ArrowRight, FileText, Search, Gavel } from 'lucide-react';
+
 
 export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
@@ -15,3 +17,9 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+export const StepIcons = {
+  Submit: FileText,
+  Investigate: Search,
+  Resolution: Gavel
+};

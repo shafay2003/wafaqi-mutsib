@@ -14,25 +14,66 @@ import {
   ShieldCheck,
   Briefcase,
   Handshake,
-  FileInput
+  FileInput,
+  Smile,
+  Plane,
+  GalleryVertical,
+  Award,
+  BookOpen
 } from 'lucide-react';
 
 export const navLinks = [
-  { href: '/', label: 'Dashboard', icon: Home },
-  { href: '/about', label: 'About Us', icon: Info },
-  { href: '/complaint', label: 'File a Complaint', icon: FileText },
-  { href: '/track-complaint', label: 'Track Complaint', icon: Search },
-  { href: '/publications', label: 'Publications', icon: Book },
-  { href: '/judgments', label: 'Judgments', icon: Gavel },
-  { href: '/notifications', label: 'Notifications', icon: Bell },
-  { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies', icon: Briefcase },
-  { href: '/complaint-statistics', label: 'Statistics', icon: BarChart },
-  { href: '/international-collaborations', label: 'Collaborations', icon: Handshake },
-  { href: '/rti', label: 'RTI', icon: FileInput },
+  { href: '/', label: 'Home', icon: Home },
+  {
+    label: 'About Us',
+    icon: Info,
+    links: [
+      { href: '/about', label: 'The Institution' },
+      { href: '/success-stories', label: 'Success Stories' },
+      { href: '/international-collaborations', label: 'Collaborations' },
+    ]
+  },
+  {
+    label: 'Complaints',
+    icon: FileText,
+    links: [
+      { href: '/complaint', label: 'Lodge a Complaint' },
+      { href: '/track-complaint', label: 'Track Complaint' },
+      { href: '/complaint-statistics', label: 'Complaint Statistics' },
+      { href: '/daily-cause-list', label: 'Daily Cause List' },
+      { href: '/judgments', label: 'Landmark Judgments' },
+    ]
+  },
+   {
+    label: 'Special Initiatives',
+    icon: Award,
+    links: [
+      { href: '/childrens-complaints', label: 'Children\'s Complaints' },
+      { href: '/overseas-pakistanis', label: 'Overseas Pakistanis' },
+    ]
+  },
+  {
+    label: 'Media',
+    icon: GalleryVertical,
+    links: [
+      { href: '/media-gallery', label: 'Media Gallery' },
+      { href: '/notifications', label: 'Notifications' },
+      { href: '/publications', label: 'Publications' },
+    ]
+  },
+   {
+    label: 'Opportunities',
+    icon: Briefcase,
+    links: [
+      { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies' },
+    ]
+  },
   { href: '/contact', label: 'Contact Us', icon: Phone },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
   { href: '/feedback', label: 'Feedback', icon: ShieldCheck },
+  { href: '/rti', label: 'RTI', icon: FileInput },
 ];
+
 
 export const faqs = [
   {

@@ -3,12 +3,14 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, CheckCircle, FilePenLine } from "lucide-react";
+import { Loader2, CheckCircle, FilePenLine, Paperclip, Upload } from "lucide-react";
 import { complaintSchema, type ComplaintFormValues } from "@/lib/definitions";
 import { submitComplaint } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
@@ -26,14 +28,14 @@ import { useToast } from "@/hooks/use-toast";
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} className="w-full">
+    <Button type="submit" disabled={pending} size="lg" className="w-full">
       {pending ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
         </>
       ) : (
         <>
-         <FilePenLine className="mr-2 h-4 w-4" /> Submit Complaint
+         <FilePenLine className="mr-2 h-4 w-4" /> Review & Submit Complaint
         </>
       )}
     </Button>
@@ -46,6 +48,8 @@ export default function ComplaintForm() {
     status: "error",
   });
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const isChildForm = searchParams.get('form') === 'child';
 
   const form = useForm<ComplaintFormValues>({
     resolver: zodResolver(complaintSchema),
@@ -57,8 +61,8 @@ export default function ComplaintForm() {
       address: "",
       agency: "",
       complaintDetails: "",
+      attachments: undefined,
     },
-    // This makes validation errors appear on the right fields from the server action
     errors: state.errors?.reduce((acc, error) => {
         if(error.path && error.path[0]){
             acc[error.path[0] as keyof ComplaintFormValues] = { message: error.message };
@@ -94,7 +98,7 @@ export default function ComplaintForm() {
           <p>Your Complaint Tracking ID is: <strong>{state.trackingId}</strong></p>
           <p>Suggested Department for Resolution: <strong>{state.suggestedDepartment}</strong></p>
           <p className="mt-4">Please save this tracking ID for future reference.</p>
-           <Button onClick={() => form.reset()} variant="link" className="px-0 text-green-700">File another complaint</Button>
+           <Button onClick={() => window.location.reload()} variant="link" className="px-0 text-green-700">File another complaint</Button>
         </AlertDescription>
       </Alert>
     );
@@ -104,10 +108,17 @@ export default function ComplaintForm() {
     <Card>
       <CardContent className="pt-6">
         <Form {...form}>
-          <form action={formAction} className="space-y-8">
-            <div className="space-y-4">
-                <h3 className="text-lg font-semibold border-b pb-2">Personal Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form action={formAction} className="space-y-12">
+            
+            {/* Step 1 */}
+            <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex-shrink-0 bg-primary text-primary-foreground rounded-full h-10 w-10 flex items-center justify-center text-lg font-bold">1</div>
+                  <h3 className="text-xl font-semibold border-b-0 pb-0">
+                    {isChildForm ? "Your Information (or of a trusted adult helping you)" : "Personal Information"}
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-14">
                     <FormField control={form.control} name="fullName" render={({ field }) => (
                         <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                     )}/>
@@ -118,31 +129,78 @@ export default function ComplaintForm() {
                         <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                      <FormField control={form.control} name="phone" render={({ field }) => (
-                        <FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input placeholder="0300-1234567" {...field} /></FormControl><FormMessage /></FormItem>
+                        <FormItem><FormLabel>Phone Number (for SMS updates)</FormLabel><FormControl><Input placeholder="0300-1234567" {...field} /></FormControl><FormMessage /></FormItem>
                     )}/>
                 </div>
-                 <FormField control={form.control} name="address" render={({ field }) => (
-                    <FormItem><FormLabel>Full Postal Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )}/>
+                 <div className="pl-14">
+                    <FormField control={form.control} name="address" render={({ field }) => (
+                        <FormItem><FormLabel>Full Postal Address</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                 </div>
             </div>
 
-            <div className="space-y-4">
-                <h3 className="text-lg font-semibold border-b pb-2">Complaint Details</h3>
-                <FormField control={form.control} name="agency" render={({ field }) => (
-                    <FormItem><FormLabel>Federal Agency/Department Name</FormLabel><FormControl><Input placeholder="e.g., WAPDA, NADRA, FBR" {...field} /></FormControl><FormMessage /></FormItem>
-                )}/>
-                <FormField control={form.control} name="complaintDetails" render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Complaint Details</FormLabel>
-                        <FormControl>
-                            <Textarea placeholder="Describe your issue in detail (at least 50 characters)..." rows={8} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                )}/>
+            {/* Step 2 */}
+            <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                   <div className="flex-shrink-0 bg-primary text-primary-foreground rounded-full h-10 w-10 flex items-center justify-center text-lg font-bold">2</div>
+                   <h3 className="text-xl font-semibold">
+                    {isChildForm ? "What is your problem about?" : "Complaint Details"}
+                   </h3>
+                </div>
+                <div className="grid grid-cols-1 gap-6 pl-14">
+                    <FormField control={form.control} name="agency" render={({ field }) => (
+                        <FormItem><FormLabel>Federal Agency/Department Name</FormLabel><FormControl><Input placeholder="e.g., WAPDA, NADRA, FBR" {...field} /></FormControl><FormMessage /></FormItem>
+                    )}/>
+                    <FormField control={form.control} name="complaintDetails" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>{isChildForm ? "Please tell us what happened" : "Describe your issue in detail"}</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder={isChildForm ? "Explain your problem here..." : "Provide a detailed account of the issue, including dates, names, and any previous actions taken (at least 50 characters)..."} rows={8} {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}/>
+                </div>
             </div>
-            
-            <SubmitButton />
+
+             {/* Step 3 */}
+            <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 bg-primary text-primary-foreground rounded-full h-10 w-10 flex items-center justify-center text-lg font-bold">3</div>
+                    <h3 className="text-xl font-semibold">Supporting Documents (Optional)</h3>
+                </div>
+                 <div className="pl-14">
+                    <FormField
+                        control={form.control}
+                        name="attachments"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Attach Files</FormLabel>
+                            <FormControl>
+                                 <div className="relative border-2 border-dashed border-muted-foreground/50 rounded-lg p-6 text-center hover:border-primary transition-colors">
+                                     <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+                                     <p className="mt-2 text-sm text-muted-foreground">Drag & drop files here, or click to select files</p>
+                                     <Input
+                                        type="file"
+                                        multiple
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        onChange={(e) => field.onChange(e.target.files)}
+                                    />
+                                 </div>
+                            </FormControl>
+                            <FormDescription>
+                                You can upload multiple files (PDF, DOCX, JPG, PNG). Max file size: 5MB each.
+                            </FormDescription>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                </div>
+            </div>
+
+            <div className="pt-6 border-t">
+              <SubmitButton />
+            </div>
 
           </form>
         </Form>
