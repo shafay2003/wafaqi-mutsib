@@ -1,12 +1,8 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BarChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Bar, ResponsiveContainer } from 'recharts';
 import { complaintStats, monthlyStats } from "@/lib/placeholder-data";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-    title: 'Complaint Statistics',
-    description: 'View statistical data on complaints received and resolved by the Wafaqi Mohtasib.',
-};
 
 export default function ComplaintStatisticsPage() {
 
