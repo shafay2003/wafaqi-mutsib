@@ -24,54 +24,12 @@ import {
 
 export const navLinks = [
   { href: '/', label: 'Home', icon: Home },
-  {
-    label: 'About Us',
-    icon: Info,
-    links: [
-      { href: '/about', label: 'The Institution' },
-      { href: '/success-stories', label: 'Success Stories' },
-      { href: '/international-collaborations', label: 'Collaborations' },
-    ]
-  },
-  {
-    label: 'Complaints',
-    icon: FileText,
-    links: [
-      { href: '/complaint', label: 'Lodge a Complaint' },
-      { href: '/track-complaint', label: 'Track Complaint' },
-      { href: '/complaint-statistics', label: 'Complaint Statistics' },
-      { href: '/daily-cause-list', label: 'Daily Cause List' },
-      { href: '/judgments', label: 'Landmark Judgments' },
-    ]
-  },
-   {
-    label: 'Special Initiatives',
-    icon: Award,
-    links: [
-      { href: '/childrens-complaints', label: 'Children\'s Complaints' },
-      { href: '/overseas-pakistanis', label: 'Overseas Pakistanis' },
-    ]
-  },
-  {
-    label: 'Media',
-    icon: GalleryVertical,
-    links: [
-      { href: '/media-gallery', label: 'Media Gallery' },
-      { href: '/notifications', label: 'Notifications' },
-      { href: '/publications', label: 'Publications' },
-    ]
-  },
-   {
-    label: 'Opportunities',
-    icon: Briefcase,
-    links: [
-      { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies' },
-    ]
-  },
+  { href: '/about', label: 'About Us', icon: Info },
+  { href: '/complaint', label: 'File a Complaint', icon: FileText },
+  { href: '/track-complaint', label: 'Track Complaint', icon: Search },
+  { href: '/publications', label: 'Publications', icon: BookOpen },
   { href: '/contact', label: 'Contact Us', icon: Phone },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
-  { href: '/feedback', label: 'Feedback', icon: ShieldCheck },
-  { href: '/rti', label: 'RTI', icon: FileInput },
 ];
 
 
