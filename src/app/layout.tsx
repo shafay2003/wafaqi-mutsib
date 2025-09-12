@@ -1,14 +1,13 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { AppShell } from '@/components/layout/AppShell';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 
-const poppins = Poppins({
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-body',
-  weight: ['300', '400', '500', '600', '700']
 });
 
 export const metadata: Metadata = {
@@ -27,12 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className={`${poppins.variable} font-body antialiased`}>
+      <body className={`${inter.variable} font-body antialiased bg-gray-50`}>
         <AppShell>
           {children}
         </AppShell>

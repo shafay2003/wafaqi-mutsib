@@ -4,27 +4,27 @@ import { Logo } from "../icons";
 
 export function Footer() {
   return (
-    <footer className="bg-secondary/50 text-card-foreground border-t">
+    <footer className="bg-gray-100 text-card-foreground border-t">
         <div className="container px-4 md:px-8 py-12">
             <div className="grid gap-10 lg:grid-cols-4">
                 <div className="space-y-4">
-                    <Link href="/" className="flex items-center gap-2 font-semibold">
+                    <Link href="/" className="flex items-center gap-2.5 font-semibold">
                         <Logo className="h-10 w-10 text-primary" />
-                        <span className="font-headline text-lg">Wafaqi Mohtasib</span>
+                        <span className="font-semibold text-lg text-gray-800">Wafaqi Mohtasib</span>
                     </Link>
                     <p className="text-muted-foreground text-sm">Providing transparent and speedy justice against administrative injustices.</p>
-                     <div className="flex items-center gap-2 pt-2">
+                     <div className="flex items-center gap-3 pt-2">
                         <Phone className="h-6 w-6 text-primary" />
                         <div>
-                            <p className="font-semibold text-sm">Helpline</p>
-                            <a href="tel:1056" className="text-muted-foreground hover:text-primary text-sm">1056</a>
+                            <p className="font-semibold text-sm text-gray-800">Helpline</p>
+                            <a href="tel:1056" className="text-muted-foreground hover:text-primary text-sm font-medium">1056</a>
                         </div>
                     </div>
                 </div>
 
                 <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
                     <div>
-                        <h3 className="font-semibold mb-4 tracking-tight">Quick Links</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight text-gray-800">Quick Links</h3>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <Link href="/complaint" className="text-muted-foreground hover:text-primary">
@@ -54,7 +54,7 @@ export function Footer() {
                         </ul>
                     </div>
                      <div>
-                        <h3 className="font-semibold mb-4 tracking-tight">Resources</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight text-gray-800">Resources</h3>
                         <ul className="space-y-2 text-sm">
                              <li>
                                 <Link href="/publications" className="text-muted-foreground hover:text-primary">
@@ -79,7 +79,7 @@ export function Footer() {
                         </ul>
                     </div>
                      <div>
-                        <h3 className="font-semibold mb-4 tracking-tight">About</h3>
+                        <h3 className="font-semibold mb-4 tracking-tight text-gray-800">About</h3>
                         <ul className="space-y-2 text-sm">
                              <li>
                                 <Link href="/about" className="text-muted-foreground hover:text-primary">
@@ -101,7 +101,7 @@ export function Footer() {
                 </div>
 
                  <div className="space-y-4">
-                    <h3 className="font-semibold tracking-tight">Follow Us</h3>
+                    <h3 className="font-semibold tracking-tight text-gray-800">Follow Us</h3>
                     <div className="flex space-x-4">
                         <Link href="#" className="text-muted-foreground hover:text-primary">
                             <Twitter className="h-5 w-5" />

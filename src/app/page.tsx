@@ -10,6 +10,7 @@ import {
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
@@ -32,38 +33,38 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
-        <section className="relative h-[450px] md:h-[550px] rounded-2xl overflow-hidden flex items-center justify-center text-center text-white p-6 bg-slate-900">
+        <section className="relative h-[450px] md:h-[500px] rounded-xl overflow-hidden flex items-center justify-center text-center text-white p-6 bg-gradient-to-br from-green-900 via-green-800 to-green-700">
            {heroImage &&
             <Image
               src={heroImage.imageUrl}
               alt={heroImage.description}
               fill
-              className="object-cover -z-10 opacity-20"
+              className="object-cover -z-10 opacity-10"
               data-ai-hint={heroImage.imageHint}
               priority
             />
            }
             <div className="max-w-4xl space-y-6 z-10">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight">
-                  Your Advocate for Administrative Justice
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight text-white/95">
+                  Justice Against Federal Government Maladministration
                 </h1>
-                <p className="text-lg md:text-xl text-white/80">
-                  The Wafaqi Mohtasib (Federal Ombudsman) provides a transparent and speedy platform for resolving grievances against federal government agencies in Pakistan.
+                <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
+                  The Wafaqi Mohtasib (Federal Ombudsman) provides a transparent and speedy platform for resolving your grievances.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button size="lg" asChild className="bg-primary text-primary-foreground hover:bg-primary/90 text-base font-semibold py-7 px-8">
-                      <Link href="/complaint">Lodge a Complaint <ArrowRight className="ml-2 h-5 w-5" /></Link>
+                    <Button size="lg" asChild className="bg-white text-primary hover:bg-gray-200 text-base font-semibold py-7 px-8 shadow-lg transition-transform hover:scale-105">
+                      <Link href="/complaint">File a Complaint Online <ArrowRight className="ml-2 h-5 w-5" /></Link>
                     </Button>
-                    <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
-                      <Link href="/track-complaint">Track Your Complaint</Link>
+                    <Button size="lg" variant="outline" asChild className="border-white/80 text-white hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
+                      <Link href="/track-complaint">Track Your Case</Link>
                     </Button>
                 </div>
             </div>
         </section>
 
          <section>
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold tracking-tight">How It Works</h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight">A Simple Path to Resolution</h2>
             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">A simple, transparent, and fair process to ensure your voice is heard.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -92,34 +93,34 @@ export default function Dashboard() {
         </section>
 
         <section>
-            <div className="text-center mb-10">
+            <div className="text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tight">Key Services</h2>
               <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Specialized portals to address specific needs and communities.</p>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Card className="flex flex-col items-center justify-center text-center p-6 hover:bg-muted/50 transition-colors">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow border-t-4 border-t-primary">
                     <FileText className="h-10 w-10 text-primary mb-4" />
                     <h3 className="text-lg font-semibold mb-2">File a Complaint</h3>
                     <p className="text-sm text-muted-foreground mb-4">Lodge your grievance against any federal agency.</p>
-                    <Button variant="outline" asChild><Link href="/complaint">Submit Now</Link></Button>
+                    <Button variant="secondary" asChild><Link href="/complaint">Submit Now</Link></Button>
                 </Card>
-                <Card className="flex flex-col items-center justify-center text-center p-6 hover:bg-muted/50 transition-colors">
+                <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow border-t-4 border-t-primary/70">
                     <Search className="h-10 w-10 text-primary mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Track Your Status</h3>
                     <p className="text-sm text-muted-foreground mb-4">Check the real-time status of your submitted complaint.</p>
-                    <Button variant="outline" asChild><Link href="/track-complaint">Track Now</Link></Button>
+                    <Button variant="secondary" asChild><Link href="/track-complaint">Track Now</Link></Button>
                 </Card>
-                <Card className="flex flex-col items-center justify-center text-center p-6 hover:bg-muted/50 transition-colors">
+                <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow border-t-4 border-t-primary/70">
                     <Smile className="h-10 w-10 text-primary mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Children's Complaints</h3>
                     <p className="text-sm text-muted-foreground mb-4">A child-friendly space for our youngest citizens to be heard.</p>
-                    <Button variant="outline" asChild><Link href="/childrens-complaints">Visit Portal</Link></Button>
+                    <Button variant="secondary" asChild><Link href="/childrens-complaints">Visit Portal</Link></Button>
                 </Card>
-                <Card className="flex flex-col items-center justify-center text-center p-6 hover:bg-muted/50 transition-colors">
+                <Card className="flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow border-t-4 border-t-primary/70">
                     <Plane className="h-10 w-10 text-primary mb-4" />
                     <h3 className="text-lg font-semibold mb-2">Overseas Pakistanis</h3>
                     <p className="text-sm text-muted-foreground mb-4">Dedicated support for Pakistanis living abroad.</p>
-                    <Button variant="outline" asChild><Link href="/overseas-pakistanis">Visit Portal</Link></Button>
+                    <Button variant="secondary" asChild><Link href="/overseas-pakistanis">Visit Portal</Link></Button>
                 </Card>
             </div>
         </section>
@@ -134,13 +135,13 @@ export default function Dashboard() {
                             <stat.icon className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stat.value}</div>
+                            <div className="text-2xl font-bold text-primary">{stat.value}</div>
                             <p className="text-xs text-muted-foreground">{stat.change}</p>
                         </CardContent>
                     </Card>
                 ))}
             </div>
-             <div className="text-center mt-6">
+             <div className="text-center mt-8">
                 <Button asChild>
                     <Link href="/complaint-statistics">View Detailed Statistics</Link>
                 </Button>
@@ -173,6 +174,10 @@ export default function Dashboard() {
           <div>
             <h2 className="text-3xl font-bold tracking-tight mb-6">Recent Updates</h2>
             <Card>
+              <CardHeader>
+                <CardTitle>Notifications & Press Releases</CardTitle>
+                 <CardDescription>Stay informed with our latest announcements.</CardDescription>
+              </CardHeader>
               <CardContent className="p-4">
                 <Table>
                   <TableHeader>
@@ -190,6 +195,9 @@ export default function Dashboard() {
                     ))}
                   </TableBody>
                 </Table>
+                 <Button variant="outline" asChild className="mt-4 w-full">
+                    <Link href="/notifications">View All Updates</Link>
+                </Button>
               </CardContent>
             </Card>
           </div>

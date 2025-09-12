@@ -10,8 +10,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Nav />
           <div className="flex flex-1 flex-col">
             <Header />
-            <main className="flex-1 bg-muted/30">
-              <div className="container p-4 md:p-8">
+            <main className="flex-1">
+              <div className="container p-4 sm:p-6 md:p-8">
                 {children}
               </div>
             </main>
