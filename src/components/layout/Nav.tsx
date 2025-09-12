@@ -96,12 +96,10 @@ export function Nav() {
                 <p className="text-xs text-muted-foreground">
                     Visit our help center or contact support for assistance.
                 </p>
-                <Link href="/faq" legacyBehavior passHref>
-                  <Button asChild size="sm" className="w-full">
-                    <a>
+                <Link href="/faq">
+                  <Button size="sm" className="w-full">
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Help Center
-                    </a>
                   </Button>
                 </Link>
             </div>
