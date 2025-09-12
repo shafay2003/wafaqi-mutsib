@@ -31,7 +31,7 @@ export default function AboutPage() {
 
         <main className="grid gap-6 md:gap-8 lg:grid-cols-3">
             <Card className="lg:col-span-1">
-              <CardHeader className="flex-col items-start">
+              <CardHeader>
                 <CardTitle>Our Mission</CardTitle>
               </CardHeader>
               <CardContent className="text-muted-foreground space-y-4 leading-relaxed">
@@ -40,7 +40,7 @@ export default function AboutPage() {
             </Card>
 
             <Card className="lg:col-span-2">
-              <CardHeader className="flex-col items-start">
+              <CardHeader>
                 <CardTitle>History & Establishment</CardTitle>
               </CardHeader>
               <CardContent className="text-muted-foreground space-y-4 leading-relaxed">
@@ -52,7 +52,7 @@ export default function AboutPage() {
         
          <div className="grid gap-6 md:gap-8 lg:grid-cols-3">
             <Card className="lg:col-span-3">
-            <CardHeader className="flex-col items-start">
+            <CardHeader>
                 <CardTitle>Organizational Structure</CardTitle>
             </CardHeader>
             <CardContent>
