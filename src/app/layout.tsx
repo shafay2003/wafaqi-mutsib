@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
+import { MediaProvider } from '@/context/MediaContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-body antialiased`}>
-        {children}
+        <MediaProvider>
+          {children}
+        </MediaProvider>
         <Toaster />
       </body>
     </html>

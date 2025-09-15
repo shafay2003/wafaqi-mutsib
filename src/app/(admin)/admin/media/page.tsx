@@ -57,6 +57,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useMedia } from "@/context/MediaContext";
 
 
 type MediaItem = typeof initialMediaItems[0];
@@ -128,7 +129,7 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
 
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
-  const [mediaList, setMediaList] = useState(initialMediaItems);
+  const { mediaItems, addMediaItem, updateMediaItem, deleteMediaItem } = useMedia();
   const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
 
   const form = useForm({
@@ -164,27 +165,22 @@ export default function AdminMediaPage() {
   };
 
   const handleDelete = (id: string) => {
-    setMediaList(mediaList.filter(item => item.id !== id));
+    deleteMediaItem(id);
   };
 
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-      // Update existing item
-      const updatedList = mediaList.map(item => 
-        item.id === editingItem.id ? { ...item, ...data } : item
-      );
-      setMediaList(updatedList);
+      updateMediaItem(editingItem.id, data);
     } else {
-      // Add new item
       const newItem = {
-        id: `media-${mediaList.length + 1}`,
+        id: `media-${mediaItems.length + 1}`,
         title: data.title,
         type: data.type,
         description: 'A newly added media item.',
         date: new Date().toLocaleDateString('en-CA'),
       };
-      setMediaList([newItem, ...mediaList]);
+      addMediaItem(newItem);
     }
     
     setOpen(false);
@@ -192,8 +188,8 @@ export default function AdminMediaPage() {
     form.reset();
   };
 
-  const photoItems = mediaList.filter(item => item.type === 'Photo');
-  const videoItems = mediaList.filter(item => item.type === 'Video');
+  const photoItems = mediaItems.filter(item => item.type === 'Photo');
+  const videoItems = mediaItems.filter(item => item.type === 'Video');
 
 
   return (
@@ -294,7 +290,7 @@ export default function AdminMediaPage() {
           </CardHeader>
           <CardContent>
              <TabsContent value="all">
-              <MediaTable items={mediaList} onEdit={handleEdit} onDelete={handleDelete} />
+              <MediaTable items={mediaItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="photo">
                <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} />

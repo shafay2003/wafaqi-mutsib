@@ -1,9 +1,11 @@
+'use client';
+
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import type { Metadata } from 'next';
 import { Badge } from "@/components/ui/badge";
-import { mediaItems } from "@/lib/placeholder-data";
+import { useMedia } from "@/context/MediaContext";
 
 export const metadata: Metadata = {
   title: 'News & Events Gallery',
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default function MediaGalleryPage() {
+  const { mediaItems } = useMedia();
+
   return (
     <div className="flex flex-col gap-4">
       <header className="text-left space-y-1.5">

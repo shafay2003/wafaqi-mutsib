@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link'
 import {
   FileText,
@@ -23,14 +25,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { successStories, notifications, complaintStats, mediaItems } from '@/lib/placeholder-data'
+import { successStories, notifications, complaintStats } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
 import { Badge } from '@/components/ui/badge'
+import { useMedia } from '@/context/MediaContext';
 
 
 export default function Dashboard() {
-
+  const { mediaItems } = useMedia();
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
 
   return (
