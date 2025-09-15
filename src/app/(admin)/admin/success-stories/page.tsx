@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { successStories } from "@/lib/placeholder-data";
+import { successStories as initialSuccessStories } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
@@ -48,9 +48,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+type StoryItem = typeof initialSuccessStories[0];
+
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
-  const [storyList, setStoryList] = useState(successStories);
+  const [storyList, setStoryList] = useState(initialSuccessStories);
+  const [editingItem, setEditingItem] = useState<StoryItem | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -60,16 +63,55 @@ export default function AdminSuccessStoriesPage() {
     }
   });
 
+  useEffect(() => {
+    if (editingItem) {
+      form.reset({
+        title: editingItem.title,
+        summary: editingItem.summary,
+      });
+    } else {
+      form.reset({
+        title: "",
+        summary: "",
+        image: undefined
+      });
+    }
+  }, [editingItem, form]);
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setOpen(true);
+  };
+
+  const handleEdit = (item: StoryItem) => {
+    setEditingItem(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setStoryList(storyList.filter(item => item.id !== id));
+  };
+
+
   const onSubmit = (data: any) => {
-    const newStory = {
-      id: `ss-${storyList.length + 1}`,
-      title: data.title,
-      summary: data.summary,
-      date: new Date().toLocaleDateString('en-CA'),
-    };
-    setStoryList([newStory, ...storyList]);
-    form.reset();
+    if (editingItem) {
+      const updatedList = storyList.map(item => 
+        item.id === editingItem.id ? { ...item, ...data } : item
+      );
+      setStoryList(updatedList);
+    } else {
+      const newStory: StoryItem = {
+        id: `ss-${storyList.length + 1}`,
+        title: data.title,
+        summary: data.summary,
+        date: new Date().toLocaleDateString('en-CA'),
+      };
+      setStoryList([newStory, ...storyList]);
+    }
+    
     setOpen(false);
+    setEditingItem(null);
+    form.reset();
   };
 
   return (
@@ -79,18 +121,18 @@ export default function AdminSuccessStoriesPage() {
           <File className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
         </Button>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
           <DialogTrigger asChild>
-            <Button size="sm" className="h-7 gap-1">
+            <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add New Success Story</DialogTitle>
+              <DialogTitle>{editingItem ? 'Edit Success Story' : 'Add New Success Story'}</DialogTitle>
               <DialogDescription>
-                Fill in the details for the new success story.
+                {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -175,8 +217,8 @@ export default function AdminSuccessStoriesPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(item)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

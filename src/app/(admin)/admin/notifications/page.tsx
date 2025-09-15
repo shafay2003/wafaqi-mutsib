@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { notifications } from "@/lib/placeholder-data";
+import { notifications as initialNotifications } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
@@ -56,7 +56,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-const NotificationTable = ({ items }: { items: typeof notifications }) => (
+type NotificationItem = typeof initialNotifications[0];
+
+const NotificationTable = ({ items, onEdit, onDelete }: { items: NotificationItem[], onEdit: (item: NotificationItem) => void, onDelete: (id: string) => void }) => (
   <Table>
     <TableHeader>
       <TableRow>
@@ -92,8 +94,8 @@ const NotificationTable = ({ items }: { items: typeof notifications }) => (
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onEdit(item)}>Edit</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onDelete(item.id)}>Delete</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </TableCell>
@@ -106,7 +108,8 @@ const NotificationTable = ({ items }: { items: typeof notifications }) => (
 
 export default function AdminNotificationsPage() {
   const [open, setOpen] = useState(false);
-  const [notificationList, setNotificationList] = useState(notifications);
+  const [notificationList, setNotificationList] = useState(initialNotifications);
+  const [editingItem, setEditingItem] = useState<NotificationItem | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -115,16 +118,54 @@ export default function AdminNotificationsPage() {
     }
   });
 
+   useEffect(() => {
+    if (editingItem) {
+      form.reset({
+        title: editingItem.title,
+        type: editingItem.type,
+      });
+    } else {
+      form.reset({
+        title: "",
+        type: "Notification",
+      });
+    }
+  }, [editingItem, form]);
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setOpen(true);
+  };
+
+  const handleEdit = (item: NotificationItem) => {
+    setEditingItem(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setNotificationList(notificationList.filter(item => item.id !== id));
+  };
+
+
   const onSubmit = (data: any) => {
-    const newItem = {
-      id: `not-${notificationList.length + 1}`,
-      title: data.title,
-      type: data.type,
-      date: new Date().toLocaleDateString('en-CA'),
-    };
-    setNotificationList([newItem, ...notificationList]);
-    form.reset();
+    if (editingItem) {
+      const updatedList = notificationList.map(item => 
+        item.id === editingItem.id ? { ...item, ...data } : item
+      );
+      setNotificationList(updatedList);
+    } else {
+      const newItem = {
+        id: `not-${notificationList.length + 1}`,
+        title: data.title,
+        type: data.type,
+        date: new Date().toLocaleDateString('en-CA'),
+      };
+      setNotificationList([newItem, ...notificationList]);
+    }
+    
     setOpen(false);
+    setEditingItem(null);
+    form.reset();
   };
 
   const notificationItems = notificationList.filter(item => item.type === 'Notification');
@@ -145,9 +186,9 @@ export default function AdminNotificationsPage() {
                 Export
               </span>
             </Button>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1">
+                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />
                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add Item
@@ -156,9 +197,9 @@ export default function AdminNotificationsPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Add New Update</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Update' : 'Add New Update'}</DialogTitle>
                   <DialogDescription>
-                    Add a new notification or press release.
+                    {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -215,13 +256,13 @@ export default function AdminNotificationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <NotificationTable items={notificationList} />
+              <NotificationTable items={notificationList} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="notification">
-              <NotificationTable items={notificationItems} />
+              <NotificationTable items={notificationItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="press-release">
-              <NotificationTable items={pressReleaseItems} />
+              <NotificationTable items={pressReleaseItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
           </CardContent>
         </Card>

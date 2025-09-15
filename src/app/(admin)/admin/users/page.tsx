@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -60,11 +60,13 @@ const initialUsers = [
     { id: 'user-2', name: 'Content Manager', email: 'manager@example.com', role: 'Editor' },
 ];
 
+type UserItem = typeof initialUsers[0];
 const roles = ['Administrator', 'Editor', 'Viewer'];
 
 export default function AdminUsersPage() {
   const [open, setOpen] = useState(false);
   const [users, setUsers] = useState(initialUsers);
+  const [editingItem, setEditingItem] = useState<UserItem | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -74,33 +76,71 @@ export default function AdminUsersPage() {
     },
   });
 
+  useEffect(() => {
+    if (editingItem) {
+      form.reset({
+        name: editingItem.name,
+        email: editingItem.email,
+        role: editingItem.role
+      });
+    } else {
+      form.reset({
+        name: "",
+        email: "",
+        role: roles[1],
+      });
+    }
+  }, [editingItem, form]);
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setOpen(true);
+  };
+
+  const handleEdit = (item: UserItem) => {
+    setEditingItem(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setUsers(users.filter(item => item.id !== id));
+  };
+
+
   const onSubmit = (data: any) => {
-    const newUser = {
-      id: `user-${users.length + 1}`,
-      name: data.name,
-      email: data.email,
-      role: data.role,
-    };
-    setUsers([newUser, ...users]);
-    form.reset();
+    if (editingItem) {
+        const updatedList = users.map(user => user.id === editingItem.id ? { ...user, ...data } : user);
+        setUsers(updatedList);
+    } else {
+        const newUser = {
+        id: `user-${users.length + 1}`,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        };
+        setUsers([newUser, ...users]);
+    }
+    
     setOpen(false);
+    setEditingItem(null);
+    form.reset();
   };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2 ml-auto">
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
           <DialogTrigger asChild>
-            <Button size="sm" className="h-8 gap-1">
+            <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add User</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Add New User</DialogTitle>
+              <DialogTitle>{editingItem ? 'Edit User' : 'Add New User'}</DialogTitle>
               <DialogDescription>
-                Fill in the details to create a new administrative user.
+                {editingItem ? 'Update the details for this administrative user.' : 'Fill in the details to create a new administrative user.'}
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -154,7 +194,7 @@ export default function AdminUsersPage() {
                   )}
                 />
                 <DialogFooter>
-                  <Button type="submit">Create User</Button>
+                  <Button type="submit">{editingItem ? 'Save Changes' : 'Create User'}</Button>
                 </DialogFooter>
               </form>
             </Form>
@@ -207,8 +247,8 @@ export default function AdminUsersPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(user)}>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete(user.id)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

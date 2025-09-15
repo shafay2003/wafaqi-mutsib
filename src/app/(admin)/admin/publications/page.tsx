@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,7 +37,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { publications } from "@/lib/placeholder-data";
+import { publications as initialPublications } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
@@ -56,9 +56,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+type PublicationItem = typeof initialPublications[0];
 const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
 
-const PublicationTable = ({ items }: { items: typeof publications }) => (
+const PublicationTable = ({ items, onEdit, onDelete }: { items: PublicationItem[], onEdit: (item: PublicationItem) => void, onDelete: (id: string) => void }) => (
   <Table>
     <TableHeader>
       <TableRow>
@@ -92,8 +93,8 @@ const PublicationTable = ({ items }: { items: typeof publications }) => (
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onEdit(item)}>Edit</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onDelete(item.id)}>Delete</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </TableCell>
@@ -105,7 +106,9 @@ const PublicationTable = ({ items }: { items: typeof publications }) => (
 
 export default function AdminPublicationsPage() {
   const [open, setOpen] = useState(false);
-  const [publicationList, setPublicationList] = useState(publications);
+  const [publicationList, setPublicationList] = useState(initialPublications);
+  const [editingItem, setEditingItem] = useState<PublicationItem | null>(null);
+
 
   const form = useForm({
     defaultValues: {
@@ -115,17 +118,56 @@ export default function AdminPublicationsPage() {
     }
   });
 
+  useEffect(() => {
+    if (editingItem) {
+      form.reset({
+        title: editingItem.title,
+        category: editingItem.category,
+      });
+    } else {
+      form.reset({
+        title: "",
+        category: categories[0],
+        file: undefined
+      });
+    }
+  }, [editingItem, form]);
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setOpen(true);
+  };
+
+  const handleEdit = (item: PublicationItem) => {
+    setEditingItem(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setPublicationList(publicationList.filter(item => item.id !== id));
+  };
+
+
   const onSubmit = (data: any) => {
-    const newItem = {
-      id: `pub-${publicationList.length + 1}`,
-      title: data.title,
-      category: data.category,
-      date: new Date().toLocaleDateString('en-CA'),
-      url: '#',
-    };
-    setPublicationList([newItem, ...publicationList]);
-    form.reset();
+    if (editingItem) {
+      const updatedList = publicationList.map(item => 
+        item.id === editingItem.id ? { ...item, ...data, url: item.url } : item
+      );
+      setPublicationList(updatedList);
+    } else {
+      const newItem: PublicationItem = {
+        id: `pub-${publicationList.length + 1}`,
+        title: data.title,
+        category: data.category,
+        date: new Date().toLocaleDateString('en-CA'),
+        url: '#',
+      };
+      setPublicationList([newItem, ...publicationList]);
+    }
+    
     setOpen(false);
+    setEditingItem(null);
+    form.reset();
   };
 
   return (
@@ -144,9 +186,9 @@ export default function AdminPublicationsPage() {
                 Export
               </span>
             </Button>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1">
+                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />
                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add Publication
@@ -155,9 +197,9 @@ export default function AdminPublicationsPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Add New Publication</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Publication' : 'Add New Publication'}</DialogTitle>
                   <DialogDescription>
-                    Fill in the details for the new publication.
+                     {editingItem ? 'Update the details for this publication.' : 'Fill in the details for the new publication.'}
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -228,11 +270,11 @@ export default function AdminPublicationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <PublicationTable items={publicationList} />
+              <PublicationTable items={publicationList} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             {categories.map(cat => (
               <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
-                <PublicationTable items={publicationList.filter(p => p.category === cat)} />
+                <PublicationTable items={publicationList.filter(p => p.category === cat)} onEdit={handleEdit} onDelete={handleDelete} />
               </TabsContent>
             ))}
           </CardContent>
