@@ -105,16 +105,26 @@ const PublicationTable = ({ items }: { items: typeof publications }) => (
 
 export default function AdminPublicationsPage() {
   const [open, setOpen] = useState(false);
+  const [publicationList, setPublicationList] = useState(publications);
+
   const form = useForm({
     defaultValues: {
       title: "",
-      category: "",
+      category: categories[0],
       file: undefined,
     }
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const newItem = {
+      id: `pub-${publicationList.length + 1}`,
+      title: data.title,
+      category: data.category,
+      date: new Date().toLocaleDateString('en-CA'),
+      url: '#',
+    };
+    setPublicationList([newItem, ...publicationList]);
+    form.reset();
     setOpen(false); // Close dialog on submit
   };
 
@@ -218,11 +228,11 @@ export default function AdminPublicationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <PublicationTable items={publications} />
+              <PublicationTable items={publicationList} />
             </TabsContent>
             {categories.map(cat => (
               <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
-                <PublicationTable items={publications.filter(p => p.category === cat)} />
+                <PublicationTable items={publicationList.filter(p => p.category === cat)} />
               </TabsContent>
             ))}
           </CardContent>

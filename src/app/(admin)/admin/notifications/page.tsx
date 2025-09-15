@@ -106,20 +106,29 @@ const NotificationTable = ({ items }: { items: typeof notifications }) => (
 
 export default function AdminNotificationsPage() {
   const [open, setOpen] = useState(false);
+  const [notificationList, setNotificationList] = useState(notifications);
+
   const form = useForm({
     defaultValues: {
       title: "",
-      type: ""
+      type: "Notification",
     }
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const newItem = {
+      id: `not-${notificationList.length + 1}`,
+      title: data.title,
+      type: data.type,
+      date: new Date().toLocaleDateString('en-CA'),
+    };
+    setNotificationList([newItem, ...notificationList]);
+    form.reset();
     setOpen(false); // Close dialog on submit
   };
 
-  const notificationItems = notifications.filter(item => item.type === 'Notification');
-  const pressReleaseItems = notifications.filter(item => item.type === 'Press Release');
+  const notificationItems = notificationList.filter(item => item.type === 'Notification');
+  const pressReleaseItems = notificationList.filter(item => item.type === 'Press Release');
 
   return (
       <Tabs defaultValue="all">
@@ -206,7 +215,7 @@ export default function AdminNotificationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <NotificationTable items={notifications} />
+              <NotificationTable items={notificationList} />
             </TabsContent>
             <TabsContent value="notification">
               <NotificationTable items={notificationItems} />

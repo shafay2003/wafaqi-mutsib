@@ -59,7 +59,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
-const MediaTable = ({ items }: { items: typeof mediaItems }) => (
+const MediaTable = ({ items }: { items: (typeof mediaItems) }) => (
   <Table>
     <TableHeader>
       <TableRow>
@@ -126,21 +126,31 @@ const MediaTable = ({ items }: { items: typeof mediaItems }) => (
 
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
+  const [mediaList, setMediaList] = useState(mediaItems);
+
   const form = useForm({
     defaultValues: {
       title: "",
-      type: "",
+      type: "Photo",
       image: undefined,
     }
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    const newItem = {
+      id: `media-${mediaList.length + 1}`,
+      title: data.title,
+      type: data.type,
+      description: 'A newly added media item.',
+      date: new Date().toLocaleDateString('en-CA'),
+    };
+    setMediaList([newItem, ...mediaList]);
+    form.reset();
     setOpen(false); // Close dialog on submit
   };
 
-  const photoItems = mediaItems.filter(item => item.type === 'Photo');
-  const videoItems = mediaItems.filter(item => item.type === 'Video');
+  const photoItems = mediaList.filter(item => item.type === 'Photo');
+  const videoItems = mediaList.filter(item => item.type === 'Video');
 
 
   return (
@@ -241,7 +251,7 @@ export default function AdminMediaPage() {
           </CardHeader>
           <CardContent>
              <TabsContent value="all">
-              <MediaTable items={mediaItems} />
+              <MediaTable items={mediaList} />
             </TabsContent>
             <TabsContent value="photo">
                <MediaTable items={photoItems} />
