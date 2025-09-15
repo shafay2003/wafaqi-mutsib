@@ -32,8 +32,9 @@ export function Header() {
                 </form>
                </div>
                 <div className="flex items-center gap-4">
-                  <Button variant="outline" size="sm">Log In</Button>
-                  <Button size="sm">Sign Up</Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/admin/login">Admin Log In</Link>
+                  </Button>
                 </div>
             </div>
         </header>
