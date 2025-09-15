@@ -126,7 +126,13 @@ const MediaTable = ({ items }: { items: typeof mediaItems }) => (
 
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
-  const form = useForm(); // Simplified for now
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      type: "",
+      image: undefined,
+    }
+  });
 
   const onSubmit = (data: any) => {
     console.log(data);

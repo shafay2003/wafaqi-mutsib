@@ -105,7 +105,13 @@ const PublicationTable = ({ items }: { items: typeof publications }) => (
 
 export default function AdminPublicationsPage() {
   const [open, setOpen] = useState(false);
-  const form = useForm(); // Simplified for now
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      category: "",
+      file: undefined,
+    }
+  });
 
   const onSubmit = (data: any) => {
     console.log(data);

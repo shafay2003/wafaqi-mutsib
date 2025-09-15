@@ -106,7 +106,12 @@ const NotificationTable = ({ items }: { items: typeof notifications }) => (
 
 export default function AdminNotificationsPage() {
   const [open, setOpen] = useState(false);
-  const form = useForm(); // Simplified for now
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      type: ""
+    }
+  });
 
   const onSubmit = (data: any) => {
     console.log(data);

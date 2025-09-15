@@ -50,7 +50,13 @@ import {
 
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
-  const form = useForm(); // Simplified for now
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      summary: "",
+      image: undefined
+    }
+  });
 
   const onSubmit = (data: any) => {
     console.log(data);
