@@ -142,11 +142,11 @@ export const successStories = [
 ];
 
 export const regionalOffices = [
-    { name: 'Head Office, Islamabad', address: 'Wafaqi Mohtasib Secretariat, 36-Constitution Avenue, G-5/2, Islamabad.', phone: '(051) 9217211', email: 'info@mohtasib.gov.pk' },
-    { name: 'Regional Office, Karachi', address: '4th Floor, Block C, FTC Building, Shahrah-e-Faisal, Karachi.', phone: '(021) 99207121', email: 'ro.khi@mohtasib.gov.pk' },
-    { name: 'Regional Office, Lahore', address: 'State Life Building, 15-A Davis Road, Lahore.', phone: '(042) 99201021', email: 'ro.lhe@mohtasib.gov.pk' },
-    { name: 'Regional Office, Peshawar', address: 'Banglow No.1, Shami Road, Peshawar Cantt.', phone: '(091) 9212877', email: 'ro.psh@mohtasib.gov.pk' },
-    { name: 'Regional Office, Quetta', address: 'Zarghoon Road, Quetta Cantt.', phone: '(081) 9201582', email: 'ro.qta@mohtasib.gov.pk' },
+    { name: 'Head Office, Islamabad', address: 'Wafaqi Mohtasib Secretariat, 36-Constitution Avenue, G-5/2, Islamabad.', phone: '(051) 9217211', email: 'info@mohtasib.gov.pk', region: 'islamabad' },
+    { name: 'Regional Office, Karachi', address: '4th Floor, Block C, FTC Building, Shahrah-e-Faisal, Karachi.', phone: '(021) 99207121', email: 'ro.khi@mohtasib.gov.pk', region: 'sindh' },
+    { name: 'Regional Office, Lahore', address: 'State Life Building, 15-A Davis Road, Lahore.', phone: '(042) 99201021', email: 'ro.lhe@mohtasib.gov.pk', region: 'punjab' },
+    { name: 'Regional Office, Peshawar', address: 'Banglow No.1, Shami Road, Peshawar Cantt.', phone: '(091) 9212877', email: 'ro.psh@mohtasib.gov.pk', region: 'kpk' },
+    { name: 'Regional Office, Quetta', address: 'Zarghoon Road, Quetta Cantt.', phone: '(081) 9201582', email: 'ro.qta@mohtasib.gov.pk', region: 'balochistan' },
 ];
 
 export const dailyCauseList = [

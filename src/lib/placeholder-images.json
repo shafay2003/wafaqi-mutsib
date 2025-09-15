@@ -32,12 +32,6 @@
       "imageHint": "flowchart diagram"
     },
     {
-      "id": "map-pakistan",
-      "description": "A map of Pakistan showing regional office locations.",
-      "imageUrl": "https://picsum.photos/seed/pakistan-map/1200/800",
-      "imageHint": "pakistan map"
-    },
-    {
       "id": "media-1",
       "description": "A photo from a seminar or event.",
       "imageUrl": "https://picsum.photos/seed/seminar-event/600/400",
