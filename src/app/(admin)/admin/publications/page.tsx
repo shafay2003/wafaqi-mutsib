@@ -125,7 +125,7 @@ export default function AdminPublicationsPage() {
     };
     setPublicationList([newItem, ...publicationList]);
     form.reset();
-    setOpen(false); // Close dialog on submit
+    setOpen(false);
   };
 
   return (

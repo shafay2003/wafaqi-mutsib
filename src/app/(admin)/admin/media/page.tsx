@@ -146,7 +146,7 @@ export default function AdminMediaPage() {
     };
     setMediaList([newItem, ...mediaList]);
     form.reset();
-    setOpen(false); // Close dialog on submit
+    setOpen(false);
   };
 
   const photoItems = mediaList.filter(item => item.type === 'Photo');

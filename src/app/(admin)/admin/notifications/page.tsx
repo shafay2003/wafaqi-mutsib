@@ -124,7 +124,7 @@ export default function AdminNotificationsPage() {
     };
     setNotificationList([newItem, ...notificationList]);
     form.reset();
-    setOpen(false); // Close dialog on submit
+    setOpen(false);
   };
 
   const notificationItems = notificationList.filter(item => item.type === 'Notification');
