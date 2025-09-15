@@ -57,7 +57,7 @@ export default function TrackComplaintPage() {
   return (
     <div className="flex flex-col gap-8">
           <header className="text-left space-y-1.5">
-            <h1 className="text-2xl font-semibold tracking-tight">
+            <h1 className="text-2xl font-semibold leading-none tracking-tight">
               Track Your Complaint
             </h1>
             <p className="text-sm text-muted-foreground">

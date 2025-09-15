@@ -14,7 +14,7 @@ export default function SuccessStoriesPage() {
   return (
     <div className="flex flex-col gap-4">
       <header className="text-left space-y-1.5">
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="text-2xl font-semibold leading-none tracking-tight">
             Impact & Success Stories
           </h1>
           <p className="text-sm text-muted-foreground max-w-3xl">
