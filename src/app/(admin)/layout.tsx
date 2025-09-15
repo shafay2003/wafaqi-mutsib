@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -20,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from '@/hooks/use-auth';
+import { usePathname } from 'next/navigation';
 
 
 function AdminHeader() {
@@ -95,6 +97,7 @@ function AdminHeader() {
 
 function AdminNav() {
   const { user } = useAuth();
+  const pathname = usePathname();
   const visibleLinks = adminNavLinks.filter(link => user && link.roles.includes(user.role));
 
   return (
@@ -116,7 +119,7 @@ function AdminNav() {
                <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary ${pathname === link.href ? 'bg-muted text-primary' : ''}`}
               >
                 <link.icon className="h-4 w-4" />
                 {link.label}
