@@ -1,5 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import { adminNavLinks } from "@/lib/admin-nav-links";
+import { adminNavLinks, type AdminNavLink } from "@/lib/admin-nav-links";
 import { Logo } from "@/components/icons";
 import {
   Sheet,
@@ -17,9 +19,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useAuth } from '@/hooks/use-auth';
 
 
 function AdminHeader() {
+  const { user } = useAuth();
+
   return (
       <header className="flex h-16 items-center justify-between gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
         <div className="flex items-center gap-4">
@@ -61,7 +66,8 @@ function AdminHeader() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{user?.name || 'My Account'}</DropdownMenuLabel>
+              <p className="text-xs text-muted-foreground px-2 -mt-1 mb-2">{user?.role}</p>
               <DropdownMenuSeparator />
                <DropdownMenuItem asChild>
                 <Link href="/" target="_blank">
@@ -69,9 +75,11 @@ function AdminHeader() {
                   View Site
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/admin/settings">Settings</Link>
-              </DropdownMenuItem>
+              {adminNavLinks.find(l => l.href === '/admin/settings')?.roles.includes(user?.role || '') && (
+                 <DropdownMenuItem asChild>
+                    <Link href="/admin/settings">Settings</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
                <DropdownMenuItem asChild>
@@ -86,6 +94,9 @@ function AdminHeader() {
 
 
 function AdminNav() {
+  const { user } = useAuth();
+  const visibleLinks = adminNavLinks.filter(link => user && link.roles.includes(user.role));
+
   return (
     <nav className="hidden border-r bg-muted/40 md:block md:w-64">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -101,7 +112,7 @@ function AdminNav() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {adminNavLinks.map((link) => (
+            {visibleLinks.map((link) => (
                <Link
                 key={link.href}
                 href={link.href}
