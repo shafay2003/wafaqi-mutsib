@@ -39,7 +39,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { successStories as initialSuccessStories } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File, Sparkles, Loader2 } from "lucide-react";
+import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,7 +47,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { generateStory } from "@/ai/flows/story-generator-flow";
 
 type StoryItem = typeof initialSuccessStories[0];
 
@@ -55,7 +54,6 @@ export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
   const [storyList, setStoryList] = useState(initialSuccessStories);
   const [editingItem, setEditingItem] = useState<StoryItem | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -64,24 +62,6 @@ export default function AdminSuccessStoriesPage() {
       image: undefined
     }
   });
-
-  const storyTitle = form.watch("title");
-
-  const handleGenerateStory = async () => {
-    if (!storyTitle) return;
-    setIsGenerating(true);
-    try {
-      const result = await generateStory({ title: storyTitle });
-      if (result) {
-        form.setValue("summary", result.summary);
-      }
-    } catch (error) {
-      console.error("Failed to generate story:", error);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
 
   useEffect(() => {
     if (editingItem) {
@@ -157,7 +137,7 @@ export default function AdminSuccessStoriesPage() {
             <DialogHeader>
               <DialogTitle>{editingItem ? 'Edit Success Story' : 'Add New Success Story'}</DialogTitle>
               <DialogDescription>
-                {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story. You can use AI to generate a summary.'}
+                {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -176,18 +156,12 @@ export default function AdminSuccessStoriesPage() {
                   )}
                 />
                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                        <FormLabel>Summary</FormLabel>
-                         <Button type="button" variant="outline" size="sm" onClick={handleGenerateStory} disabled={!storyTitle || isGenerating}>
-                          {isGenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                          Generate with AI
-                        </Button>
-                    </div>
                     <FormField
                       control={form.control}
                       name="summary"
                       render={({ field }) => (
                         <FormItem className="!mt-0">
+                          <FormLabel>Summary</FormLabel>
                           <FormControl>
                             <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
                           </FormControl>
