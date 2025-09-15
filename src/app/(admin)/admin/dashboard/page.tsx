@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -8,13 +9,17 @@ import {
 import { FileText, ImageIcon, Newspaper, Award } from "lucide-react";
 import Link from 'next/link';
 import RecentActivity from './RecentActivity';
+import { mediaItems } from "@/lib/placeholder-data";
+import { notifications } from "@/lib/placeholder-data";
+import { successStories } from "@/lib/placeholder-data";
+import { publications } from "@/lib/placeholder-data";
 
 export default function AdminDashboard() {
   const contentTypes = [
-    { name: "Media Gallery", icon: ImageIcon, count: 12, href: "/admin/media" },
-    { name: "Notifications", icon: Newspaper, count: 6, href: "/admin/notifications" },
-    { name: "Success Stories", icon: Award, count: 4, href: "/admin/success-stories" },
-    { name: "Publications", icon: FileText, count: 6, href: "/admin/publications" },
+    { name: "Media Gallery", icon: ImageIcon, count: mediaItems.length, href: "/admin/media" },
+    { name: "Notifications", icon: Newspaper, count: notifications.length, href: "/admin/notifications" },
+    { name: "Success Stories", icon: Award, count: successStories.length, href: "/admin/success-stories" },
+    { name: "Publications", icon: FileText, count: publications.length, href: "/admin/publications" },
   ];
 
   return (
