@@ -80,8 +80,7 @@ export default function TendersAndVacanciesPage() {
             <TabsContent value="vacancies">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Career Opportunities</CardTitle>
-                        <CardDescription>Join our team and contribute to public service.</CardDescription>
+                        <CardTitle>Career Opportunities</CardTitle>                        <CardDescription>Join our team and contribute to public service.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {renderVacancyList()}

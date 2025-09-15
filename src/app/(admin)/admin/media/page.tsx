@@ -35,11 +35,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { mediaItems } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
-import { PlusCircle, Edit, Trash, MoreHorizontal, File } from "lucide-react";
+import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
   Select,
   SelectContent,
