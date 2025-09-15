@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { mediaItems } from "@/lib/placeholder-data";
+import { mediaItems as initialMediaItems } from "@/lib/placeholder-data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
@@ -59,7 +59,9 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
-const MediaTable = ({ items }: { items: (typeof mediaItems) }) => (
+type MediaItem = typeof initialMediaItems[0];
+
+const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void }) => (
   <Table>
     <TableHeader>
       <TableRow>
@@ -111,8 +113,8 @@ const MediaTable = ({ items }: { items: (typeof mediaItems) }) => (
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onEdit(item)}>Edit</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onDelete(item.id)}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
@@ -126,7 +128,8 @@ const MediaTable = ({ items }: { items: (typeof mediaItems) }) => (
 
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
-  const [mediaList, setMediaList] = useState(mediaItems);
+  const [mediaList, setMediaList] = useState(initialMediaItems);
+  const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -136,17 +139,57 @@ export default function AdminMediaPage() {
     }
   });
 
+  useEffect(() => {
+    if (editingItem) {
+      form.reset({
+        title: editingItem.title,
+        type: editingItem.type,
+      });
+    } else {
+      form.reset({
+        title: "",
+        type: "Photo",
+      });
+    }
+  }, [editingItem, form]);
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setOpen(true);
+  };
+
+  const handleEdit = (item: MediaItem) => {
+    setEditingItem(item);
+    setOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    setMediaList(mediaList.filter(item => item.id !== id));
+  };
+
+
   const onSubmit = (data: any) => {
-    const newItem = {
-      id: `media-${mediaList.length + 1}`,
-      title: data.title,
-      type: data.type,
-      description: 'A newly added media item.',
-      date: new Date().toLocaleDateString('en-CA'),
-    };
-    setMediaList([newItem, ...mediaList]);
-    form.reset();
+    if (editingItem) {
+      // Update existing item
+      const updatedList = mediaList.map(item => 
+        item.id === editingItem.id ? { ...item, ...data } : item
+      );
+      setMediaList(updatedList);
+    } else {
+      // Add new item
+      const newItem = {
+        id: `media-${mediaList.length + 1}`,
+        title: data.title,
+        type: data.type,
+        description: 'A newly added media item.',
+        date: new Date().toLocaleDateString('en-CA'),
+      };
+      setMediaList([newItem, ...mediaList]);
+    }
+    
     setOpen(false);
+    setEditingItem(null);
+    form.reset();
   };
 
   const photoItems = mediaList.filter(item => item.type === 'Photo');
@@ -168,9 +211,9 @@ export default function AdminMediaPage() {
                 Export
               </span>
             </Button>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1">
+                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />
                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add Media
@@ -179,9 +222,9 @@ export default function AdminMediaPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>Add New Media Item</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Media Item' : 'Add New Media Item'}</DialogTitle>
                   <DialogDescription>
-                    Fill in the details for the new media item.
+                    {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
                   </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -251,13 +294,13 @@ export default function AdminMediaPage() {
           </CardHeader>
           <CardContent>
              <TabsContent value="all">
-              <MediaTable items={mediaList} />
+              <MediaTable items={mediaList} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="photo">
-               <MediaTable items={photoItems} />
+               <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="video">
-               <MediaTable items={videoItems} />
+               <MediaTable items={videoItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
           </CardContent>
         </Card>
