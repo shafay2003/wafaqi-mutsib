@@ -56,6 +56,53 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+const NotificationTable = ({ items }: { items: typeof notifications }) => (
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Title</TableHead>
+        <TableHead>Type</TableHead>
+          <TableHead className="hidden md:table-cell">Date</TableHead>
+        <TableHead>
+          <span className="sr-only">Actions</span>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {items.map((item) => (
+        <TableRow key={item.id}>
+          <TableCell className="font-medium">{item.title}</TableCell>
+          <TableCell>
+            <Badge variant={item.type === 'Press Release' ? 'destructive' : 'secondary'}>
+              {item.type}
+            </Badge>
+          </TableCell>
+            <TableCell className="hidden md:table-cell">{item.date}</TableCell>
+          <TableCell>
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  aria-haspopup="true"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
 
 export default function AdminNotificationsPage() {
   const [open, setOpen] = useState(false);
@@ -65,6 +112,9 @@ export default function AdminNotificationsPage() {
     console.log(data);
     setOpen(false); // Close dialog on submit
   };
+
+  const notificationItems = notifications.filter(item => item.type === 'Notification');
+  const pressReleaseItems = notifications.filter(item => item.type === 'Press Release');
 
   return (
       <Tabs defaultValue="all">
@@ -142,62 +192,25 @@ export default function AdminNotificationsPage() {
             </Dialog>
           </div>
         </div>
-        <TabsContent value="all">
-          <Card>
-            <CardHeader>
-              <CardTitle>Notifications & Press Releases</CardTitle>
-              <CardDescription>
-                Manage updates and announcements for the website.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Type</TableHead>
-                     <TableHead className="hidden md:table-cell">Date</TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {notifications.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="font-medium">{item.title}</TableCell>
-                      <TableCell>
-                        <Badge variant={item.type === 'Press Release' ? 'destructive' : 'secondary'}>
-                          {item.type}
-                        </Badge>
-                      </TableCell>
-                       <TableCell className="hidden md:table-cell">{item.date}</TableCell>
-                      <TableCell>
-                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle>Notifications & Press Releases</CardTitle>
+            <CardDescription>
+              Manage updates and announcements for the website.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TabsContent value="all">
+              <NotificationTable items={notifications} />
+            </TabsContent>
+            <TabsContent value="notification">
+              <NotificationTable items={notificationItems} />
+            </TabsContent>
+            <TabsContent value="press-release">
+              <NotificationTable items={pressReleaseItems} />
+            </TabsContent>
+          </CardContent>
+        </Card>
     </Tabs>
   );
 }

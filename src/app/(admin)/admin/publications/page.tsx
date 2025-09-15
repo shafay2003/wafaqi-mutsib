@@ -56,6 +56,52 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
+
+const PublicationTable = ({ items }: { items: typeof publications }) => (
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Title</TableHead>
+        <TableHead>Category</TableHead>
+          <TableHead className="hidden md:table-cell">Date</TableHead>
+        <TableHead>
+          <span className="sr-only">Actions</span>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {items.map((item) => (
+        <TableRow key={item.id}>
+          <TableCell className="font-medium">{item.title}</TableCell>
+          <TableCell>
+            <Badge variant="secondary">{item.category}</Badge>
+          </TableCell>
+            <TableCell className="hidden md:table-cell">{item.date}</TableCell>
+          <TableCell>
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  aria-haspopup="true"
+                  size="icon"
+                  variant="ghost"
+                >
+                  <MoreHorizontal className="h-4 w-4" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
 
 export default function AdminPublicationsPage() {
   const [open, setOpen] = useState(false);
@@ -65,8 +111,6 @@ export default function AdminPublicationsPage() {
     console.log(data);
     setOpen(false); // Close dialog on submit
   };
-
-  const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
 
   return (
       <Tabs defaultValue="all">
@@ -159,60 +203,24 @@ export default function AdminPublicationsPage() {
             </Dialog>
           </div>
         </div>
-        <TabsContent value="all">
-          <Card>
-            <CardHeader>
-              <CardTitle>Publications</CardTitle>
-              <CardDescription>
-                Manage all official documents and research materials.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Category</TableHead>
-                     <TableHead className="hidden md:table-cell">Date</TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {publications.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="font-medium">{item.title}</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">{item.category}</Badge>
-                      </TableCell>
-                       <TableCell className="hidden md:table-cell">{item.date}</TableCell>
-                      <TableCell>
-                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle>Publications</CardTitle>
+            <CardDescription>
+              Manage all official documents and research materials.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <TabsContent value="all">
+              <PublicationTable items={publications} />
+            </TabsContent>
+            {categories.map(cat => (
+              <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
+                <PublicationTable items={publications.filter(p => p.category === cat)} />
+              </TabsContent>
+            ))}
+          </CardContent>
+        </Card>
     </Tabs>
   );
 }

@@ -1,6 +1,8 @@
+
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,6 +39,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { mediaItems } from "@/lib/placeholder-data";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
@@ -56,6 +59,71 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
+const MediaTable = ({ items }: { items: typeof mediaItems }) => (
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead className="hidden w-24 sm:table-cell">Image</TableHead>
+        <TableHead>Title</TableHead>
+        <TableHead>Type</TableHead>
+          <TableHead className="hidden md:table-cell">Date</TableHead>
+        <TableHead>
+          <span className="sr-only">Actions</span>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {items.map((item, index) => {
+        const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        return (
+          <TableRow key={item.id}>
+              <TableCell className="hidden sm:table-cell">
+                {itemImage ? (
+                  <Image
+                    alt={item.title}
+                    className="aspect-square rounded-md object-cover"
+                    height="64"
+                    src={itemImage.imageUrl}
+                    width="64"
+                  />
+                ) : (
+                  <div className="h-16 w-16 bg-muted rounded-md" />
+                )}
+              </TableCell>
+            <TableCell className="font-medium">{item.title}</TableCell>
+            <TableCell>
+              <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'}>
+                {item.type}
+              </Badge>
+            </TableCell>
+              <TableCell className="hidden md:table-cell">{item.date}</TableCell>
+            <TableCell>
+                <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    aria-haspopup="true"
+                    size="icon"
+                    variant="ghost"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Toggle menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        )
+      })}
+    </TableBody>
+  </Table>
+);
+
+
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
   const form = useForm(); // Simplified for now
@@ -65,6 +133,10 @@ export default function AdminMediaPage() {
     setOpen(false); // Close dialog on submit
   };
 
+  const photoItems = mediaItems.filter(item => item.type === 'Photo');
+  const videoItems = mediaItems.filter(item => item.type === 'Video');
+
+
   return (
       <Tabs defaultValue="all">
         <div className="flex items-center">
@@ -72,9 +144,6 @@ export default function AdminMediaPage() {
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="photo">Photos</TabsTrigger>
             <TabsTrigger value="video">Videos</TabsTrigger>
-            <TabsTrigger value="archived" className="hidden sm:flex">
-              Archived
-            </TabsTrigger>
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
             <Button size="sm" variant="outline" className="h-7 gap-1">
@@ -157,66 +226,25 @@ export default function AdminMediaPage() {
             </Dialog>
           </div>
         </div>
-        <TabsContent value="all">
-          <Card>
-            <CardHeader>
-              <CardTitle>Media Gallery</CardTitle>
-              <CardDescription>
-                Manage photos and videos for your website's gallery.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="hidden w-24 sm:table-cell">Image</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Type</TableHead>
-                     <TableHead className="hidden md:table-cell">Date</TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {mediaItems.map((item) => (
-                    <TableRow key={item.id}>
-                       <TableCell className="hidden sm:table-cell">
-                        <div className="h-16 w-16 bg-muted rounded-md" />
-                      </TableCell>
-                      <TableCell className="font-medium">{item.title}</TableCell>
-                      <TableCell>
-                        <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'}>
-                          {item.type}
-                        </Badge>
-                      </TableCell>
-                       <TableCell className="hidden md:table-cell">{item.date}</TableCell>
-                      <TableCell>
-                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              aria-haspopup="true"
-                              size="icon"
-                              variant="ghost"
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Toggle menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle>Media Gallery</CardTitle>
+            <CardDescription>
+              Manage photos and videos for your website's gallery.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+             <TabsContent value="all">
+              <MediaTable items={mediaItems} />
+            </TabsContent>
+            <TabsContent value="photo">
+               <MediaTable items={photoItems} />
+            </TabsContent>
+            <TabsContent value="video">
+               <MediaTable items={videoItems} />
+            </TabsContent>
+          </CardContent>
+        </Card>
     </Tabs>
   );
 }
