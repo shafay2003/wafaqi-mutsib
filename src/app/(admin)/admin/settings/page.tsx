@@ -1,23 +1,24 @@
 
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardContent,
 } from "@/components/ui/card";
+import SettingsForm from "./SettingsForm";
 
 export default function AdminSettingsPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Settings</CardTitle>
+        <CardTitle>Site Settings</CardTitle>
         <CardDescription>
-          This page will contain general website settings, such as site title, contact information, and social media links.
+          Manage your website's branding and general information.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground">Coming soon...</p>
+        <SettingsForm />
       </CardContent>
     </Card>
   );
