@@ -50,6 +50,8 @@ import {
 
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
+  const [storyList, setStoryList] = useState(successStories);
+
   const form = useForm({
     defaultValues: {
       title: "",
@@ -59,8 +61,15 @@ export default function AdminSuccessStoriesPage() {
   });
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    setOpen(false); // Close dialog on submit
+    const newStory = {
+      id: `ss-${storyList.length + 1}`,
+      title: data.title,
+      summary: data.summary,
+      date: new Date().toLocaleDateString('en-CA'),
+    };
+    setStoryList([newStory, ...storyList]);
+    form.reset();
+    setOpen(false);
   };
 
   return (
@@ -144,16 +153,18 @@ export default function AdminSuccessStoriesPage() {
               <TableRow>
                 <TableHead>Title</TableHead>
                 <TableHead className="hidden md:table-cell">Summary</TableHead>
+                <TableHead className="hidden md:table-cell">Date</TableHead>
                 <TableHead>
                   <span className="sr-only">Actions</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {successStories.map((item) => (
+              {storyList.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
+                  <TableCell className="hidden md:table-cell">{item.date}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

@@ -135,10 +135,10 @@ export const notifications = [
 ];
 
 export const successStories = [
-    { id: 'ss1', title: 'Pensioner Receives 20 Years of Arrears', summary: 'An elderly pensioner, after years of struggle, received two decades worth of unpaid pension arrears within 45 days of filing a complaint with the Wafaqi Mohtasib.' },
-    { id: 'ss2', title: 'Illegal Allotment of Plot Cancelled', summary: 'A citizen\'s complaint led to the cancellation of an illegally allotted commercial plot, which was then returned to the rightful government department for transparent auctioning.' },
-    { id: 'ss3', title: 'Student Gets Unfairly Withheld Degree', summary: 'A university student who was unjustly denied their degree for over a year received it within a month after the Mohtasib\'s intervention.' },
-    { id: 'ss4', title: 'Family Receives Death Grant After 5 Years', summary: 'The family of a deceased government employee was paid their entitled death grant, which had been pending for five years, following a directive from the Wafaqi Mohtasib.' },
+    { id: 'ss1', title: 'Pensioner Receives 20 Years of Arrears', summary: 'An elderly pensioner, after years of struggle, received two decades worth of unpaid pension arrears within 45 days of filing a complaint with the Wafaqi Mohtasib.', date: '2024-05-20' },
+    { id: 'ss2', title: 'Illegal Allotment of Plot Cancelled', summary: 'A citizen\'s complaint led to the cancellation of an illegally allotted commercial plot, which was then returned to the rightful government department for transparent auctioning.', date: '2024-04-15' },
+    { id: 'ss3', title: 'Student Gets Unfairly Withheld Degree', summary: 'A university student who was unjustly denied their degree for over a year received it within a month after the Mohtasib\'s intervention.', date: '2024-03-10' },
+    { id: 'ss4', title: 'Family Receives Death Grant After 5 Years', summary: 'The family of a deceased government employee was paid their entitled death grant, which had been pending for five years, following a directive from the Wafaqi Mohtasib.', date: '2024-02-25' },
 ];
 
 export const regionalOffices = [
