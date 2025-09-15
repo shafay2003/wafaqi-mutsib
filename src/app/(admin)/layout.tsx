@@ -22,10 +22,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useAuth } from '@/hooks/use-auth';
 import { usePathname } from 'next/navigation';
+import { SettingsProvider, useSettings } from '@/context/SettingsContext';
 
 
 function AdminHeader() {
   const { user } = useAuth();
+  const pathname = usePathname();
+
+  if (pathname === '/admin/login') {
+    return null;
+  }
 
   return (
       <header className="flex h-16 items-center justify-between gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
@@ -98,7 +104,12 @@ function AdminHeader() {
 function AdminNav() {
   const { user } = useAuth();
   const pathname = usePathname();
+  const { settings } = useSettings();
   const visibleLinks = adminNavLinks.filter(link => user && link.roles.includes(user.role));
+  
+  if (pathname === '/admin/login') {
+    return null;
+  }
 
   return (
     <nav className="hidden border-r bg-muted/40 md:block md:w-64">
@@ -106,7 +117,7 @@ function AdminNav() {
         <div className="flex h-16 items-center border-b px-4 lg:px-6">
           <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
             <Logo className="h-6 w-6 text-primary" />
-            <span>Wafaqi Mohtasib</span>
+            <span>{settings.siteName}</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />
@@ -138,14 +149,16 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[256px_1fr]">
-      <AdminNav />
-      <div className="flex flex-col">
-        <AdminHeader />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
+    <SettingsProvider>
+      <div className="grid min-h-screen w-full md:grid-cols-[256px_1fr]">
+        <AdminNav />
+        <div className="flex flex-col">
+          <AdminHeader />
+          <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </SettingsProvider>
   );
 }

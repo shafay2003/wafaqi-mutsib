@@ -15,26 +15,31 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function SettingsForm() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const { settings, setSettings } = useSettings();
 
-  // In a real app, these default values would be fetched from a database.
   const form = useForm({
     defaultValues: {
-      siteName: "Wafaqi Mohtasib",
+      siteName: settings.siteName,
       logo: undefined,
     },
   });
+
+  useEffect(() => {
+    form.reset({ siteName: settings.siteName });
+  }, [settings.siteName, form]);
 
   const onSubmit = (data: any) => {
     setLoading(true);
     console.log("Settings data:", data);
 
-    // Simulate saving settings
     setTimeout(() => {
+      setSettings({ siteName: data.siteName });
       setLoading(false);
       toast({
         title: "Settings Saved!",
