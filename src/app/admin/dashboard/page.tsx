@@ -11,9 +11,9 @@ import Link from 'next/link';
 export default function AdminDashboard() {
   const contentTypes = [
     { name: "Media Gallery", icon: ImageIcon, count: 12, href: "/admin/media" },
-    { name: "Notifications", icon: Newspaper, count: 6, href: "#" },
-    { name: "Success Stories", icon: Award, count: 4, href: "#" },
-    { name: "Publications", icon: FileText, count: 6, href: "#" },
+    { name: "Notifications", icon: Newspaper, count: 6, href: "/admin/notifications" },
+    { name: "Success Stories", icon: Award, count: 4, href: "/admin/success-stories" },
+    { name: "Publications", icon: FileText, count: 6, href: "/admin/publications" },
   ];
 
   return (

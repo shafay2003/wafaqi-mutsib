@@ -29,8 +29,8 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 p-4">
-      <Card className="w-full max-w-sm">
+    <div className="flex min-h-screen items-center justify-center bg-muted p-4">
+      <Card className="w-full max-w-sm mx-auto">
         <CardHeader className="items-center text-center">
           <Logo className="h-12 w-12 text-primary mb-2" />
           <CardTitle className="text-2xl">Admin Panel</CardTitle>
