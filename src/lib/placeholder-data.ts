@@ -27,7 +27,9 @@ import {
   Megaphone,
   Star,
   Image as ImageIcon,
-  Video
+  Video,
+  FilePenLine,
+  MessageSquareQuote
 } from 'lucide-react';
 
 export const navLinks = [
@@ -288,4 +290,35 @@ export const mediaItems = [
     type: 'Photo',
     date: '2024-05-25'
   },
+];
+
+export const recentActivities = [
+    {
+      id: 'act-1',
+      user: 'Ali Khan',
+      description: 'Filed a new complaint (WM-20240726-54321).',
+      time: '5 minutes ago',
+      icon: FilePenLine
+    },
+    {
+      id: 'act-2',
+      user: 'Fatima Ahmed',
+      description: 'Submitted feedback on the website.',
+      time: '2 hours ago',
+      icon: MessageSquareQuote
+    },
+    {
+      id: 'act-3',
+      user: 'System',
+      description: 'A new publication "Annual Report 2023" was added.',
+      time: '1 day ago',
+      icon: BookOpen
+    },
+    {
+      id: 'act-4',
+      user: 'Zainab Omar',
+      description: 'Filed a new complaint (WM-20240725-98765).',
+      time: '2 days ago',
+      icon: FilePenLine
+    }
 ];
