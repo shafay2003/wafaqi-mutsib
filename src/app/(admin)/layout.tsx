@@ -7,7 +7,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from '@/components/ui/button';
-import { Menu, Search, UserCircle, Bell } from 'lucide-react';
+import { Menu, Search, UserCircle, Bell, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
@@ -63,6 +63,12 @@ function AdminHeader() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
+               <DropdownMenuItem asChild>
+                <Link href="/" target="_blank">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  View Site
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/admin/settings">Settings</Link>
               </DropdownMenuItem>
