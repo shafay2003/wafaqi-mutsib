@@ -69,6 +69,7 @@ export default function AdminSuccessStoriesPage() {
       form.reset({
         title: editingItem.title,
         summary: editingItem.summary,
+        image: undefined
       });
     } else {
       form.reset({
@@ -119,12 +120,13 @@ export default function AdminSuccessStoriesPage() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle>Success Stories</CardTitle>
             <CardDescription>Manage success stories featured on the website.</CardDescription>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-4 sm:mt-0">
             <Button size="sm" variant="outline" className="h-7 gap-1">
               <File className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
@@ -196,6 +198,7 @@ export default function AdminSuccessStoriesPage() {
                 </Form>
               </DialogContent>
             </Dialog>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
