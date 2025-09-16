@@ -1,7 +1,9 @@
+'use client';
+
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { successStories } from "@/lib/placeholder-data";
+import { useSuccessStories } from "@/context/SuccessStoriesContext";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
 
 
 export default function SuccessStoriesPage() {
+  const { successStories } = useSuccessStories();
+
   return (
     <div className="flex flex-col gap-4">
       <header className="text-left space-y-1.5">

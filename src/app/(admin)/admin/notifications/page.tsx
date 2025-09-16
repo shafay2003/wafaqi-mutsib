@@ -55,6 +55,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useNotifications } from "@/context/NotificationsContext";
 
 type NotificationItem = typeof initialNotifications[0];
 
@@ -108,7 +109,7 @@ const NotificationTable = ({ items, onEdit, onDelete }: { items: NotificationIte
 
 export default function AdminNotificationsPage() {
   const [open, setOpen] = useState(false);
-  const [notificationList, setNotificationList] = useState(initialNotifications);
+  const { notifications, addNotification, updateNotification, deleteNotification } = useNotifications();
   const [editingItem, setEditingItem] = useState<NotificationItem | null>(null);
 
   const form = useForm({
@@ -143,24 +144,21 @@ export default function AdminNotificationsPage() {
   };
 
   const handleDelete = (id: string) => {
-    setNotificationList(notificationList.filter(item => item.id !== id));
+    deleteNotification(id);
   };
 
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-      const updatedList = notificationList.map(item => 
-        item.id === editingItem.id ? { ...item, ...data } : item
-      );
-      setNotificationList(updatedList);
+      updateNotification(editingItem.id, data);
     } else {
       const newItem = {
-        id: `not-${notificationList.length + 1}`,
+        id: `not-${notifications.length + 1}`,
         title: data.title,
         type: data.type,
         date: new Date().toLocaleDateString('en-CA'),
       };
-      setNotificationList([newItem, ...notificationList]);
+      addNotification(newItem);
     }
     
     setOpen(false);
@@ -168,8 +166,8 @@ export default function AdminNotificationsPage() {
     form.reset();
   };
 
-  const notificationItems = notificationList.filter(item => item.type === 'Notification');
-  const pressReleaseItems = notificationList.filter(item => item.type === 'Press Release');
+  const notificationItems = notifications.filter(item => item.type === 'Notification');
+  const pressReleaseItems = notifications.filter(item => item.type === 'Press Release');
 
   return (
       <Tabs defaultValue="all">
@@ -256,7 +254,7 @@ export default function AdminNotificationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <NotificationTable items={notificationList} onEdit={handleEdit} onDelete={handleDelete} />
+              <NotificationTable items={notifications} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             <TabsContent value="notification">
               <NotificationTable items={notificationItems} onEdit={handleEdit} onDelete={handleDelete} />

@@ -1,6 +1,8 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { notifications } from "@/lib/placeholder-data";
+import { useNotifications } from "@/context/NotificationsContext";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -8,7 +10,8 @@ export const metadata: Metadata = {
   description: 'Stay updated with the latest notifications, circulars, and press releases from the Wafaqi Mohtasib.',
 };
 
-const renderNotificationList = (type: string) => {
+const RenderNotificationList = ({ type }: { type: string }) => {
+  const { notifications } = useNotifications();
   const filtered = notifications.filter(n => n.type === type);
   if (filtered.length === 0) {
     return <p className="text-muted-foreground p-4 text-center">No {type.toLowerCase()}s found.</p>;
@@ -50,7 +53,7 @@ export default function NotificationsPage() {
                         <CardDescription>Official announcements and directives.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {renderNotificationList('Notification')}
+                        <RenderNotificationList type='Notification' />
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -61,7 +64,7 @@ export default function NotificationsPage() {
                         <CardDescription>Media briefings and public statements.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        {renderNotificationList('Press Release')}
+                        <RenderNotificationList type='Press Release' />
                     </CardContent>
                 </Card>
             </TabsContent>

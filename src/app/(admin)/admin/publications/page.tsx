@@ -55,6 +55,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { usePublications } from "@/context/PublicationsContext";
 
 type PublicationItem = typeof initialPublications[0];
 const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
@@ -106,7 +107,7 @@ const PublicationTable = ({ items, onEdit, onDelete }: { items: PublicationItem[
 
 export default function AdminPublicationsPage() {
   const [open, setOpen] = useState(false);
-  const [publicationList, setPublicationList] = useState(initialPublications);
+  const { publications, addPublication, updatePublication, deletePublication } = usePublications();
   const [editingItem, setEditingItem] = useState<PublicationItem | null>(null);
 
 
@@ -144,25 +145,22 @@ export default function AdminPublicationsPage() {
   };
 
   const handleDelete = (id: string) => {
-    setPublicationList(publicationList.filter(item => item.id !== id));
+    deletePublication(id);
   };
 
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-      const updatedList = publicationList.map(item => 
-        item.id === editingItem.id ? { ...item, ...data, url: item.url } : item
-      );
-      setPublicationList(updatedList);
+      updatePublication(editingItem.id, { ...data, url: editingItem.url });
     } else {
       const newItem: PublicationItem = {
-        id: `pub-${publicationList.length + 1}`,
+        id: `pub-${publications.length + 1}`,
         title: data.title,
         category: data.category,
         date: new Date().toLocaleDateString('en-CA'),
         url: '#',
       };
-      setPublicationList([newItem, ...publicationList]);
+      addPublication(newItem);
     }
     
     setOpen(false);
@@ -270,11 +268,11 @@ export default function AdminPublicationsPage() {
           </CardHeader>
           <CardContent>
             <TabsContent value="all">
-              <PublicationTable items={publicationList} onEdit={handleEdit} onDelete={handleDelete} />
+              <PublicationTable items={publications} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             {categories.map(cat => (
               <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
-                <PublicationTable items={publicationList.filter(p => p.category === cat)} onEdit={handleEdit} onDelete={handleDelete} />
+                <PublicationTable items={publications.filter(p => p.category === cat)} onEdit={handleEdit} onDelete={handleDelete} />
               </TabsContent>
             ))}
           </CardContent>

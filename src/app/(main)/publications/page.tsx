@@ -1,8 +1,10 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { publications } from "@/lib/placeholder-data";
+import { usePublications } from "@/context/PublicationsContext";
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -10,7 +12,8 @@ export const metadata: Metadata = {
   description: 'Access annual reports, research papers, laws, regulations, and other publications from the Wafaqi Mohtasib.',
 };
 
-const renderPublicationList = (category: string) => {
+const RenderPublicationList = ({ category }: { category: string }) => {
+  const { publications } = usePublications();
   const filtered = publications.filter(p => p.category === category);
   if (filtered.length === 0) {
     return <p className="text-muted-foreground p-4 text-center">No publications found in this category.</p>;
@@ -63,7 +66,7 @@ export default function PublicationsPage() {
                   <CardTitle>{cat}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {renderPublicationList(cat)}
+                  <RenderPublicationList category={cat} />
                 </CardContent>
               </Card>
             </TabsContent>

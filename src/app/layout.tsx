@@ -3,6 +3,9 @@ import { Inter } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 import { MediaProvider } from '@/context/MediaContext';
+import { NotificationsProvider } from '@/context/NotificationsContext';
+import { PublicationsProvider } from '@/context/PublicationsContext';
+import { SuccessStoriesProvider } from '@/context/SuccessStoriesContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,9 +30,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-body antialiased`}>
-        <MediaProvider>
-          {children}
-        </MediaProvider>
+        <SuccessStoriesProvider>
+          <PublicationsProvider>
+            <NotificationsProvider>
+              <MediaProvider>
+                {children}
+              </MediaProvider>
+            </NotificationsProvider>
+          </PublicationsProvider>
+        </SuccessStoriesProvider>
         <Toaster />
       </body>
     </html>

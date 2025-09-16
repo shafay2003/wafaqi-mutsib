@@ -47,12 +47,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useSuccessStories } from "@/context/SuccessStoriesContext";
 
 type StoryItem = typeof initialSuccessStories[0];
 
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
-  const [storyList, setStoryList] = useState(initialSuccessStories);
+  const { successStories, addSuccessStory, updateSuccessStory, deleteSuccessStory } = useSuccessStories();
   const [editingItem, setEditingItem] = useState<StoryItem | null>(null);
 
   const form = useForm({
@@ -94,24 +95,21 @@ export default function AdminSuccessStoriesPage() {
   };
 
   const handleDelete = (id: string) => {
-    setStoryList(storyList.filter(item => item.id !== id));
+    deleteSuccessStory(id);
   };
 
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-      const updatedList = storyList.map(item => 
-        item.id === editingItem.id ? { ...item, ...data } : item
-      );
-      setStoryList(updatedList);
+      updateSuccessStory(editingItem.id, data);
     } else {
       const newStory: StoryItem = {
-        id: `ss-${storyList.length + 1}`,
+        id: `ss-${successStories.length + 1}`,
         title: data.title,
         summary: data.summary,
         date: new Date().toLocaleDateString('en-CA'),
       };
-      setStoryList([newStory, ...storyList]);
+      addSuccessStory(newStory);
     }
     
     setOpen(false);
@@ -209,7 +207,7 @@ export default function AdminSuccessStoriesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {storyList.map((item) => (
+              {successStories.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
