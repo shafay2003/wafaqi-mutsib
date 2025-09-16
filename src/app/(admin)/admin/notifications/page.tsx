@@ -147,6 +147,13 @@ export default function AdminNotificationsPage() {
     deleteNotification(id);
   };
 
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingItem(null);
+    }
+  };
+
 
   const onSubmit = (data: any) => {
     if (editingItem) {
@@ -163,7 +170,6 @@ export default function AdminNotificationsPage() {
     
     setOpen(false);
     setEditingItem(null);
-    form.reset();
   };
 
   const notificationItems = notifications.filter(item => item.type === 'Notification');
@@ -184,7 +190,7 @@ export default function AdminNotificationsPage() {
                 Export
               </span>
             </Button>
-            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />

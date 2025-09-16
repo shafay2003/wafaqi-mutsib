@@ -105,6 +105,13 @@ export default function AdminUsersPage() {
   const handleDelete = (id: string) => {
     setUsers(users.filter(item => item.id !== id));
   };
+  
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingItem(null);
+    }
+  };
 
 
   const onSubmit = (data: any) => {
@@ -123,7 +130,6 @@ export default function AdminUsersPage() {
     
     setOpen(false);
     setEditingItem(null);
-    form.reset();
   };
 
   return (
@@ -133,9 +139,9 @@ export default function AdminUsersPage() {
           <CardTitle>User Management</CardTitle>
           <CardDescription>Manage administrators and their roles.</CardDescription>
         </div>
-        <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
-            <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
+            <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add User</span>
             </Button>

@@ -148,6 +148,13 @@ export default function AdminPublicationsPage() {
     deletePublication(id);
   };
 
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingItem(null);
+    }
+  };
+
 
   const onSubmit = (data: any) => {
     if (editingItem) {
@@ -165,7 +172,6 @@ export default function AdminPublicationsPage() {
     
     setOpen(false);
     setEditingItem(null);
-    form.reset();
   };
 
   return (
@@ -184,7 +190,7 @@ export default function AdminPublicationsPage() {
                 Export
               </span>
             </Button>
-            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) setEditingItem(null); }}>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />
@@ -244,7 +250,10 @@ export default function AdminPublicationsPage() {
                         <FormItem className="grid grid-cols-4 items-center gap-4">
                           <FormLabel className="text-right">File</FormLabel>
                           <FormControl className="col-span-3">
-                            <Input type="file" />
+                            <Input 
+                              type="file" 
+                              onChange={(e) => field.onChange(e.target.files)}
+                            />
                           </FormControl>
                           <FormMessage className="col-span-4" />
                         </FormItem>
