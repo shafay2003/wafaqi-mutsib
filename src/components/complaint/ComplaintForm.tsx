@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useActionState } from 'react';
@@ -26,7 +27,6 @@ import {
   CheckCircle,
   FilePenLine,
   Paperclip,
-  Upload,
 } from 'lucide-react';
 import { complaintSchema, type ComplaintFormValues } from '@/lib/definitions';
 import { submitComplaint } from '@/lib/actions';
@@ -289,18 +289,11 @@ export default function ComplaintForm() {
                     <FormItem>
                       <FormLabel>Attach Files</FormLabel>
                       <FormControl>
-                        <div className="relative border-2 border-dashed border-muted-foreground/50 rounded-lg p-6 text-center hover:border-primary transition-colors">
-                          <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                          <p className="mt-2 text-sm text-muted-foreground">
-                            Drag & drop files here, or click to select files
-                          </p>
-                          <Input
-                            type="file"
-                            multiple
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            onChange={(e) => field.onChange(e.target.files)}
-                          />
-                        </div>
+                        <Input
+                          type="file"
+                          multiple
+                          onChange={(e) => field.onChange(e.target.files)}
+                        />
                       </FormControl>
                       <FormDescription>
                         You can upload multiple files (PDF, DOCX, JPG, PNG). Max

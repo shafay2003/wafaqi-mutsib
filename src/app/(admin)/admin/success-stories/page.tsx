@@ -81,16 +81,11 @@ export default function AdminSuccessStoriesPage() {
 
   const handleAddNew = () => {
     setEditingItem(null);
-    form.reset();
     setOpen(true);
   };
 
   const handleEdit = (item: StoryItem) => {
     setEditingItem(item);
-    form.reset({
-      title: item.title,
-      summary: item.summary,
-    });
     setOpen(true);
   };
 
@@ -118,121 +113,121 @@ export default function AdminSuccessStoriesPage() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2 ml-auto">
-        <Button size="sm" variant="outline" className="h-7 gap-1">
-          <File className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
-        </Button>
-        <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) { setEditingItem(null); form.reset(); } }}>
-          <DialogTrigger asChild>
-            <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
-              <PlusCircle className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Success Stories</CardTitle>
+            <CardDescription>Manage success stories featured on the website.</CardDescription>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-7 gap-1">
+              <File className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
             </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>{editingItem ? 'Edit Success Story' : 'Add New Success Story'}</DialogTitle>
-              <DialogDescription>
-                {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
-              </DialogDescription>
-            </DialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Title</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Pensioner Receives Arrears" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <div className="space-y-2">
+            <Dialog open={open} onOpenChange={(isOpen) => { setOpen(isOpen); if (!isOpen) { setEditingItem(null); } }}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>{editingItem ? 'Edit Success Story' : 'Add New Success Story'}</DialogTitle>
+                  <DialogDescription>
+                    {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
                     <FormField
                       control={form.control}
-                      name="summary"
-                      render={({ field }) => (
-                        <FormItem className="!mt-0">
-                          <FormLabel>Summary</FormLabel>
-                          <FormControl>
-                            <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                </div>
-                 <FormField
-                      control={form.control}
-                      name="image"
+                      name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Image</FormLabel>
+                          <FormLabel>Title</FormLabel>
                           <FormControl>
-                            <Input type="file" />
+                            <Input placeholder="e.g., Pensioner Receives Arrears" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                <DialogFooter>
-                  <Button type="submit">Save story</Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Success Stories</CardTitle>
-          <CardDescription>Manage success stories featured on the website.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead className="hidden md:table-cell">Summary</TableHead>
-                <TableHead className="hidden md:table-cell">Date</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
+                     <div className="space-y-2">
+                        <FormField
+                          control={form.control}
+                          name="summary"
+                          render={({ field }) => (
+                            <FormItem className="!mt-0">
+                              <FormLabel>Summary</FormLabel>
+                              <FormControl>
+                                <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                    </div>
+                     <FormField
+                          control={form.control}
+                          name="image"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Image</FormLabel>
+                              <FormControl>
+                                <Input type="file" />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                    <DialogFooter>
+                      <Button type="submit">Save story</Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead className="hidden md:table-cell">Summary</TableHead>
+              <TableHead className="hidden md:table-cell">Date</TableHead>
+              <TableHead>
+                <span className="sr-only">Actions</span>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {successStories.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.title}</TableCell>
+                <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
+                <TableCell className="hidden md:table-cell">{item.date}</TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <MoreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">Toggle menu</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handleEdit(item)}>Edit</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {successStories.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.title}</TableCell>
-                  <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
-                  <TableCell className="hidden md:table-cell">{item.date}</TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => handleEdit(item)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-    </div>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 }
