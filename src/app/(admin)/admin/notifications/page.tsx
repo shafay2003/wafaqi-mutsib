@@ -134,7 +134,7 @@ export default function AdminNotificationsPage() {
         file: undefined,
       });
     }
-  }, [editingItem, form]);
+  }, [editingItem, form, open]);
 
   const handleAddNew = () => {
     setEditingItem(null);
@@ -205,7 +205,7 @@ export default function AdminNotificationsPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Update' : 'Add New Update'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Notification' : 'Add New Notification'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
                   </DialogDescription>
@@ -216,12 +216,12 @@ export default function AdminNotificationsPage() {
                       control={form.control}
                       name="title"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Title</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
                             <Input placeholder="e.g., Public Hearing Notice" {...field} />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -229,10 +229,10 @@ export default function AdminNotificationsPage() {
                       control={form.control}
                       name="type"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Type</FormLabel>
+                        <FormItem>
+                          <FormLabel>Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl className="col-span-3">
+                            <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select a type" />
                               </SelectTrigger>
@@ -242,7 +242,7 @@ export default function AdminNotificationsPage() {
                               <SelectItem value="Press Release">Press Release</SelectItem>
                             </SelectContent>
                           </Select>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -250,15 +250,15 @@ export default function AdminNotificationsPage() {
                       control={form.control}
                       name="file"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">File</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>File</FormLabel>
+                          <FormControl>
                              <Input 
                               type="file" 
                               onChange={(e) => field.onChange(e.target.files)}
                             />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />

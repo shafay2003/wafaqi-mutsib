@@ -153,7 +153,7 @@ export default function AdminMediaPage() {
         image: undefined,
       });
     }
-  }, [editingItem, form]);
+  }, [editingItem, form, open]);
 
   const handleAddNew = () => {
     setEditingItem(null);
@@ -224,7 +224,7 @@ export default function AdminMediaPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Media Item' : 'Add New Media Item'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Media' : 'Add New Media'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
                   </DialogDescription>
@@ -235,12 +235,12 @@ export default function AdminMediaPage() {
                       control={form.control}
                       name="title"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Title</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
                             <Input placeholder="e.g., Seminar on Justice" {...field} />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -248,10 +248,10 @@ export default function AdminMediaPage() {
                       control={form.control}
                       name="type"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Type</FormLabel>
+                        <FormItem>
+                          <FormLabel>Type</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl className="col-span-3">
+                            <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select media type" />
                               </SelectTrigger>
@@ -261,7 +261,7 @@ export default function AdminMediaPage() {
                               <SelectItem value="Video">Video</SelectItem>
                             </SelectContent>
                           </Select>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -269,20 +269,20 @@ export default function AdminMediaPage() {
                       control={form.control}
                       name="image"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">File</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>File</FormLabel>
+                          <FormControl>
                             <Input 
                               type="file" 
                               onChange={(e) => field.onChange(e.target.files)}
                             />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
                     <DialogFooter>
-                      <Button type="submit">Save changes</Button>
+                      <Button type="submit">Save</Button>
                     </DialogFooter>
                   </form>
                 </Form>

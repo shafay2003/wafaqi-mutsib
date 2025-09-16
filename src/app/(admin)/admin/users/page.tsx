@@ -90,7 +90,7 @@ export default function AdminUsersPage() {
         role: roles[1],
       });
     }
-  }, [editingItem, form]);
+  }, [editingItem, form, open]);
 
   const handleAddNew = () => {
     setEditingItem(null);
@@ -160,12 +160,12 @@ export default function AdminUsersPage() {
                       control={form.control}
                       name="name"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Name</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl>
                             <Input placeholder="e.g., John Doe" {...field} />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -173,12 +173,12 @@ export default function AdminUsersPage() {
                       control={form.control}
                       name="email"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Email</FormLabel>
-                          <FormControl className="col-span-3">
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
                             <Input type="email" placeholder="user@example.com" {...field} />
                           </FormControl>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -186,10 +186,10 @@ export default function AdminUsersPage() {
                       control={form.control}
                       name="role"
                       render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                          <FormLabel className="text-right">Role</FormLabel>
+                        <FormItem>
+                          <FormLabel>Role</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl className="col-span-3">
+                            <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select a role" />
                               </SelectTrigger>
@@ -200,12 +200,12 @@ export default function AdminUsersPage() {
                               ))}
                             </SelectContent>
                           </Select>
-                          <FormMessage className="col-span-4" />
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
                     <DialogFooter>
-                      <Button type="submit">{editingItem ? 'Save Changes' : 'Create User'}</Button>
+                      <Button type="submit">{editingItem ? 'Save' : 'Create User'}</Button>
                     </DialogFooter>
                   </form>
                 </Form>

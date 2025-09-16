@@ -1,6 +1,7 @@
+
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
@@ -14,15 +15,17 @@ export const metadata: Metadata = {
 
 const RenderPublicationList = ({ category }: { category: string }) => {
   const { publications } = usePublications();
-  const filtered = publications.filter(p => p.category === category);
+  const allItems = category === 'All';
+  const filtered = allItems ? publications : publications.filter(p => p.category === category);
+
   if (filtered.length === 0) {
     return <p className="text-muted-foreground p-4 text-center">No publications found in this category.</p>;
   }
   return (
     <div className="space-y-4">
       {filtered.map(pub => (
-        <div key={pub.id} className="flex items-center justify-between border-b pb-4 last:pb-0 last:border-b-0">
-          <div>
+        <div key={pub.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-4 last:border-b-0 last:pb-0">
+          <div className="mb-2 sm:mb-0">
             <p className="font-medium text-sm">{pub.title}</p>
             <p className="text-xs text-muted-foreground">Published on: {pub.date}</p>
           </div>
@@ -52,15 +55,15 @@ export default function PublicationsPage() {
           </p>
         </header>
 
-        <Tabs defaultValue={categories[0]} className="w-full">
+        <Tabs defaultValue="annual-reports" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             {categories.map(cat => (
-              <TabsTrigger key={cat} value={cat}>{cat}</TabsTrigger>
+              <TabsTrigger key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>{cat}</TabsTrigger>
             ))}
           </TabsList>
 
           {categories.map(cat => (
-            <TabsContent key={cat} value={cat}>
+            <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
               <Card>
                 <CardHeader>
                   <CardTitle>{cat}</CardTitle>

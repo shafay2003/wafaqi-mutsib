@@ -78,7 +78,7 @@ export default function AdminSuccessStoriesPage() {
         image: undefined
       });
     }
-  }, [editingItem, form]);
+  }, [editingItem, form, open]);
 
   const handleAddNew = () => {
     setEditingItem(null);
@@ -160,21 +160,19 @@ export default function AdminSuccessStoriesPage() {
                         </FormItem>
                       )}
                     />
-                     <div className="space-y-2">
-                        <FormField
-                          control={form.control}
-                          name="summary"
-                          render={({ field }) => (
-                            <FormItem className="!mt-0">
-                              <FormLabel>Summary</FormLabel>
-                              <FormControl>
-                                <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="summary"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Summary</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                      <FormField
                           control={form.control}
                           name="image"
@@ -192,7 +190,7 @@ export default function AdminSuccessStoriesPage() {
                           )}
                         />
                     <DialogFooter>
-                      <Button type="submit">Save story</Button>
+                      <Button type="submit">Save</Button>
                     </DialogFooter>
                   </form>
                 </Form>
