@@ -140,7 +140,7 @@ export default function AdminSuccessStoriesPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Success Story' : 'Add New Success Story'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Story' : 'Add Story'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
                   </DialogDescription>

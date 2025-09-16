@@ -205,7 +205,7 @@ export default function AdminNotificationsPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Notification' : 'Add New Notification'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Notification' : 'Add Notification'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
                   </DialogDescription>

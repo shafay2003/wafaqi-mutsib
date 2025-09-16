@@ -201,7 +201,7 @@ export default function AdminPublicationsPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Publication' : 'Add New Publication'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Publication' : 'Add Publication'}</DialogTitle>
                   <DialogDescription>
                      {editingItem ? 'Update the details for this publication.' : 'Fill in the details for the new publication.'}
                   </DialogDescription>

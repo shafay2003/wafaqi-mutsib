@@ -224,7 +224,7 @@ export default function AdminMediaPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Media' : 'Add New Media'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
                   </DialogDescription>

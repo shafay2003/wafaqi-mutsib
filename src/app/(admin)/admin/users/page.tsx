@@ -149,7 +149,7 @@ export default function AdminUsersPage() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit User' : 'Add New User'}</DialogTitle>
+                  <DialogTitle>{editingItem ? 'Edit User' : 'Add User'}</DialogTitle>
                   <DialogDescription>
                     {editingItem ? 'Update the details for this administrative user.' : 'Fill in the details to create a new administrative user.'}
                   </DialogDescription>
