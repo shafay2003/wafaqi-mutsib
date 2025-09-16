@@ -27,12 +27,7 @@ import { SettingsProvider, useSettings } from '@/context/SettingsContext';
 
 function AdminHeader() {
   const { user } = useAuth();
-  const pathname = usePathname();
-
-  if (pathname === '/admin/login') {
-    return null;
-  }
-
+  
   return (
       <header className="flex h-16 items-center justify-between gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
         <div className="flex items-center gap-4">
@@ -106,10 +101,6 @@ function AdminNav() {
   const pathname = usePathname();
   const { settings } = useSettings();
   const visibleLinks = adminNavLinks.filter(link => user && link.roles.includes(user.role));
-  
-  if (pathname === '/admin/login') {
-    return null;
-  }
 
   return (
     <nav className="hidden border-r bg-muted/40 md:block md:w-64">
@@ -148,6 +139,12 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  if (pathname === '/admin/login') {
+    return <SettingsProvider>{children}</SettingsProvider>;
+  }
+
   return (
     <SettingsProvider>
       <div className="grid min-h-screen w-full md:grid-cols-[256px_1fr]">
