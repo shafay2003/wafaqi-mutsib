@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNotifications } from "@/context/NotificationsContext";
 import type { Metadata } from 'next';
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export const metadata: Metadata = {
   title: 'Notifications & Press Releases',
@@ -19,9 +21,17 @@ const RenderNotificationList = ({ type }: { type: string }) => {
   return (
     <div className="space-y-4">
       {filtered.map(item => (
-        <div key={item.id} className="border-b pb-4 last:border-b-0 last:pb-0">
-          <p className="font-medium text-sm">{item.title}</p>
-          <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+        <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b pb-4 last:border-b-0 last:pb-0">
+          <div className="mb-2 sm:mb-0">
+            <p className="font-medium text-sm">{item.title}</p>
+            <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+          </div>
+          <Button variant="outline" size="sm" asChild>
+            <a href={item.url} download>
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </a>
+          </Button>
         </div>
       ))}
     </div>

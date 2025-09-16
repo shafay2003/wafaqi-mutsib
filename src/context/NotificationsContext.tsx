@@ -18,7 +18,9 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
 
   const addNotification = (item: NotificationItem) => {
-    setNotifications((prev) => [item, ...prev]);
+    // Ensure new items have a URL property
+    const newItem = { ...item, url: item.url || '#' };
+    setNotifications((prev) => [newItem, ...prev]);
   };
 
   const updateNotification = (id: string, updatedItem: Partial<NotificationItem>) => {

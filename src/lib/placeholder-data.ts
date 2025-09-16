@@ -129,12 +129,12 @@ export const publications = [
 ];
 
 export const notifications = [
-    { id: 'not1', title: 'Circular Regarding Timely Pension Disbursement', type: 'Notification', date: '2024-07-15' },
-    { id: 'not2', title: 'Wafaqi Mohtasib addresses seminar on administrative justice', type: 'Press Release', date: '2024-07-12' },
-    { id: 'not3', title: 'Public Hearing to be held in Karachi on 25th July', type: 'Notification', date: '2024-07-10' },
-    { id: 'not4', title: 'Mohtasib takes notice of delays in utility bill corrections', type: 'Press Release', date: '2024-07-08' },
-    { id: 'not5', title: 'New office timings for Ramazan', type: 'Notification', date: '2024-03-01' },
-    { id: 'not6', title: 'Awareness campaign launched in rural areas', type: 'Press Release', date: '2024-02-20' },
+    { id: 'not1', title: 'Circular Regarding Timely Pension Disbursement', type: 'Notification', date: '2024-07-15', url: '#' },
+    { id: 'not2', title: 'Wafaqi Mohtasib addresses seminar on administrative justice', type: 'Press Release', date: '2024-07-12', url: '#' },
+    { id: 'not3', title: 'Public Hearing to be held in Karachi on 25th July', type: 'Notification', date: '2024-07-10', url: '#' },
+    { id: 'not4', title: 'Mohtasib takes notice of delays in utility bill corrections', type: 'Press Release', date: '2024-07-08', url: '#' },
+    { id: 'not5', title: 'New office timings for Ramazan', type: 'Notification', date: '2024-03-01', url: '#' },
+    { id: 'not6', title: 'Awareness campaign launched in rural areas', type: 'Press Release', date: '2024-02-20', url: '#' },
 ];
 
 export const successStories = [

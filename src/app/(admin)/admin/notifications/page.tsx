@@ -39,7 +39,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { notifications as initialNotifications } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File } from "lucide-react";
+import { PlusCircle, MoreHorizontal, File, Download } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -116,6 +116,7 @@ export default function AdminNotificationsPage() {
     defaultValues: {
       title: "",
       type: "Notification",
+      file: undefined,
     }
   });
 
@@ -124,11 +125,13 @@ export default function AdminNotificationsPage() {
       form.reset({
         title: editingItem.title,
         type: editingItem.type,
+        file: undefined,
       });
     } else {
       form.reset({
         title: "",
         type: "Notification",
+        file: undefined,
       });
     }
   }, [editingItem, form]);
@@ -157,13 +160,14 @@ export default function AdminNotificationsPage() {
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-      updateNotification(editingItem.id, data);
+      updateNotification(editingItem.id, { ...data, url: editingItem.url });
     } else {
       const newItem = {
         id: `not-${notifications.length + 1}`,
         title: data.title,
         type: data.type,
         date: new Date().toLocaleDateString('en-CA'),
+        url: "#", // Placeholder URL
       };
       addNotification(newItem);
     }
@@ -238,6 +242,22 @@ export default function AdminNotificationsPage() {
                               <SelectItem value="Press Release">Press Release</SelectItem>
                             </SelectContent>
                           </Select>
+                          <FormMessage className="col-span-4" />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="file"
+                      render={({ field }) => (
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                          <FormLabel className="text-right">File</FormLabel>
+                          <FormControl className="col-span-3">
+                             <Input 
+                              type="file" 
+                              onChange={(e) => field.onChange(e.target.files)}
+                            />
+                          </FormControl>
                           <FormMessage className="col-span-4" />
                         </FormItem>
                       )}
