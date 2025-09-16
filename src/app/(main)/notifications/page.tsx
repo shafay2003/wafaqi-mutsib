@@ -3,14 +3,8 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNotifications } from "@/context/NotificationsContext";
-import type { Metadata } from 'next';
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: 'Notifications & Press Releases',
-  description: 'Stay updated with the latest notifications, circulars, and press releases from the Wafaqi Mohtasib.',
-};
 
 const RenderNotificationList = ({ type }: { type: string }) => {
   const { notifications } = useNotifications();

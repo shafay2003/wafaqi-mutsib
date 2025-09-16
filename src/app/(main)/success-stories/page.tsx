@@ -4,13 +4,6 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useSuccessStories } from "@/context/SuccessStoriesContext";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Success Stories',
-  description: 'Read about real-life cases where the Wafaqi Mohtasib provided justice and relief to the people of Pakistan.',
-};
-
 
 export default function SuccessStoriesPage() {
   const { successStories } = useSuccessStories();

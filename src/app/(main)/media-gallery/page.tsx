@@ -3,14 +3,8 @@
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import type { Metadata } from 'next';
 import { Badge } from "@/components/ui/badge";
 import { useMedia } from "@/context/MediaContext";
-
-export const metadata: Metadata = {
-  title: 'News & Events Gallery',
-  description: 'Photos and videos from events, seminars, and awareness campaigns by the Wafaqi Mohtasib.',
-};
 
 export default function MediaGalleryPage() {
   const { mediaItems } = useMedia();
