@@ -81,7 +81,7 @@ export default function Dashboard() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                       <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
                         <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95">{item.title}</h2>
+                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
                         <p className="text-white/80 mt-2">{item.date}</p>
                       </div>
 
