@@ -56,12 +56,11 @@ export default function Dashboard() {
   const { mediaItems } = useMedia();
   const { notifications } = useNotifications();
   const { successStories } = useSuccessStories();
-  type MediaItem = typeof mediaItems[0];
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
         <section className="relative rounded-xl overflow-hidden">
-          <Carousel 
+          <Carousel
             className="w-full"
             plugins={[ Autoplay({ delay: 5000, stopOnInteraction: true }) ]}
             opts={{ loop: true }}
@@ -74,62 +73,64 @@ export default function Dashboard() {
                 } else {
                   itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
                 }
-                
-                return (
-                  <Dialog key={item.id}>
-                    <DialogTrigger asChild>
-                       <CarouselItem className="cursor-pointer">
-                        <div className="relative h-[450px] md:h-[500px]">
-                          {itemImage && (
-                            <Image
-                              src={itemImage.imageUrl}
-                              alt={item.title}
-                              fill
-                              className="object-cover"
-                              data-ai-hint={itemImage.imageHint}
-                              priority={index === 0}
-                            />
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-                          <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
-                            <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
-                            <p className="text-white/80 mt-2">{item.date}</p>
-                          </div>
 
-                          {item.type === 'Video' && (
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white/80 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-                              </div>
-                          )}
-                        </div>
-                      </CarouselItem>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-3xl">
-                      <DialogHeader>
-                        <DialogTitle>{item.title}</DialogTitle>
-                        <DialogDescription>{item.date} | {item.type}</DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        {itemImage && (
-                            <div className="relative aspect-video rounded-lg overflow-hidden">
-                                <Image
-                                    src={itemImage.imageUrl}
-                                    alt={item.title}
-                                    fill
-                                    className="object-contain"
-                                />
-                                {item.type === 'Video' && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                return (
+                  <CarouselItem key={item.id}>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                         <div className="cursor-pointer">
+                          <div className="relative h-[450px] md:h-[500px]">
+                            {itemImage && (
+                              <Image
+                                src={itemImage.imageUrl}
+                                alt={item.title}
+                                fill
+                                className="object-cover"
+                                data-ai-hint={itemImage.imageHint}
+                                priority={index === 0}
+                              />
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                            <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
+                              <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
+                              <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
+                              <p className="text-white/80 mt-2">{item.date}</p>
+                            </div>
+
+                            {item.type === 'Video' && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white/80 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
                                 </div>
                             )}
-                            </div>
-                        )}
-                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-3xl">
+                        <DialogHeader>
+                          <DialogTitle>{item.title}</DialogTitle>
+                          <DialogDescription>{item.date} | {item.type}</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          {itemImage && (
+                              <div className="relative aspect-video rounded-lg overflow-hidden">
+                                  <Image
+                                      src={itemImage.imageUrl}
+                                      alt={item.title}
+                                      fill
+                                      className="object-contain"
+                                  />
+                                  {item.type === 'Video' && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                  </div>
+                              )}
+                              </div>
+                          )}
+                          <p className="text-sm text-muted-foreground">{item.description}</p>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </CarouselItem>
                 )
               })}
             </CarouselContent>
@@ -330,3 +331,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+    
