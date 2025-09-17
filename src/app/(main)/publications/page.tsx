@@ -37,7 +37,8 @@ const PublicationList = ({ category }: { category: string }) => {
 
 
 export default function PublicationsPage() {
-  const categories = ["Annual Reports", "Research Papers", "Laws & Regulations"];
+  const { publications } = usePublications();
+  const categories = [...new Set(publications.map(p => p.category))];
   
   return (
     <div className="flex flex-col gap-4">
@@ -50,8 +51,8 @@ export default function PublicationsPage() {
           </p>
         </header>
 
-        <Tabs defaultValue="annual-reports" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+        <Tabs defaultValue={categories[0]?.replace(/\s+/g, '-').toLowerCase() || ''} className="w-full">
+          <TabsList className={`grid w-full grid-cols-${categories.length}`}>
             {categories.map(cat => (
               <TabsTrigger key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>{cat}</TabsTrigger>
             ))}

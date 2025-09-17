@@ -34,6 +34,8 @@ const RenderNotificationList = ({ type }: { type: string }) => {
 
 
 export default function NotificationsPage() {
+  const { notifications } = useNotifications();
+
   return (
     <div className="flex flex-col gap-4">
       <header className="text-left space-y-1.5">
