@@ -133,135 +133,138 @@ export default function AdminUsersPage() {
   };
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>User Management</CardTitle>
-            <CardDescription>Manage administrators and their roles.</CardDescription>
-          </div>
-          <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild>
-              <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
-                <PlusCircle className="h-4 w-4" />
-                <span className="hidden sm:inline-block">Add User</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>{editingItem ? 'Edit User' : 'Add User'}</DialogTitle>
-                <DialogDescription>
-                  {editingItem ? 'Update the details for this administrative user.' : 'Fill in the details to create a new administrative user.'}
-                </DialogDescription>
-              </DialogHeader>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="user@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Role</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a role" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {roles.map((role) => (
-                              <SelectItem key={role} value={role}>{role}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <DialogFooter>
-                    <Button type="submit">{editingItem ? 'Save Changes' : 'Create User'}</Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>
-                  <div className="flex items-center gap-3">
-                      <Avatar className="h-9 w-9">
-                          <AvatarImage src={`/avatars/${user.name.slice(0, 1)}.png`} alt="Avatar" />
-                          <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                      <div className="grid gap-0.5">
-                          <p className="font-medium leading-none">{user.name}</p>
-                          <p className="text-xs text-muted-foreground">{user.email}</p>
-                      </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <Badge variant={user.role === 'Administrator' ? 'default' : 'secondary'}>
-                    {user.role}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => handleEdit(user)}>Edit</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDelete(user.id)}>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <div className="flex flex-col gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight">User Management</h1>
+                <p className="text-sm text-muted-foreground">Manage administrators and their roles.</p>
+            </div>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
+                <DialogTrigger asChild>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
+                    <PlusCircle className="h-4 w-4" />
+                    <span className="hidden sm:inline-block">Add User</span>
+                </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>{editingItem ? 'Edit User' : 'Add User'}</DialogTitle>
+                    <DialogDescription>
+                    {editingItem ? 'Update the details for this administrative user.' : 'Fill in the details to create a new administrative user.'}
+                    </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Name</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., John Doe" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                            <Input type="email" placeholder="user@example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="role"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Role</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select a role" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {roles.map((role) => (
+                                <SelectItem key={role} value={role}>{role}</SelectItem>
+                                ))}
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <Button type="submit">{editingItem ? 'Save Changes' : 'Create User'}</Button>
+                    </DialogFooter>
+                    </form>
+                </Form>
+                </DialogContent>
+            </Dialog>
+        </header>
+
+        <Card>
+            <CardContent className="pt-6">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead>User</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>
+                        <span className="sr-only">Actions</span>
+                    </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.map((user) => (
+                    <TableRow key={user.id}>
+                        <TableCell>
+                        <div className="flex items-center gap-3">
+                            <Avatar className="h-9 w-9">
+                                <AvatarImage src={`/avatars/${user.name.slice(0, 1)}.png`} alt="Avatar" />
+                                <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                            <div className="grid gap-0.5">
+                                <p className="font-medium leading-none">{user.name}</p>
+                                <p className="text-xs text-muted-foreground">{user.email}</p>
+                            </div>
+                        </div>
+                        </TableCell>
+                        <TableCell>
+                        <Badge variant={user.role === 'Administrator' ? 'default' : 'secondary'}>
+                            {user.role}
+                        </Badge>
+                        </TableCell>
+                        <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => handleEdit(user)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(user.id)}>Delete</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </CardContent>
+        </Card>
+    </div>
   );
 }

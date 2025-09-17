@@ -138,130 +138,129 @@ export default function AdminSuccessStoriesPage() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <CardTitle>Success Stories</CardTitle>
-            <CardDescription>Manage success stories featured on the website.</CardDescription>
-          </div>
-          <div className="ml-auto flex items-center gap-2 mt-4 sm:mt-0">
+    <div className="flex flex-col gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight">Success Stories</h1>
+                <p className="text-sm text-muted-foreground">Manage success stories featured on the website.</p>
+            </div>
             <Dialog open={open} onOpenChange={handleOpenChange}>
-              <DialogTrigger asChild>
+            <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Story' : 'Add Story'}</DialogTitle>
-                  <DialogDescription>
+                <DialogTitle>{editingItem ? 'Edit Story' : 'Add Story'}</DialogTitle>
+                <DialogDescription>
                     {editingItem ? 'Update the details for this success story.' : 'Fill in the details for the new success story.'}
-                  </DialogDescription>
+                </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
                     <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
                             <Input placeholder="e.g., Pensioner Receives Arrears" {...field} />
-                          </FormControl>
-                          <FormMessage />
+                        </FormControl>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
                     <FormField
-                      control={form.control}
-                      name="summary"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="summary"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Summary</FormLabel>
-                          <FormControl>
+                        <FormLabel>Summary</FormLabel>
+                        <FormControl>
                             <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
-                          </FormControl>
-                          <FormMessage />
+                        </FormControl>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
-                     <FormField
-                          control={form.control}
-                          name="image"
-                          render={({ field }) => (
+                    <FormField
+                        control={form.control}
+                        name="image"
+                        render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Image</FormLabel>
-                              <FormControl>
+                            <FormLabel>Image</FormLabel>
+                            <FormControl>
                                 <Input 
-                                  type="file"
-                                  accept="image/png, image/jpeg, image/gif"
-                                  onChange={(e) => {
-                                      field.onChange(e.target.files);
-                                      handleFileChange(e);
-                                  }}
+                                type="file"
+                                accept="image/png, image/jpeg, image/gif"
+                                onChange={(e) => {
+                                    field.onChange(e.target.files);
+                                    handleFileChange(e);
+                                }}
                                 />
-                              </FormControl>
-                              <FormMessage />
+                            </FormControl>
+                            <FormMessage />
                             </FormItem>
-                          )}
+                        )}
                         />
-                      {imagePreview && (
+                    {imagePreview && (
                         <div className="mt-2">
-                          <p className="text-sm font-medium mb-2">Image Preview:</p>
-                          <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
+                        <p className="text-sm font-medium mb-2">Image Preview:</p>
+                        <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
                         </div>
-                      )}
+                    )}
                     <DialogFooter>
-                      <Button type="submit">Save</Button>
+                    <Button type="submit">Save</Button>
                     </DialogFooter>
-                  </form>
+                </form>
                 </Form>
-              </DialogContent>
+            </DialogContent>
             </Dialog>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead className="hidden md:table-cell">Summary</TableHead>
-              <TableHead className="hidden md:table-cell">Date</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {successStories.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.title}</TableCell>
-                <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
-                <TableCell className="hidden md:table-cell">{item.date}</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => handleEdit(item)}>Edit</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+        </header>
+
+        <Card>
+            <CardContent className="pt-6">
+                <Table>
+                <TableHeader>
+                    <TableRow>
+                    <TableHead>Title</TableHead>
+                    <TableHead className="hidden md:table-cell">Summary</TableHead>
+                    <TableHead className="hidden md:table-cell">Date</TableHead>
+                    <TableHead>
+                        <span className="sr-only">Actions</span>
+                    </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {successStories.map((item) => (
+                    <TableRow key={item.id}>
+                        <TableCell className="font-medium">{item.title}</TableCell>
+                        <TableCell className="hidden md:table-cell max-w-sm truncate">{item.summary}</TableCell>
+                        <TableCell className="hidden md:table-cell">{item.date}</TableCell>
+                        <TableCell>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button aria-haspopup="true" size="icon" variant="ghost">
+                                <MoreHorizontal className="h-4 w-4" />
+                                <span className="sr-only">Toggle menu</span>
+                            </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem onClick={() => handleEdit(item)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+                </Table>
+            </CardContent>
+        </Card>
+    </div>
   );
 }
