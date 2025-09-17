@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Logo } from '../icons';
+import { useSettings } from '@/context/SettingsContext';
 
 export function Header() {
+    const { settings } = useSettings();
     return (
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-lg px-4 md:px-8">
             <div className="flex items-center gap-2 md:hidden">
@@ -18,7 +20,7 @@ export function Header() {
             <div className="flex w-full items-center gap-4 md:gap-8">
                <div className="hidden md:flex items-center gap-2.5 font-semibold">
                  <Logo className="h-8 w-8 text-primary" />
-                 <span className="font-semibold text-lg text-gray-800">Wafaqi Mohtasib</span>
+                 <span className="font-semibold text-lg text-gray-800">{settings.siteName}</span>
                </div>
                <div className="w-full flex-1">
                  <form>

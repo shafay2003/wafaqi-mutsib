@@ -1,8 +1,13 @@
+
+'use client';
+
 import { Facebook, Phone, Twitter, Youtube, Instagram, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "../icons";
+import { useSettings } from "@/context/SettingsContext";
 
 export function Footer() {
+  const { settings } = useSettings();
   return (
     <footer className="bg-muted/40 text-card-foreground border-t">
         <div className="container px-4 md:px-8 py-12">
@@ -10,7 +15,7 @@ export function Footer() {
                 <div className="space-y-4">
                     <Link href="/" className="flex items-center gap-2.5 font-semibold">
                         <Logo className="h-10 w-10 text-primary" />
-                        <span className="font-semibold text-lg text-gray-800">Wafaqi Mohtasib</span>
+                        <span className="font-semibold text-lg text-gray-800">{settings.siteName}</span>
                     </Link>
                     <p className="text-muted-foreground text-sm">Providing transparent and speedy justice against administrative injustices.</p>
                      <div className="flex items-center gap-3 pt-2">

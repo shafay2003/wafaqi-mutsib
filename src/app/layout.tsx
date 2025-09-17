@@ -6,6 +6,7 @@ import { MediaProvider } from '@/context/MediaContext';
 import { NotificationsProvider } from '@/context/NotificationsContext';
 import { PublicationsProvider } from '@/context/PublicationsContext';
 import { SuccessStoriesProvider } from '@/context/SuccessStoriesContext';
+import { SettingsProvider } from '@/context/SettingsContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,15 +31,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-body antialiased`}>
-        <SuccessStoriesProvider>
-          <PublicationsProvider>
-            <NotificationsProvider>
-              <MediaProvider>
-                {children}
-              </MediaProvider>
-            </NotificationsProvider>
-          </PublicationsProvider>
-        </SuccessStoriesProvider>
+        <SettingsProvider>
+          <SuccessStoriesProvider>
+            <PublicationsProvider>
+              <NotificationsProvider>
+                <MediaProvider>
+                  {children}
+                </MediaProvider>
+              </NotificationsProvider>
+            </PublicationsProvider>
+          </SuccessStoriesProvider>
+        </SettingsProvider>
         <Toaster />
       </body>
     </html>
