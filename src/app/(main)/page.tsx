@@ -57,7 +57,6 @@ export default function Dashboard() {
   const { notifications } = useNotifications();
   const { successStories } = useSuccessStories();
   type MediaItem = typeof mediaItems[0];
-  const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
@@ -106,20 +105,25 @@ export default function Dashboard() {
                         </div>
                       </CarouselItem>
                     </DialogTrigger>
-                    <DialogContent className="max-w-4xl">
+                    <DialogContent className="sm:max-w-3xl">
                       <DialogHeader>
                         <DialogTitle>{item.title}</DialogTitle>
-                        <DialogDescription className="text-xs">{item.date} | {item.type}</DialogDescription>
+                        <DialogDescription>{item.date} | {item.type}</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         {itemImage && (
-                            <div className="relative aspect-video">
+                            <div className="relative aspect-video rounded-lg overflow-hidden">
                                 <Image
                                     src={itemImage.imageUrl}
                                     alt={item.title}
                                     fill
-                                    className="object-contain rounded-md"
+                                    className="object-contain"
                                 />
+                                {item.type === 'Video' && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                </div>
+                            )}
                             </div>
                         )}
                         <p className="text-sm text-muted-foreground">{item.description}</p>
@@ -326,5 +330,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
-    

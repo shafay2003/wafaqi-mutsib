@@ -217,84 +217,84 @@ export const mediaItems = [
   {
     id: 'media-1',
     title: 'Seminar on Administrative Justice',
-    description: 'The Hon\'ble Wafaqi Mohtasib addressing a seminar in Islamabad.',
+    description: 'The Hon\'ble Wafaqi Mohtasib addressing a seminar in Islamabad on the importance of administrative justice and the role of the Ombudsman in ensuring accountability and fairness in public administration.',
     type: 'Photo',
     date: '2024-07-15'
   },
   {
     id: 'media-2',
     title: 'Press Conference Highlights',
-    description: 'Key points from the recent press conference on annual performance.',
+    description: 'A video highlighting the key points from the recent press conference where the Wafaqi Mohtasib presented the annual performance report and answered questions from the media.',
     type: 'Video',
     date: '2024-07-12'
   },
   {
     id: 'media-3',
     title: 'Awareness Campaign Launch',
-    description: 'Launch event for the nationwide awareness campaign on citizen rights.',
+    description: 'Photos from the launch event for the nationwide awareness campaign on citizen rights and the functions of the Wafaqi Mohtasib, held in a rural district to reach marginalized communities.',
     type: 'Photo',
     date: '2024-07-10'
   },
   {
     id: 'media-4',
     title: 'International Collaboration Meeting',
-    description: 'Meeting with delegates from the International Ombudsman Institute.',
+    description: 'A productive meeting with a visiting delegation from the International Ombudsman Institute to discuss best practices and strengthen bilateral cooperation in the field of administrative justice.',
     type: 'Photo',
     date: '2024-07-05'
   },
   {
     id: 'media-5',
     title: 'How to File a Complaint',
-    description: 'An instructional video guiding users through the complaint process.',
+    description: 'An easy-to-follow instructional video guiding users through the step-by-step process of filing a complaint online via the Wafaqi Mohtasib portal.',
     type: 'Video',
     date: '2024-07-01'
   },
    {
     id: 'media-6',
     title: 'Open Kachehri in Lahore',
-    description: 'Photos from the public hearing session held in Lahore.',
+    description: 'Glimpses from the public hearing session (Open Kachehri) held in Lahore, where the Wafaqi Mohtasib listened to public grievances and issued on-the-spot directives for relief.',
     type: 'Photo',
     date: '2024-06-28'
   },
   {
     id: 'media-7',
     title: 'Visit to a Regional Office',
-    description: 'The Mohtasib inspecting the facilities at the Peshawar regional office.',
+    description: 'The Wafaqi Mohtasib inspecting the facilities and reviewing performance during a surprise visit to the Peshawar regional office to ensure efficient service delivery.',
     type: 'Photo',
     date: '2024-06-20'
   },
   {
     id: 'media-8',
     title: 'Annual Report 2023 Launch',
-    description: 'Official launch ceremony of the Annual Report 2023.',
+    description: 'Video coverage of the official launch ceremony of the Annual Report 2023, attended by government officials, diplomats, and members of civil society.',
     type: 'Video',
     date: '2024-06-15'
   },
   {
     id: 'media-9',
     title: 'Children\'s Rights Symposium',
-    description: 'A symposium focused on protecting the rights of children, with various stakeholders.',
+    description: 'A symposium focused on protecting the rights of children, organized in collaboration with UNICEF, featuring panel discussions with child rights experts and stakeholders.',
     type: 'Photo',
     date: '2024-06-10'
   },
   {
     id: 'media-10',
     title: 'Training Workshop for Staff',
-    description: 'Investigation officers attending a workshop on modern investigative techniques.',
+    description: 'Investigation officers attending a capacity-building workshop on modern investigative techniques and administrative law to enhance their professional skills.',
     type: 'Photo',
     date: '2024-06-05'
   },
   {
     id: 'media-11',
     title: 'Interview with PTV World',
-    description: 'The Wafaqi Mohtasib discusses the role of the institution on national television.',
+    description: 'The Wafaqi Mohtasib, in an exclusive interview with PTV World, discusses the pivotal role of the institution in promoting good governance in Pakistan.',
     type: 'Video',
     date: '2024-05-30'
   },
   {
     id: 'media-12',
     title: 'One Window Desk Inauguration',
-    description: 'Inauguration of the One Window Facilitation Desk at Sialkot Airport.',
+    description: 'Inauguration of the One Window Facilitation Desk at Sialkot International Airport to provide on-the-spot relief to overseas Pakistanis.',
     type: 'Photo',
     date: '2024-05-25'
   },
@@ -330,5 +330,3 @@ export const recentActivities = [
       icon: FilePenLine
     }
 ];
-
-    
