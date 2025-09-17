@@ -38,7 +38,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File } from "lucide-react";
+import { PlusCircle, MoreHorizontal } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -188,101 +188,91 @@ export default function AdminPublicationsPage() {
               <TabsTrigger key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>{cat}</TabsTrigger>
             ))}
           </TabsList>
+           <div className="ml-auto flex items-center gap-2">
+            <Dialog open={open} onOpenChange={handleOpenChange}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Add Publication
+                  </span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>{editingItem ? 'Edit Publication' : 'Add Publication'}</DialogTitle>
+                  <DialogDescription>
+                    {editingItem ? 'Update the details for this publication.' : 'Fill in the details for the new publication.'}
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Annual Report 2024" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="category"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Category</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a category" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {categories.map(cat => (
+                                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="file"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>File</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="file" 
+                              onChange={(e) => field.onChange(e.target.files)}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <DialogFooter>
+                      <Button type="submit">Save</Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
         <Card className="mt-4">
           <CardHeader>
-             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <CardTitle>Publications</CardTitle>
-                  <CardDescription>
-                    Manage all official documents and research materials.
-                  </CardDescription>
-                </div>
-                <div className="flex items-center gap-2 mt-4 sm:mt-0">
-                  <Button size="sm" variant="outline" className="h-7 gap-1">
-                    <File className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                      Export
-                    </span>
-                  </Button>
-                  <Dialog open={open} onOpenChange={handleOpenChange}>
-                    <DialogTrigger asChild>
-                      <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
-                        <PlusCircle className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                          Add Publication
-                        </span>
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>{editingItem ? 'Edit Publication' : 'Add Publication'}</DialogTitle>
-                        <DialogDescription>
-                          {editingItem ? 'Update the details for this publication.' : 'Fill in the details for the new publication.'}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                          <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Title</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="e.g., Annual Report 2024" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="category"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Category</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select a category" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    {categories.map(cat => (
-                                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <FormField
-                            control={form.control}
-                            name="file"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>File</FormLabel>
-                                <FormControl>
-                                  <Input 
-                                    type="file" 
-                                    onChange={(e) => field.onChange(e.target.files)}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <DialogFooter>
-                            <Button type="submit">Save</Button>
-                          </DialogFooter>
-                        </form>
-                      </Form>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </div>
+              <CardTitle>Publications</CardTitle>
+              <CardDescription>
+                Manage all official documents and research materials.
+              </CardDescription>
           </CardHeader>
           <CardContent>
             <TabsContent value="all">

@@ -40,7 +40,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File } from "lucide-react";
+import { PlusCircle, MoreHorizontal } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -240,12 +240,6 @@ export default function AdminMediaPage() {
             <TabsTrigger value="video">Videos</TabsTrigger>
           </TabsList>
           <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" variant="outline" className="h-8 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Export
-              </span>
-            </Button>
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
@@ -360,5 +354,3 @@ export default function AdminMediaPage() {
     </Tabs>
   );
 }
-
-    

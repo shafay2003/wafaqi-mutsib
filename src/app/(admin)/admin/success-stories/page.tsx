@@ -38,9 +38,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { successStories as initialSuccessStories } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File } from "lucide-react";
+import { PlusCircle, MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,8 +48,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSuccessStories } from "@/context/SuccessStoriesContext";
+import type { successStories as initialSuccessStories } from "@/lib/placeholder-data";
 
-type StoryItem = typeof initialSuccessStories[0];
+type StoryItem = (typeof initialSuccessStories)[0];
 
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
@@ -146,10 +146,6 @@ export default function AdminSuccessStoriesPage() {
             <CardDescription>Manage success stories featured on the website.</CardDescription>
           </div>
           <div className="flex items-center gap-2 mt-4 sm:mt-0">
-            <Button size="sm" variant="outline" className="h-8 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
-            </Button>
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
@@ -269,5 +265,3 @@ export default function AdminSuccessStoriesPage() {
     </Card>
   );
 }
-
-    
