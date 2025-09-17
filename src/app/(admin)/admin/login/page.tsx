@@ -63,13 +63,15 @@ export default function AdminLoginPage() {
               </div>
               <Input id="password" type="password" defaultValue="password" required />
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sign In
-            </Button>
-             <Button variant="outline" className="w-full" asChild>
-                <Link href="/admin/dashboard">Skip to Dashboard (Dev)</Link>
-            </Button>
+            <div className="space-y-2 pt-2">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Sign In
+              </Button>
+              <Button variant="outline" className="w-full" asChild>
+                  <Link href="/admin/dashboard">Skip to Dashboard (Dev)</Link>
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
