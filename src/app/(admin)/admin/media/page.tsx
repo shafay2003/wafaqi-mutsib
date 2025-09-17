@@ -138,7 +138,9 @@ export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
   const { mediaItems, addMediaItem, updateMediaItem, deleteMediaItem } = useMedia();
   const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [fileType, setFileType] = useState<'image' | 'video' | null>(null);
+
 
   const form = useForm({
     defaultValues: {
@@ -153,11 +155,17 @@ export default function AdminMediaPage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        setFilePreview(reader.result as string);
+         if (file.type.startsWith('video/')) {
+          setFileType('video');
+        } else {
+          setFileType('image');
+        }
       };
       reader.readAsDataURL(file);
     } else {
-      setImagePreview(null);
+      setFilePreview(null);
+      setFileType(null);
     }
   };
 
@@ -175,7 +183,8 @@ export default function AdminMediaPage() {
       });
     }
     if (!open) {
-      setImagePreview(null);
+      setFilePreview(null);
+      setFileType(null);
     }
   }, [editingItem, form, open]);
 
@@ -298,7 +307,7 @@ export default function AdminMediaPage() {
                           <FormControl>
                             <Input 
                               type="file" 
-                              accept="image/png, image/jpeg, image/gif, video/mp4"
+                              accept="image/png, image/jpeg, image/gif, video/mp4, video/webm"
                               onChange={(e) => {
                                 field.onChange(e.target.files);
                                 handleFileChange(e);
@@ -309,10 +318,15 @@ export default function AdminMediaPage() {
                         </FormItem>
                       )}
                     />
-                    {imagePreview && (
+                    {filePreview && (
                       <div className="mt-4">
-                        <p className="text-sm font-medium mb-2">Image Preview:</p>
-                        <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
+                        <p className="text-sm font-medium mb-2">File Preview:</p>
+                        {fileType === 'image' && (
+                           <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
+                        )}
+                        {fileType === 'video' && (
+                          <video src={filePreview} controls className="rounded-md w-full" />
+                        )}
                       </div>
                     )}
                     <DialogFooter>
