@@ -58,7 +58,13 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                let itemImage;
+                if (item.id === 'media-13') {
+                  itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
+                } else {
+                  itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                }
+                
                 return (
                   <CarouselItem key={item.id}>
                     <div className="relative h-[450px] md:h-[500px]">
@@ -187,7 +193,12 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {mediaItems.slice(0, 6).map((item, index) => {
-                    const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                    let itemImage;
+                    if (item.id === 'media-13') {
+                      itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
+                    } else {
+                       itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                    }
                     return (
                         <Card key={item.id} className="overflow-hidden group flex flex-col">
                             {itemImage && (

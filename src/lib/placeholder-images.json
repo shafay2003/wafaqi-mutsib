@@ -32,6 +32,12 @@
       "imageHint": "flowchart diagram"
     },
     {
+      "id": "aoa-china-meeting",
+      "description": "The Wafaqi Mohtasib with the AOA Board of Directors in China.",
+      "imageUrl": "https://mohtasib.gov.pk/SiteImage/Slider/hwmgroupphotochina.png",
+      "imageHint": "group photo"
+    },
+    {
       "id": "media-1",
       "description": "A photo from a seminar or event.",
       "imageUrl": "https://picsum.photos/seed/seminar-event/600/400",

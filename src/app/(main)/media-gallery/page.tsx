@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -22,7 +23,12 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                 let itemImage;
+                 if (item.id === 'media-13') {
+                   itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
+                 } else {
+                   itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                 }
                  return (
                     <Card key={item.id} className="overflow-hidden group flex flex-col">
                         {itemImage && (
