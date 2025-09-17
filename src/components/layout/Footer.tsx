@@ -4,7 +4,7 @@ import { Logo } from "../icons";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-100 text-card-foreground border-t">
+    <footer className="bg-muted/40 text-card-foreground border-t">
         <div className="container px-4 md:px-8 py-12">
             <div className="grid gap-10 lg:grid-cols-4">
                 <div className="space-y-4">

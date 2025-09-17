@@ -37,9 +37,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { notifications as initialNotifications } from "@/lib/placeholder-data";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal, File, Download } from "lucide-react";
+import { PlusCircle, MoreHorizontal, File } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -57,7 +56,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useNotifications } from "@/context/NotificationsContext";
 
-type NotificationItem = typeof initialNotifications[0];
+type NotificationItem = {
+    id: string;
+    title: string;
+    type: string;
+    date: string;
+    url: string;
+};
 
 const NotificationTable = ({ items, onEdit, onDelete }: { items: NotificationItem[], onEdit: (item: NotificationItem) => void, onDelete: (id: string) => void }) => (
   <Table>
@@ -187,96 +192,100 @@ export default function AdminNotificationsPage() {
             <TabsTrigger value="notification">Notifications</TabsTrigger>
             <TabsTrigger value="press-release">Press Releases</TabsTrigger>
           </TabsList>
-          <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" variant="outline" className="h-7 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Export
-              </span>
-            </Button>
-            <Dialog open={open} onOpenChange={handleOpenChange}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Notification
-                  </span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Notification' : 'Add Notification'}</DialogTitle>
-                  <DialogDescription>
-                    {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., Public Hearing Notice" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                     <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="Notification">Notification</SelectItem>
-                              <SelectItem value="Press Release">Press Release</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="file"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>File</FormLabel>
-                          <FormControl>
-                             <Input 
-                              type="file" 
-                              onChange={(e) => field.onChange(e.target.files)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <DialogFooter>
-                      <Button type="submit">Save</Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </DialogContent>
-            </Dialog>
-          </div>
         </div>
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle>Notifications & Press Releases</CardTitle>
-            <CardDescription>
-              Manage updates and announcements for the website.
-            </CardDescription>
+             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <CardTitle>Notifications & Press Releases</CardTitle>
+                  <CardDescription>
+                    Manage updates and announcements for the website.
+                  </CardDescription>
+                </div>
+                 <div className="flex items-center gap-2 mt-4 sm:mt-0">
+                  <Button size="sm" variant="outline" className="h-7 gap-1">
+                    <File className="h-3.5 w-3.5" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Export
+                    </span>
+                  </Button>
+                  <Dialog open={open} onOpenChange={handleOpenChange}>
+                    <DialogTrigger asChild>
+                      <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
+                        <PlusCircle className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                          Add Notification
+                        </span>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>{editingItem ? 'Edit Notification' : 'Add Notification'}</DialogTitle>
+                        <DialogDescription>
+                          {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                          <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Title</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="e.g., Public Hearing Notice" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Type</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger>
+                                      <SelectValue placeholder="Select a type" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent>
+                                    <SelectItem value="Notification">Notification</SelectItem>
+                                    <SelectItem value="Press Release">Press Release</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name="file"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>File</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="file" 
+                                    onChange={(e) => field.onChange(e.target.files)}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <DialogFooter>
+                            <Button type="submit">Save</Button>
+                          </DialogFooter>
+                        </form>
+                      </Form>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+            </div>
           </CardHeader>
           <CardContent>
             <TabsContent value="all">

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   const orgChartImage = PlaceHolderImages.find(p => p.id === 'org-chart');
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
 
   const functions = [
     "Diagnosing, investigating, redressing and rectifying any injustice done to a person through maladministration.",
@@ -22,11 +23,25 @@ export default function AboutPage() {
 
   return (
     <div className="flex flex-col gap-8">
-        <header className="text-left space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">About The Wafaqi Mohtasib</h1>
-            <p className="text-muted-foreground max-w-3xl">
-              A commitment to upholding administrative accountability and safeguarding citizen rights against governmental maladministration.
-            </p>
+        <header className="relative h-48 md:h-64 rounded-xl overflow-hidden">
+          {heroImage && (
+              <Image
+                  src={heroImage.imageUrl}
+                  alt={heroImage.description}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={heroImage.imageHint}
+              />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+          <div className="absolute inset-0 flex items-end p-8">
+              <div className="text-white">
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight">About The Wafaqi Mohtasib</h1>
+                  <p className="text-white/80 mt-2 max-w-3xl">
+                    A commitment to upholding administrative accountability and safeguarding citizen rights against governmental maladministration.
+                  </p>
+              </div>
+          </div>
         </header>
 
         <main className="grid gap-6 md:gap-8 lg:grid-cols-3">

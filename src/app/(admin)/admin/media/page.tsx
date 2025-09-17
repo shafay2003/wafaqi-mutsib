@@ -38,7 +38,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { mediaItems as initialMediaItems } from "@/lib/placeholder-data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal, File } from "lucide-react";
@@ -60,7 +59,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useMedia } from "@/context/MediaContext";
 
 
-type MediaItem = typeof initialMediaItems[0];
+type MediaItem = {
+    id: string;
+    title: string;
+    description: string;
+    type: string;
+    date: string;
+}
 
 const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void }) => (
   <Table>
@@ -77,7 +82,12 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
     </TableHeader>
     <TableBody>
       {items.map((item, index) => {
-        const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        let itemImage;
+        if (item.id === 'media-13') {
+            itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
+        } else {
+            itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        }
         return (
           <TableRow key={item.id}>
               <TableCell className="hidden sm:table-cell">
@@ -206,96 +216,100 @@ export default function AdminMediaPage() {
             <TabsTrigger value="photo">Photos</TabsTrigger>
             <TabsTrigger value="video">Videos</TabsTrigger>
           </TabsList>
-          <div className="ml-auto flex items-center gap-2">
-            <Button size="sm" variant="outline" className="h-7 gap-1">
-              <File className="h-3.5 w-3.5" />
-              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                Export
-              </span>
-            </Button>
-            <Dialog open={open} onOpenChange={handleOpenChange}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Media
-                  </span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
-                  <DialogDescription>
-                    {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., Seminar on Justice" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                     <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select media type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="Photo">Photo</SelectItem>
-                              <SelectItem value="Video">Video</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="image"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>File</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="file" 
-                              onChange={(e) => field.onChange(e.target.files)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <DialogFooter>
-                      <Button type="submit">Save</Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </DialogContent>
-            </Dialog>
-          </div>
         </div>
         <Card className="mt-4">
           <CardHeader>
-            <CardTitle>Media Gallery</CardTitle>
-            <CardDescription>
-              Manage photos and videos for your website's gallery.
-            </CardDescription>
+             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <CardTitle>Media Gallery</CardTitle>
+                <CardDescription>
+                  Manage photos and videos for your website's gallery.
+                </CardDescription>
+              </div>
+               <div className="flex items-center gap-2 mt-4 sm:mt-0">
+                <Button size="sm" variant="outline" className="h-7 gap-1">
+                  <File className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Export
+                  </span>
+                </Button>
+                <Dialog open={open} onOpenChange={handleOpenChange}>
+                  <DialogTrigger asChild>
+                    <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
+                      <PlusCircle className="h-3.5 w-3.5" />
+                      <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                        Add Media
+                      </span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
+                      <DialogDescription>
+                        {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                        <FormField
+                          control={form.control}
+                          name="title"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Title</FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., Seminar on Justice" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select media type" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="Photo">Photo</SelectItem>
+                                  <SelectItem value="Video">Video</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="image"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>File</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  type="file" 
+                                  onChange={(e) => field.onChange(e.target.files)}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <DialogFooter>
+                          <Button type="submit">Save</Button>
+                        </DialogFooter>
+                      </form>
+                    </Form>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
              <TabsContent value="all">

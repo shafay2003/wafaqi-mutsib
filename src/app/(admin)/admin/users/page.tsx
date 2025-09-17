@@ -142,9 +142,9 @@ export default function AdminUsersPage() {
             </div>
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1 mt-4 sm:mt-0" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add User</span>
+                <Button size="sm" className="h-8 gap-1 mt-4 sm:mt-0" onClick={handleAddNew}>
+                  <PlusCircle className="h-4 w-4" />
+                  <span className="hidden sm:inline-block">Add User</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
@@ -205,7 +205,7 @@ export default function AdminUsersPage() {
                       )}
                     />
                     <DialogFooter>
-                      <Button type="submit">{editingItem ? 'Save' : 'Create User'}</Button>
+                      <Button type="submit">{editingItem ? 'Save Changes' : 'Create User'}</Button>
                     </DialogFooter>
                   </form>
                 </Form>
