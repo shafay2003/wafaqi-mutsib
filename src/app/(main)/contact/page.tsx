@@ -2,9 +2,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { regionalOffices } from "@/lib/placeholder-data";
+import { useRegionalOffices } from "@/context/RegionalOfficesContext";
 
 export default function ContactPage() {
+  const { regionalOffices } = useRegionalOffices();
+  
   return (
     <div className="flex flex-col gap-8">
         <header className="text-left space-y-1.5">
@@ -19,7 +21,7 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {regionalOffices.map((office) => (
                 <Card 
-                    key={office.name}
+                    key={office.id}
                     className="transition-all duration-200 hover:shadow-lg hover:border-primary"
                 >
                     <CardHeader>
