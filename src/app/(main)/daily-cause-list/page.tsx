@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -9,13 +10,14 @@ export default function DailyCauseListPage() {
   const [displayDate, setDisplayDate] = useState('');
 
   useEffect(() => {
+    // This code now runs only on the client, after hydration
     setDisplayDate(new Date().toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     }));
-  }, []);
+  }, []); // Empty dependency array ensures this runs once on mount
 
   return (
     <div className="flex flex-col gap-4">

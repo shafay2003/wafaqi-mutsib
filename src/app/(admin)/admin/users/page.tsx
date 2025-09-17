@@ -135,14 +135,14 @@ export default function AdminUsersPage() {
   return (
     <Card>
       <CardHeader>
-         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center justify-between">
             <div>
               <CardTitle>User Management</CardTitle>
               <CardDescription>Manage administrators and their roles.</CardDescription>
             </div>
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-8 gap-1 mt-4 sm:mt-0" onClick={handleAddNew}>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-4 w-4" />
                   <span className="hidden sm:inline-block">Add User</span>
                 </Button>

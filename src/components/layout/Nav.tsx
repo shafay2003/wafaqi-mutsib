@@ -43,18 +43,22 @@ export function Nav() {
           {navLinks.map((link, index) =>
             link.links ? (
               <Collapsible key={index} className="w-full">
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton
-                    className="w-full justify-between font-medium"
-                    variant="ghost"
-                  >
-                    <div className="flex items-center gap-3">
-                      <link.icon className="h-5 w-5 text-muted-foreground" />
-                      <span>{link.label}</span>
-                    </div>
-                    <ChevronDown className="h-4 w-4" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
+                <div className="flex items-center">
+                   <Link href={link.href!} className="flex-1">
+                     <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        className="w-full justify-between font-medium"
+                        variant="ghost"
+                      >
+                        <div className="flex items-center gap-3">
+                          <link.icon className="h-5 w-5 text-muted-foreground" />
+                          <span>{link.label}</span>
+                        </div>
+                        <ChevronDown className="h-4 w-4" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                   </Link>
+                </div>
                 <CollapsibleContent>
                   <div className="pl-8 py-1 space-y-1 border-l-2 ml-[1.3rem]">
                     {link.links.map((subLink) => (

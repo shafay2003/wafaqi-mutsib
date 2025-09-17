@@ -39,6 +39,7 @@ export const navLinks = [
   {
     label: 'About Us',
     icon: Info,
+    href: '/about',
     links: [
       { href: '/about', label: 'About the Mohtasib' },
       { href: '/success-stories', label: 'Success Stories' },
@@ -48,6 +49,7 @@ export const navLinks = [
   {
     label: 'Complaints & Redressal',
     icon: FileText,
+    href: '/complaint',
     links: [
         { href: '/complaint', label: 'Lodge a Complaint' },
         { href: '/track-complaint', label: 'Track Complaint' },
@@ -58,6 +60,7 @@ export const navLinks = [
   {
     label: 'Special Portals',
     icon: Star,
+    href: '/childrens-complaints',
     links: [
         { href: '/childrens-complaints', label: 'Childrens Complaints' },
         { href: '/overseas-pakistanis', label: 'Overseas Pakistanis' },
@@ -66,6 +69,7 @@ export const navLinks = [
   {
     label: 'Resources',
     icon: Library,
+    href: '/publications',
     links: [
         { href: '/publications', label: 'Publications' },
         { href: '/tenders-and-vacancies', label: 'Tenders & Vacancies' },
@@ -75,6 +79,7 @@ export const navLinks = [
     {
     label: 'Media & Updates',
     icon: Newspaper,
+    href: '/media-gallery',
     links: [
         { href: '/media-gallery', label: 'Media Gallery' },
         { href: '/notifications', label: 'Notifications' },
