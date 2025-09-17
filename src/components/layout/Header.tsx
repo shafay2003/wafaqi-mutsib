@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -32,15 +33,8 @@ export function Header() {
                 </form>
                </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="secondary" size="sm" asChild>
-                    <Link href="#">Log In</Link>
-                  </Button>
-                  <Button size="sm" asChild>
-                    <Link href="#">Sign Up</Link>
-                  </Button>
-                   <div className="h-6 w-px bg-border mx-2" />
                   <Button variant="outline" size="sm" asChild>
-                    <Link href="/admin/login">Admin</Link>
+                    <Link href="/admin/login">Admin Login</Link>
                   </Button>
                 </div>
             </div>
