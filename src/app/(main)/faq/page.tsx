@@ -1,18 +1,16 @@
+
+'use client';
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { faqs } from "@/lib/placeholder-data";
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Frequently Asked Questions (FAQ)',
-  description: 'Find answers to common questions about the Wafaqi Mohtasib, filing complaints, and our processes.',
-};
+import { useFaqs } from "@/context/FaqContext";
 
 export default function FAQPage() {
+  const { faqs } = useFaqs();
   return (
     <div className="flex flex-col gap-4">
         <header className="text-left space-y-1.5">

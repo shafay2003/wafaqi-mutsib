@@ -8,6 +8,7 @@ import { PublicationsProvider } from '@/context/PublicationsContext';
 import { SuccessStoriesProvider } from '@/context/SuccessStoriesContext';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { RegionalOfficesProvider } from '@/context/RegionalOfficesContext';
+import { FaqProvider } from '@/context/FaqContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,7 +39,9 @@ export default function RootLayout({
               <NotificationsProvider>
                  <RegionalOfficesProvider>
                     <MediaProvider>
-                      {children}
+                      <FaqProvider>
+                        {children}
+                      </FaqProvider>
                     </MediaProvider>
                 </RegionalOfficesProvider>
               </NotificationsProvider>
