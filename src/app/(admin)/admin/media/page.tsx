@@ -37,6 +37,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
@@ -145,6 +146,7 @@ export default function AdminMediaPage() {
   const form = useForm({
     defaultValues: {
       title: "",
+      description: "",
       type: "Photo",
       image: undefined,
     }
@@ -173,11 +175,13 @@ export default function AdminMediaPage() {
     if (editingItem) {
       form.reset({
         title: editingItem.title,
+        description: editingItem.description,
         type: editingItem.type,
       });
     } else {
       form.reset({
         title: "",
+        description: "",
         type: "Photo",
         image: undefined,
       });
@@ -216,8 +220,8 @@ export default function AdminMediaPage() {
       const newItem = {
         id: `media-${mediaItems.length + 1}`,
         title: data.title,
+        description: data.description,
         type: data.type,
-        description: 'A newly added media item.',
         date: new Date().toLocaleDateString('en-CA'),
       };
       addMediaItem(newItem);
@@ -249,7 +253,7 @@ export default function AdminMediaPage() {
                   </span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-xl">
                 <DialogHeader>
                   <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
                   <DialogDescription>
@@ -266,6 +270,19 @@ export default function AdminMediaPage() {
                           <FormLabel>Title</FormLabel>
                           <FormControl>
                             <Input placeholder="e.g., Seminar on Justice" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="A short description of the media item..." {...field} rows={4} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
