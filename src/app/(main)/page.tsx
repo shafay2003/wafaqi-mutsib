@@ -25,6 +25,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 import { complaintStats } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
@@ -38,37 +46,51 @@ export default function Dashboard() {
   const { mediaItems } = useMedia();
   const { notifications } = useNotifications();
   const { successStories } = useSuccessStories();
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
-        <section className="relative h-[450px] md:h-[500px] rounded-xl overflow-hidden flex items-center justify-center text-center text-white p-6 bg-gradient-to-br from-green-900 via-green-800 to-green-700">
-           {heroImage &&
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover -z-10 opacity-10"
-              data-ai-hint={heroImage.imageHint}
-              priority
-            />
-           }
-            <div className="max-w-4xl space-y-6 z-10">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight !leading-tight text-white/95">
-                  Justice Against Federal Government Maladministration
-                </h1>
-                <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto">
-                  The Wafaqi Mohtasib (Federal Ombudsman) provides a transparent and speedy platform for resolving your grievances.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button size="lg" asChild className="bg-white text-primary hover:bg-gray-200 text-base font-semibold py-7 px-8 shadow-lg transition-transform hover:scale-105">
-                      <Link href="/complaint">File a Complaint Online <ArrowRight className="ml-2 h-5 w-5" /></Link>
-                    </Button>
-                    <Button size="lg" variant="outline" asChild className="border-white/80 text-white bg-transparent hover:bg-white/10 hover:text-white text-base font-semibold py-7 px-8">
-                      <Link href="/track-complaint">Track Your Case</Link>
-                    </Button>
-                </div>
-            </div>
+        <section className="relative rounded-xl overflow-hidden">
+          <Carousel 
+            className="w-full"
+            plugins={[ Autoplay({ delay: 5000, stopOnInteraction: true }) ]}
+            opts={{ loop: true }}
+          >
+            <CarouselContent>
+              {mediaItems.slice(0, 5).map((item, index) => {
+                const itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                return (
+                  <CarouselItem key={item.id}>
+                    <div className="relative h-[450px] md:h-[500px]">
+                      {itemImage && (
+                        <Image
+                          src={itemImage.imageUrl}
+                          alt={item.title}
+                          fill
+                          className="object-cover"
+                          data-ai-hint={itemImage.imageHint}
+                          priority={index === 0}
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                      <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
+                        <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
+                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95">{item.title}</h2>
+                        <p className="text-white/80 mt-2">{item.date}</p>
+                      </div>
+
+                       {item.type === 'Video' && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white/80 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                          </div>
+                      )}
+                    </div>
+                  </CarouselItem>
+                )
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex" />
+            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex" />
+          </Carousel>
         </section>
 
          <section>
@@ -258,3 +280,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+    
