@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from "next/image";
@@ -33,6 +34,7 @@ export default function SuccessStoriesPage() {
                                 height={250}
                                 className="w-full h-48 object-cover"
                                 data-ai-hint={storyImage.imageHint}
+                                quality={90}
                             />
                         </div>
                         )}
@@ -51,3 +53,5 @@ export default function SuccessStoriesPage() {
     </div>
   );
 }
+
+    

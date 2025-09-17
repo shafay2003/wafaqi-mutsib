@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -55,6 +56,7 @@ export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
   const { successStories, addSuccessStory, updateSuccessStory, deleteSuccessStory } = useSuccessStories();
   const [editingItem, setEditingItem] = useState<StoryItem | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -63,6 +65,20 @@ export default function AdminSuccessStoriesPage() {
       image: undefined
     }
   });
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
+
 
   useEffect(() => {
     if (editingItem) {
@@ -77,6 +93,9 @@ export default function AdminSuccessStoriesPage() {
         summary: "",
         image: undefined
       });
+    }
+     if (!open) {
+      setImagePreview(null);
     }
   }, [editingItem, form, open]);
 
@@ -127,13 +146,13 @@ export default function AdminSuccessStoriesPage() {
             <CardDescription>Manage success stories featured on the website.</CardDescription>
           </div>
           <div className="flex items-center gap-2 mt-4 sm:mt-0">
-            <Button size="sm" variant="outline" className="h-7 gap-1">
+            <Button size="sm" variant="outline" className="h-8 gap-1">
               <File className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
             </Button>
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
-                <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
                   <PlusCircle className="h-3.5 w-3.5" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Add Story</span>
                 </Button>
@@ -182,13 +201,23 @@ export default function AdminSuccessStoriesPage() {
                               <FormControl>
                                 <Input 
                                   type="file"
-                                  onChange={(e) => field.onChange(e.target.files)}
+                                  accept="image/png, image/jpeg, image/gif"
+                                  onChange={(e) => {
+                                      field.onChange(e.target.files);
+                                      handleFileChange(e);
+                                  }}
                                 />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
+                      {imagePreview && (
+                        <div className="mt-2">
+                          <p className="text-sm font-medium mb-2">Image Preview:</p>
+                          <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
+                        </div>
+                      )}
                     <DialogFooter>
                       <Button type="submit">Save</Button>
                     </DialogFooter>
@@ -240,3 +269,5 @@ export default function AdminSuccessStoriesPage() {
     </Card>
   );
 }
+
+    

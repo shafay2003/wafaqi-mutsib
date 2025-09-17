@@ -82,12 +82,8 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
     </TableHeader>
     <TableBody>
       {items.map((item, index) => {
-        let itemImage;
-        if (item.id === 'media-13') {
-            itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-        } else {
-            itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
-        }
+        let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+
         return (
           <TableRow key={item.id}>
               <TableCell className="hidden sm:table-cell">
@@ -98,6 +94,7 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
                     height="64"
                     src={itemImage.imageUrl}
                     width="64"
+                    quality={85}
                   />
                 ) : (
                   <div className="h-16 w-16 bg-muted rounded-md" />
@@ -141,6 +138,7 @@ export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
   const { mediaItems, addMediaItem, updateMediaItem, deleteMediaItem } = useMedia();
   const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -149,6 +147,19 @@ export default function AdminMediaPage() {
       image: undefined,
     }
   });
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+    }
+  };
 
   useEffect(() => {
     if (editingItem) {
@@ -162,6 +173,9 @@ export default function AdminMediaPage() {
         type: "Photo",
         image: undefined,
       });
+    }
+    if (!open) {
+      setImagePreview(null);
     }
   }, [editingItem, form, open]);
 
@@ -216,100 +230,106 @@ export default function AdminMediaPage() {
             <TabsTrigger value="photo">Photos</TabsTrigger>
             <TabsTrigger value="video">Videos</TabsTrigger>
           </TabsList>
+          <div className="ml-auto flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-8 gap-1">
+              <File className="h-3.5 w-3.5" />
+              <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Export
+              </span>
+            </Button>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
+              <DialogTrigger asChild>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
+                  <PlusCircle className="h-3.5 w-3.5" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Add Media
+                  </span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
+                  <DialogDescription>
+                    {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
+                  </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="e.g., Seminar on Justice" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="type"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select media type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="Photo">Photo</SelectItem>
+                              <SelectItem value="Video">Video</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="image"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>File</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="file" 
+                              accept="image/png, image/jpeg, image/gif, video/mp4"
+                              onChange={(e) => {
+                                field.onChange(e.target.files);
+                                handleFileChange(e);
+                              }}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {imagePreview && (
+                      <div className="mt-4">
+                        <p className="text-sm font-medium mb-2">Image Preview:</p>
+                        <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
+                      </div>
+                    )}
+                    <DialogFooter>
+                      <Button type="submit">Save</Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
         <Card className="mt-4">
           <CardHeader>
-             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <CardTitle>Media Gallery</CardTitle>
-                <CardDescription>
-                  Manage photos and videos for your website's gallery.
-                </CardDescription>
-              </div>
-               <div className="flex items-center gap-2 mt-4 sm:mt-0">
-                <Button size="sm" variant="outline" className="h-7 gap-1">
-                  <File className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Export
-                  </span>
-                </Button>
-                <Dialog open={open} onOpenChange={handleOpenChange}>
-                  <DialogTrigger asChild>
-                    <Button size="sm" className="h-7 gap-1" onClick={handleAddNew}>
-                      <PlusCircle className="h-3.5 w-3.5" />
-                      <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Add Media
-                      </span>
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>{editingItem ? 'Edit Media' : 'Add Media'}</DialogTitle>
-                      <DialogDescription>
-                        {editingItem ? 'Update the details for this media item.' : 'Fill in the details for the new media item.'}
-                      </DialogDescription>
-                    </DialogHeader>
-                    <Form {...form}>
-                      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                        <FormField
-                          control={form.control}
-                          name="title"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Title</FormLabel>
-                              <FormControl>
-                                <Input placeholder="e.g., Seminar on Justice" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="type"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Type</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select media type" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="Photo">Photo</SelectItem>
-                                  <SelectItem value="Video">Video</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="image"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>File</FormLabel>
-                              <FormControl>
-                                <Input 
-                                  type="file" 
-                                  onChange={(e) => field.onChange(e.target.files)}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <DialogFooter>
-                          <Button type="submit">Save</Button>
-                        </DialogFooter>
-                      </form>
-                    </Form>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
+            <CardTitle>Media Gallery</CardTitle>
+            <CardDescription>
+              Manage photos and videos for your website's gallery.
+            </CardDescription>
           </CardHeader>
           <CardContent>
              <TabsContent value="all">
@@ -326,3 +346,5 @@ export default function AdminMediaPage() {
     </Tabs>
   );
 }
+
+    

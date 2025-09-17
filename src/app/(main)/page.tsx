@@ -72,12 +72,7 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                let itemImage;
-                if (item.id === 'media-13') {
-                  itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-                } else {
-                  itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
-                }
+                let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
 
                 return (
                   <CarouselItem key={item.id}>
@@ -93,6 +88,7 @@ export default function Dashboard() {
                                 className="object-cover"
                                 data-ai-hint={itemImage.imageHint}
                                 priority={index === 0}
+                                quality={90}
                               />
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
@@ -123,6 +119,7 @@ export default function Dashboard() {
                                           alt={item.title}
                                           fill
                                           className="object-contain"
+                                          quality={95}
                                       />
                                       {item.type === 'Video' && (
                                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -237,12 +234,8 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                    let itemImage;
-                    if (item.id === 'media-13') {
-                      itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-                    } else {
-                       itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
-                    }
+                    let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+
                     return (
                       <Dialog key={item.id}>
                         <DialogTrigger asChild>
@@ -255,6 +248,7 @@ export default function Dashboard() {
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                                       data-ai-hint={itemImage.imageHint}
+                                      quality={90}
                                   />
                               </div>
                               )}
@@ -280,6 +274,7 @@ export default function Dashboard() {
                                           alt={item.title}
                                           fill
                                           className="object-contain"
+                                          quality={95}
                                       />
                                   </div>
                               )}
@@ -317,6 +312,7 @@ export default function Dashboard() {
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                                       data-ai-hint={itemImage.imageHint}
+                                      quality={90}
                                   />
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
@@ -345,6 +341,7 @@ export default function Dashboard() {
                                           alt={item.title}
                                           fill
                                           className="object-contain"
+                                          quality={95}
                                       />
                                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                           <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
@@ -373,7 +370,7 @@ export default function Dashboard() {
                     const storyImage = PlaceHolderImages.find(p => p.id === `success-${(index % 3) + 1}`);
                     return (
                         <Card key={story.id} className="flex flex-col md:flex-row items-center gap-6 p-4 hover:shadow-md transition-shadow">
-                            {storyImage && <Image src={storyImage.imageUrl} alt={storyImage.description} width={150} height={100} className="rounded-lg object-cover w-full md:w-[150px]" data-ai-hint={storyImage.imageHint} />}
+                            {storyImage && <Image src={storyImage.imageUrl} alt={storyImage.description} width={150} height={100} className="rounded-lg object-cover w-full md:w-[150px]" data-ai-hint={storyImage.imageHint} quality={90} />}
                             <div className="flex-1">
                                 <h3 className="font-semibold mb-1">{story.title}</h3>
                                 <p className="text-sm text-muted-foreground line-clamp-3">{story.summary}</p>
@@ -422,3 +419,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+    

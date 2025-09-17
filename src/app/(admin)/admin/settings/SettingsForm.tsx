@@ -17,11 +17,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useSettings } from "@/context/SettingsContext";
+import Image from "next/image";
 
 export default function SettingsForm() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const { settings, setSettings } = useSettings();
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -29,6 +31,19 @@ export default function SettingsForm() {
       logo: undefined,
     },
   });
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setLogoPreview(null);
+    }
+  };
 
   useEffect(() => {
     form.reset({ siteName: settings.siteName });
@@ -75,7 +90,14 @@ export default function SettingsForm() {
             <FormItem>
               <FormLabel>Website Logo</FormLabel>
               <FormControl>
-                <Input type="file" />
+                <Input 
+                  type="file" 
+                  accept="image/png, image/jpeg, image/svg+xml"
+                  onChange={(e) => {
+                    field.onChange(e.target.files);
+                    handleFileChange(e);
+                  }}
+                />
               </FormControl>
                <FormDescription>
                 Upload a new logo (e.g., SVG, PNG, JPG). Leave blank to keep the current one.
@@ -84,6 +106,15 @@ export default function SettingsForm() {
             </FormItem>
           )}
         />
+
+        {logoPreview && (
+          <div className="mt-4 space-y-2">
+            <p className="text-sm font-medium">Logo Preview:</p>
+            <div className="w-48 p-4 border rounded-md bg-muted">
+                <Image src={logoPreview} alt="Logo preview" width={192} height={108} className="rounded-md object-contain" />
+            </div>
+          </div>
+        )}
         
         <Button type="submit" disabled={loading}>
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -93,3 +124,5 @@ export default function SettingsForm() {
     </Form>
   );
 }
+
+    

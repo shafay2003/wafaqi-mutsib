@@ -31,12 +31,8 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 let itemImage;
-                 if (item.id === 'media-13') {
-                   itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-                 } else {
-                   itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
-                 }
+                 let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+
                  return (
                     <Dialog key={item.id}>
                       <DialogTrigger asChild>
@@ -49,6 +45,7 @@ export default function MediaGalleryPage() {
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                                       data-ai-hint={itemImage.imageHint}
+                                      quality={90}
                                   />
                                   {item.type === 'Video' && (
                                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -82,6 +79,7 @@ export default function MediaGalleryPage() {
                                           alt={item.title}
                                           fill
                                           className="object-contain"
+                                          quality={95}
                                       />
                                       {item.type === 'Video' && (
                                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -100,3 +98,5 @@ export default function MediaGalleryPage() {
     </div>
   );
 }
+
+    
