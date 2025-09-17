@@ -74,7 +74,6 @@ export default function MediaGalleryPage() {
                         <div className="space-y-4">
                           {item.type === 'Video' ? (
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                              {/* Using a placeholder video URL. In a real app, you'd use the item's video URL. */}
                               <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls className="w-full h-full" autoPlay>
                                 Your browser does not support the video tag.
                               </video>
@@ -100,5 +99,3 @@ export default function MediaGalleryPage() {
     </div>
   );
 }
-
-    

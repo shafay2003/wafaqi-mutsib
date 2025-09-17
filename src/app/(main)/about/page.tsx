@@ -31,6 +31,7 @@ export default function AboutPage() {
                   fill
                   className="object-cover"
                   data-ai-hint={heroImage.imageHint}
+                  quality={95}
               />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
@@ -81,6 +82,7 @@ export default function AboutPage() {
                         height={800}
                         className="w-full h-auto object-contain"
                         data-ai-hint={orgChartImage.imageHint}
+                        quality={90}
                     />
                 </div>
                 )}

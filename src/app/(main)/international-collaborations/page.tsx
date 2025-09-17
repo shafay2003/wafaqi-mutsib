@@ -62,6 +62,7 @@ export default function InternationalCollaborationsPage() {
                         height={400}
                         className="w-full h-auto object-cover"
                         data-ai-hint={collaborationImage.imageHint}
+                        quality={90}
                         />
                     )}
                     <CardHeader className="flex-col items-start">

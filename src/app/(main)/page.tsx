@@ -88,7 +88,7 @@ export default function Dashboard() {
                                 className="object-cover"
                                 data-ai-hint={itemImage.imageHint}
                                 priority={index === 0}
-                                quality={90}
+                                quality={95}
                               />
                             )}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
@@ -423,5 +423,3 @@ export default function Dashboard() {
     </div>
   )
 }
-
-    
