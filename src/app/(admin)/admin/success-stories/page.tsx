@@ -145,7 +145,7 @@ export default function AdminSuccessStoriesPage() {
             <CardTitle>Success Stories</CardTitle>
             <CardDescription>Manage success stories featured on the website.</CardDescription>
           </div>
-          <div className="flex items-center gap-2 mt-4 sm:mt-0">
+          <div className="ml-auto flex items-center gap-2 mt-4 sm:mt-0">
             <Dialog open={open} onOpenChange={handleOpenChange}>
               <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
