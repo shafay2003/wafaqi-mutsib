@@ -455,7 +455,7 @@ export default function Dashboard() {
               <CardHeader>
                 <CardTitle>Notifications & Press Releases</CardTitle>
                  <CardDescription>Stay informed with our latest announcements.</CardDescription>
-              </Header>
+              </CardHeader>
               <CardContent className="p-0">
                 <Table>
                   <TableBody>
@@ -483,3 +483,5 @@ export default function Dashboard() {
     </div>
   )
 }
+
+    
