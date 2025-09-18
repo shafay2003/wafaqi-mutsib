@@ -8,6 +8,12 @@
       "imageHint": "government building"
     },
     {
+      "id": "mohtasib-profile",
+      "description": "Portrait of Ejaz Ahmad Qureshi, the Wafaqi Mohtasib of Pakistan.",
+      "imageUrl": "https://picsum.photos/seed/profile-man/400/500",
+      "imageHint": "man portrait"
+    },
+    {
       "id": "success-1",
       "description": "A happy citizen who has received justice.",
       "imageUrl": "https://picsum.photos/seed/happy-person/600/400",
