@@ -147,8 +147,10 @@ export default function Dashboard() {
                 )
               })}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex" />
-            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden md:flex" />
+            <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+              <CarouselPrevious className="relative translate-y-0 left-0 right-0 top-0" />
+              <CarouselNext className="relative translate-y-0 left-0 right-0 top-0" />
+            </div>
           </Carousel>
         </section>
 
