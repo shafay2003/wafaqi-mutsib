@@ -180,111 +180,110 @@ export default function AdminPublicationsPage() {
   };
 
   return (
-      <Tabs defaultValue="all">
-        <div className="flex items-center">
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-             {categories.map(cat => (
-              <TabsTrigger key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>{cat}</TabsTrigger>
-            ))}
-          </TabsList>
-           <div className="ml-auto flex items-center gap-2">
+    <div className="flex flex-col gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight">Publications</h1>
+                <p className="text-sm text-muted-foreground">Manage all official documents and research materials.</p>
+            </div>
             <Dialog open={open} onOpenChange={handleOpenChange}>
-              <DialogTrigger asChild>
+            <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add Publication
-                  </span>
+                </span>
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Publication' : 'Add Publication'}</DialogTitle>
-                  <DialogDescription>
+                <DialogTitle>{editingItem ? 'Edit Publication' : 'Add Publication'}</DialogTitle>
+                <DialogDescription>
                     {editingItem ? 'Update the details for this publication.' : 'Fill in the details for the new publication.'}
-                  </DialogDescription>
+                </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
                     <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
+                        <FormLabel>Title</FormLabel>
+                        <FormControl>
                             <Input placeholder="e.g., Annual Report 2024" {...field} />
-                          </FormControl>
-                          <FormMessage />
+                        </FormControl>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
                     <FormField
-                      control={form.control}
-                      name="category"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Category</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormLabel>Category</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <SelectTrigger>
+                            <SelectTrigger>
                                 <SelectValue placeholder="Select a category" />
-                              </SelectTrigger>
+                            </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {categories.map(cat => (
+                            {categories.map(cat => (
                                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                              ))}
+                            ))}
                             </SelectContent>
-                          </Select>
-                          <FormMessage />
+                        </Select>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
                     <FormField
-                      control={form.control}
-                      name="file"
-                      render={({ field }) => (
+                    control={form.control}
+                    name="file"
+                    render={({ field }) => (
                         <FormItem>
-                          <FormLabel>File</FormLabel>
-                          <FormControl>
+                        <FormLabel>File</FormLabel>
+                        <FormControl>
                             <Input 
-                              type="file" 
-                              onChange={(e) => field.onChange(e.target.files)}
+                            type="file" 
+                            onChange={(e) => field.onChange(e.target.files)}
                             />
-                          </FormControl>
-                          <FormMessage />
+                        </FormControl>
+                        <FormMessage />
                         </FormItem>
-                      )}
+                    )}
                     />
                     <DialogFooter>
-                      <Button type="submit">Save</Button>
+                    <Button type="submit">Save</Button>
                     </DialogFooter>
-                  </form>
+                </form>
                 </Form>
-              </DialogContent>
+            </DialogContent>
             </Dialog>
-          </div>
-        </div>
+        </header>
+
+      <Tabs defaultValue="all">
+        <TabsList>
+            <TabsTrigger value="all">All</TabsTrigger>
+                {categories.map(cat => (
+                <TabsTrigger key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>{cat}</TabsTrigger>
+            ))}
+        </TabsList>
         <Card className="mt-4">
-          <CardHeader>
-              <CardTitle>Publications</CardTitle>
-              <CardDescription>
-                Manage all official documents and research materials.
-              </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TabsContent value="all">
+          <CardContent className="pt-6">
+            <TabsContent value="all" className="mt-0">
               <PublicationTable items={publications} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
             {categories.map(cat => (
-              <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()}>
+              <TabsContent key={cat} value={cat.replace(/\s+/g, '-').toLowerCase()} className="mt-0">
                 <PublicationTable items={publications.filter(p => p.category === cat)} onEdit={handleEdit} onDelete={handleDelete} />
               </TabsContent>
             ))}
           </CardContent>
         </Card>
     </Tabs>
+    </div>
   );
 }

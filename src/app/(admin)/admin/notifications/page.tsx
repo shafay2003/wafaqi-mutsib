@@ -185,110 +185,109 @@ export default function AdminNotificationsPage() {
   const pressReleaseItems = notifications.filter(item => item.type === 'Press Release');
 
   return (
+    <div className="flex flex-col gap-4">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="space-y-1">
+                <h1 className="text-2xl font-semibold tracking-tight">Notifications & Press Releases</h1>
+                <p className="text-sm text-muted-foreground">Manage updates and announcements for the website.</p>
+            </div>
+            <Dialog open={open} onOpenChange={handleOpenChange}>
+                <DialogTrigger asChild>
+                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
+                    <PlusCircle className="h-3.5 w-3.5" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Add Notification
+                    </span>
+                </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>{editingItem ? 'Edit Notification' : 'Add Notification'}</DialogTitle>
+                    <DialogDescription>
+                    {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
+                    </DialogDescription>
+                </DialogHeader>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., Public Hearing Notice" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select a type" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="Notification">Notification</SelectItem>
+                                <SelectItem value="Press Release">Press Release</SelectItem>
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="file"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>File</FormLabel>
+                            <FormControl>
+                            <Input 
+                                type="file" 
+                                onChange={(e) => field.onChange(e.target.files)}
+                            />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <DialogFooter>
+                        <Button type="submit">Save</Button>
+                    </DialogFooter>
+                    </form>
+                </Form>
+                </DialogContent>
+            </Dialog>
+        </header>
+
       <Tabs defaultValue="all">
-        <div className="flex items-center">
-          <TabsList>
+        <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="notification">Notifications</TabsTrigger>
             <TabsTrigger value="press-release">Press Releases</TabsTrigger>
-          </TabsList>
-          <div className="ml-auto flex items-center gap-2">
-            <Dialog open={open} onOpenChange={handleOpenChange}>
-              <DialogTrigger asChild>
-                <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Notification
-                  </span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>{editingItem ? 'Edit Notification' : 'Add Notification'}</DialogTitle>
-                  <DialogDescription>
-                    {editingItem ? 'Update this notification or press release.' : 'Add a new notification or press release.'}
-                  </DialogDescription>
-                </DialogHeader>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., Public Hearing Notice" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="Notification">Notification</SelectItem>
-                              <SelectItem value="Press Release">Press Release</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="file"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>File</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="file" 
-                              onChange={(e) => field.onChange(e.target.files)}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <DialogFooter>
-                      <Button type="submit">Save</Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </DialogContent>
-            </Dialog>
-          </div>
-        </div>
+        </TabsList>
         <Card className="mt-4">
-          <CardHeader>
-              <CardTitle>Notifications & Press Releases</CardTitle>
-              <CardDescription>
-                Manage updates and announcements for the website.
-              </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <TabsContent value="all">
+          <CardContent className="pt-6">
+            <TabsContent value="all" className="mt-0">
               <NotificationTable items={notifications} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
-            <TabsContent value="notification">
+            <TabsContent value="notification" className="mt-0">
               <NotificationTable items={notificationItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
-            <TabsContent value="press-release">
+            <TabsContent value="press-release" className="mt-0">
               <NotificationTable items={pressReleaseItems} onEdit={handleEdit} onDelete={handleDelete} />
             </TabsContent>
           </CardContent>
         </Card>
     </Tabs>
+  </div>
   );
 }

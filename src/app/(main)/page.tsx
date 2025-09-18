@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link'
@@ -7,11 +6,14 @@ import {
   FileText,
   Search,
   Gavel,
-  ArrowRight,
   Smile,
   Plane,
   Video,
-  Camera
+  Camera,
+  ShieldCheck,
+  Users,
+  FileInput,
+  Landmark
 } from 'lucide-react'
 import {
   Card,
@@ -45,7 +47,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Autoplay from "embla-carousel-autoplay"
-import { complaintStats } from '@/lib/placeholder-data'
+import { complaintStats as initialComplaintStats } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
 import { Badge } from '@/components/ui/badge'
@@ -61,6 +63,14 @@ export default function Dashboard() {
 
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
   const videoItems = mediaItems.filter(item => item.type === 'Video');
+
+  const complaintStats = [
+    { label: 'Received (YTD)', value: '125,342', change: '+15.2% from last year', icon: FileInput },
+    { label: 'Resolved (YTD)', value: '119,876', change: '+18.1% from last year', icon: ShieldCheck },
+    { label: 'In-Process', value: '5,466', change: '-5.7% from last month', icon: Users },
+    { label: 'Resolution Rate', value: '95.6%', change: '+2.4% from last year', icon: Landmark },
+  ];
+
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
@@ -369,21 +379,22 @@ export default function Dashboard() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold tracking-tight mb-6">Success Stories</h2>
-            <div className="grid gap-6">
-                {successStories.map((story, index) => {
+            <div className="space-y-4">
+                {successStories.slice(0,3).map((story, index) => {
                     const storyImage = PlaceHolderImages.find(p => p.id === `success-${(index % 3) + 1}`);
                     return (
                         <Card key={story.id} className="flex flex-col md:flex-row items-center gap-6 p-4 hover:shadow-md transition-shadow">
                             {storyImage && <Image src={storyImage.imageUrl} alt={storyImage.description} width={150} height={100} className="rounded-lg object-cover w-full md:w-[150px]" data-ai-hint={storyImage.imageHint} quality={90} />}
                             <div className="flex-1">
                                 <h3 className="font-semibold mb-1">{story.title}</h3>
-                                <p className="text-sm text-muted-foreground line-clamp-3">{story.summary}</p>
+                                <p className="text-sm text-muted-foreground line-clamp-2">{story.summary}</p>
+                                <Link href="/success-stories" className="text-xs text-primary font-semibold mt-2 inline-block">Read more &rarr;</Link>
                             </div>
                         </Card>
                     )
                 })}
             </div>
-             <div className="text-center mt-6">
+             <div className="text-left mt-6">
                 <Button variant="outline" asChild>
                     <Link href="/success-stories">Read More Success Stories</Link>
                 </Button>
@@ -396,26 +407,26 @@ export default function Dashboard() {
                 <CardTitle>Notifications & Press Releases</CardTitle>
                  <CardDescription>Stay informed with our latest announcements.</CardDescription>
               </CardHeader>
-              <CardContent className="p-4">
+              <CardContent className="p-0">
                 <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead className="text-right">Date</TableHead>
-                    </TableRow>
-                  </TableHeader>
                   <TableBody>
                     {notifications.slice(0, 5).map((item) => (
                       <TableRow key={item.id}>
-                        <TableCell className="font-medium text-sm py-3 line-clamp-2">{item.title}</TableCell>
-                        <TableCell className="text-right text-xs text-muted-foreground py-3">{item.date}</TableCell>
+                        <TableCell className="font-medium text-sm py-3 px-4">
+                            <Link href="/notifications" className="hover:underline line-clamp-2">
+                                {item.title}
+                            </Link>
+                        </TableCell>
+                        <TableCell className="text-right text-xs text-muted-foreground py-3 px-4">{item.date}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-                 <Button variant="outline" asChild className="mt-4 w-full">
-                    <Link href="/notifications">View All Updates</Link>
-                </Button>
+                 <div className="p-4 border-t">
+                    <Button variant="outline" asChild className="w-full">
+                        <Link href="/notifications">View All Updates</Link>
+                    </Button>
+                 </div>
               </CardContent>
             </Card>
           </div>

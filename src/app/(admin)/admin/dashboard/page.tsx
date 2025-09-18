@@ -1,4 +1,6 @@
 
+'use client';
+
 import {
   Card,
   CardContent,
@@ -9,12 +11,18 @@ import {
 import { FileText, ImageIcon, Newspaper, Award } from "lucide-react";
 import Link from 'next/link';
 import RecentActivity from './RecentActivity';
-import { mediaItems } from "@/lib/placeholder-data";
-import { notifications } from "@/lib/placeholder-data";
-import { successStories } from "@/lib/placeholder-data";
-import { publications } from "@/lib/placeholder-data";
+import { useMedia } from "@/context/MediaContext";
+import { useNotifications } from "@/context/NotificationsContext";
+import { useSuccessStories } from "@/context/SuccessStoriesContext";
+import { usePublications } from "@/context/PublicationsContext";
+
 
 export default function AdminDashboard() {
+  const { mediaItems } = useMedia();
+  const { notifications } = useNotifications();
+  const { successStories } = useSuccessStories();
+  const { publications } = usePublications();
+
   const contentTypes = [
     { name: "Media Gallery", icon: ImageIcon, count: mediaItems.length, href: "/admin/media" },
     { name: "Notifications", icon: Newspaper, count: notifications.length, href: "/admin/notifications" },

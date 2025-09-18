@@ -38,13 +38,12 @@ export default function SuccessStoriesPage() {
                             />
                         </div>
                         )}
-                        <div className="flex flex-col flex-grow">
-                            <CardHeader>
-                                <CardTitle>{story.title}</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <CardDescription className="text-xs">{story.summary}</CardDescription>
-                            </CardContent>
+                        <div className="p-6 flex flex-col flex-grow">
+                            <div className="flex-grow">
+                                <CardTitle className="text-lg leading-snug mb-2">{story.title}</CardTitle>
+                                <CardDescription className="text-sm line-clamp-4">{story.summary}</CardDescription>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-4">{story.date}</p>
                         </div>
                     </Card>
                  );
