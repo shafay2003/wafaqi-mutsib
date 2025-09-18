@@ -13,7 +13,9 @@ import {
   ShieldCheck,
   Users,
   FileInput,
-  Landmark
+  Landmark,
+  Pause,
+  Play
 } from 'lucide-react'
 import {
   Card,
@@ -37,6 +39,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel"
 import {
   Dialog,
@@ -54,6 +57,7 @@ import { Badge } from '@/components/ui/badge'
 import { useMedia } from '@/context/MediaContext';
 import { useNotifications } from '@/context/NotificationsContext';
 import { useSuccessStories } from '@/context/SuccessStoriesContext';
+import React, { useState, useEffect, useCallback } from 'react';
 
 
 export default function Dashboard() {
@@ -70,14 +74,53 @@ export default function Dashboard() {
     { label: 'In-Process', value: '5,466', change: '-5.7% from last month', icon: Users },
     { label: 'Resolution Rate', value: '95.6%', change: '+2.4% from last year', icon: Landmark },
   ];
+  
+  const [api, setApi] = useState<CarouselApi>()
+  const [isPlaying, setIsPlaying] = useState(true)
+
+  const autoplayPlugin = React.useRef(
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+
+  const togglePlay = useCallback(() => {
+    if (!api || !autoplayPlugin.current) return;
+    const autoplay = autoplayPlugin.current;
+    if (isPlaying) {
+      autoplay.stop();
+    } else {
+      autoplay.play();
+    }
+    setIsPlaying(!isPlaying);
+  }, [api, isPlaying]);
+
+  useEffect(() => {
+    if (!api) return;
+    
+    const onSelect = () => {
+       if (api.plugins().autoplay) {
+         setIsPlaying(api.plugins().autoplay.isPlaying());
+       }
+    };
+    
+    api.on("select", onSelect);
+    api.on("autoplay:play", () => setIsPlaying(true));
+    api.on("autoplay:stop", () => setIsPlaying(false));
+    
+    return () => {
+      api.off("select", onSelect);
+      api.off("autoplay:play", () => setIsPlaying(true));
+      api.off("autoplay:stop", () => setIsPlaying(false));
+    }
+  }, [api]);
 
 
   return (
     <div className="flex flex-col gap-12 md:gap-16">
         <section className="relative rounded-xl overflow-hidden">
           <Carousel
+            setApi={setApi}
             className="w-full"
-            plugins={[ Autoplay({ delay: 5000, stopOnInteraction: true }) ]}
+            plugins={[autoplayPlugin.current]}
             opts={{ loop: true }}
           >
             <CarouselContent>
@@ -148,6 +191,10 @@ export default function Dashboard() {
               })}
             </CarouselContent>
             <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+              <Button size="icon" variant="outline" className="relative" onClick={togglePlay}>
+                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                <span className="sr-only">{isPlaying ? "Pause slides" : "Play slides"}</span>
+              </Button>
               <CarouselPrevious className="relative translate-y-0 left-0 right-0 top-0" />
               <CarouselNext className="relative translate-y-0 left-0 right-0 top-0" />
             </div>
@@ -408,7 +455,7 @@ export default function Dashboard() {
               <CardHeader>
                 <CardTitle>Notifications & Press Releases</CardTitle>
                  <CardDescription>Stay informed with our latest announcements.</CardDescription>
-              </CardHeader>
+              </Header>
               <CardContent className="p-0">
                 <Table>
                   <TableBody>
