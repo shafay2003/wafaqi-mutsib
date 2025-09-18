@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { publications as initialPublications } from '@/lib/placeholder-data';
 
 type PublicationItem = typeof initialPublications[0];
@@ -15,7 +15,27 @@ type PublicationsContextType = {
 const PublicationsContext = createContext<PublicationsContextType | undefined>(undefined);
 
 export function PublicationsProvider({ children }: { children: ReactNode }) {
-  const [publications, setPublications] = useState<PublicationItem[]>(initialPublications);
+  const [publications, setPublications] = useState<PublicationItem[]>(() => {
+    if (typeof window === 'undefined') {
+      return initialPublications;
+    }
+    try {
+      const storedItems = window.localStorage.getItem('publications');
+      return storedItems ? JSON.parse(storedItems) : initialPublications;
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+      return initialPublications;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('publications', JSON.stringify(publications));
+    } catch (error) {
+      console.error('Error writing to localStorage', error);
+    }
+  }, [publications]);
+
 
   const addPublication = (item: PublicationItem) => {
     setPublications((prev) => [item, ...prev]);

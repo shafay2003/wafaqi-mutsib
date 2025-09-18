@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { mediaItems as initialMediaItems } from '@/lib/placeholder-data';
 
 type MediaItem = typeof initialMediaItems[0];
@@ -15,7 +15,27 @@ type MediaContextType = {
 const MediaContext = createContext<MediaContextType | undefined>(undefined);
 
 export function MediaProvider({ children }: { children: ReactNode }) {
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>(initialMediaItems);
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>(() => {
+    if (typeof window === 'undefined') {
+      return initialMediaItems;
+    }
+    try {
+      const storedItems = window.localStorage.getItem('mediaItems');
+      return storedItems ? JSON.parse(storedItems) : initialMediaItems;
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+      return initialMediaItems;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('mediaItems', JSON.stringify(mediaItems));
+    } catch (error) {
+      console.error('Error writing to localStorage', error);
+    }
+  }, [mediaItems]);
+
 
   const addMediaItem = (item: MediaItem) => {
     setMediaItems((prev) => [item, ...prev]);

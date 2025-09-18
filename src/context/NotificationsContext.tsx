@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { notifications as initialNotifications } from '@/lib/placeholder-data';
 
 type NotificationItem = typeof initialNotifications[0];
@@ -15,10 +15,28 @@ type NotificationsContextType = {
 const NotificationsContext = createContext<NotificationsContextType | undefined>(undefined);
 
 export function NotificationsProvider({ children }: { children: ReactNode }) {
-  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
+    if (typeof window === 'undefined') {
+      return initialNotifications;
+    }
+    try {
+      const storedItems = window.localStorage.getItem('notifications');
+      return storedItems ? JSON.parse(storedItems) : initialNotifications;
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+      return initialNotifications;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('notifications', JSON.stringify(notifications));
+    } catch (error) {
+      console.error('Error writing to localStorage', error);
+    }
+  }, [notifications]);
 
   const addNotification = (item: NotificationItem) => {
-    // Ensure new items have a URL property
     const newItem = { ...item, url: item.url || '#' };
     setNotifications((prev) => [newItem, ...prev]);
   };
