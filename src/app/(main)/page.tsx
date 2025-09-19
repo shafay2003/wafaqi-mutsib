@@ -270,41 +270,6 @@ export default function Dashboard() {
 
         <section>
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight">Message from the Mohtasib</h2>
-          </div>
-          <Card className="overflow-hidden">
-            <div className="grid md:grid-cols-12 gap-0">
-                {mohtasibProfileImage && (
-                    <div className="md:col-span-4 lg:col-span-3">
-                    <Image
-                        src={mohtasibProfileImage.imageUrl}
-                        alt={mohtasibProfileImage.description}
-                        width={400}
-                        height={500}
-                        className="w-full h-full object-cover object-top"
-                        data-ai-hint={mohtasibProfileImage.imageHint}
-                        quality={95}
-                    />
-                    </div>
-                )}
-                <div className="md:col-span-8 lg:col-span-9 p-8 bg-muted/30">
-                    <h3 className="text-2xl font-bold tracking-tight">EJAZ AHMAD QURESHI, WAFAQI MOHTASIB (OMBUDSMAN) OF PAKISTAN</h3>
-                    <div className="text-muted-foreground mt-6 space-y-4 text-sm leading-relaxed">
-                        <p>Mr. Ejaz Ahmad Qureshi took oath of his Office on 27 December 2021 as the 8th regular Wafaqi Mohtasib (Ombudsman) of Pakistan. He holds a Master's degree in Political Science from University of the Punjab and one in Public Policy & Planning from Pennsylvania State University, USA. He joined Civil Service of Pakistan in 1972 through competitive examination.</p>
-                        <p>He has held prestigious positions both in the Federal and the Provincial governments such as Chief Secretary Khyber Pakhtunkhwa, Chief Secretary Sindh and Federal Secretary of the ministries of Railways and the Environment. He remained Provincial Secretary of a number of departments and also served as Additional Chief Secretary (Development), Commissioner, Deputy Commissioner and Assistant Commissioner in various areas. During his service, he has also been the Consul General / Trade Commissioner of Pakistan in Canada and Pakistan's Permanent Representative to the UN Body, International Civil Aviation Organization. He was awarded 'Tamgha-i-Eisar' for his outstanding services in the earthquake of 2005. Before assuming the charge of Wafaqi Mohtasib (Ombudsman), he has served as Senior Advisor to three former ombudsmen; and as the National Commissioner for Children in the Wafaqi Mohtasib Secretariat, Islamabad.</p>
-                        <p>He is also the President of the Asian Ombudsman Association (AOA) and a member each of Forum of Pakistan Ombudsman (FPO), OIC Ombudsman Association (OICOA) and the International Ombudsman Institute (IOI).</p>
-                    </div>
-                    <div className="mt-8 text-right">
-                        <p className="font-bold text-lg">Ejaz Ahmad Qureshi</p>
-                        <p className="text-muted-foreground text-sm">Wafaqi Mohtasib (Ombudsman) of Pakistan</p>
-                    </div>
-                </div>
-            </div>
-          </Card>
-        </section>
-
-        <section>
-          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight">Meet Our Leadership</h2>
              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Get to know the dedicated individuals leading the Wafaqi Mohtasib Secretariat.</p>
           </div>
