@@ -1,18 +1,15 @@
 
 'use client';
 
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
 import { useKeyPersonnel } from '@/context/KeyPersonnelContext';
 
-type Props = {
-  params: { id: string };
-};
-
-export default function ProfilePage({ params }: Props) {
-  const { id } = params;
+export default function ProfilePage() {
+  const params = useParams();
+  const id = params.id as string;
   const { keyPersonnel } = useKeyPersonnel();
   const person = keyPersonnel.find(p => p.id === id);
 
