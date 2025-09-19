@@ -49,6 +49,13 @@ export default function ProfilePage() {
                 </p>
             ))}
           </div>
+
+          {person.id === 'ali-tahir' && (
+            <div className="mt-12 text-right">
+              <p className="font-semibold not-prose">{person.name}</p>
+              <p className="text-sm text-muted-foreground not-prose">{person.title}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
