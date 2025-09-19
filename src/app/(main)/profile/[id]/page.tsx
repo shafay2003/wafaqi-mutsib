@@ -12,8 +12,9 @@ type Props = {
 };
 
 export default function ProfilePage({ params }: Props) {
+  const { id } = params;
   const { keyPersonnel } = useKeyPersonnel();
-  const person = keyPersonnel.find(p => p.id === params.id);
+  const person = keyPersonnel.find(p => p.id === id);
 
   if (!person) {
     notFound();
