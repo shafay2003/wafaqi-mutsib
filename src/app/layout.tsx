@@ -1,6 +1,6 @@
 
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { PT_Sans } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 import { MediaProvider } from '@/context/MediaContext';
@@ -14,10 +14,11 @@ import { PagesProvider } from '@/context/PagesContext';
 import { KeyPersonnelProvider } from '@/context/KeyPersonnelContext';
 import { UsersProvider } from '@/context/UsersContext';
 
-const inter = Inter({
+const ptSans = PT_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-body',
+  weight: ['400', '700'],
 });
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-body antialiased`}>
+      <body className={`${ptSans.variable} font-body antialiased`}>
         <SettingsProvider>
           <UsersProvider>
             <PagesProvider>

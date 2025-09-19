@@ -48,7 +48,6 @@ export default function AdminLoginPage() {
                 id="email"
                 type="email"
                 placeholder="admin@example.com"
-                defaultValue="admin@example.com"
                 required
               />
             </div>
@@ -56,13 +55,13 @@ export default function AdminLoginPage() {
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                  href="#"
+                  href="/admin/forgot-password"
                   className="text-sm font-medium text-primary hover:underline"
                 >
                   Forgot password?
                 </Link>
               </div>
-              <Input id="password" type="password" defaultValue="password" required />
+              <Input id="password" type="password" required />
             </div>
             <div className="space-y-2 pt-2">
               <Button type="submit" className="w-full" disabled={loading}>
