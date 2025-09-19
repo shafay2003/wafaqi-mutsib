@@ -83,11 +83,15 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
     </TableHeader>
     <TableBody>
       {items.map((item, index) => {
-        let itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        let itemImage;
         if (item.id === 'media-13') {
           itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
         } else if (item.id === 'media-14') {
           itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
+        } else if (item.id === 'media-15') {
+            itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
+        } else {
+          itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
         }
 
         return (

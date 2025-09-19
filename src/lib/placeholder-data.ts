@@ -215,6 +215,13 @@ export const internationalAffiliations = [
 
 export const mediaItems = [
   {
+    id: 'media-15',
+    title: 'Webinar on Ombudsmanship and UN SDGs',
+    description: 'Mr. Ashfaque Hasan Khan, DG (NIPS), making a presentation during a webinar on “The Shared Principles of Ombudsmanship and the UN Sustainable Development Goals (SDGs)” held in WMS, Islamabad on 14 July, 2025.',
+    type: 'Photo',
+    date: '2025-07-14'
+  },
+  {
     id: 'media-13',
     title: 'AOA Board of Directors Meeting in Nanjing, China',
     description: 'The Wafaqi Mohtasib and President of the Asia Ombudsman Association (AOA), Mr. Ejaz Ahmad Qureshi with members of the AOA Board of Directors after its 26th Annual Meeting held in Nanjing, China on 10 September, 2025.',

@@ -62,6 +62,12 @@
       "imageHint": "man speech"
     },
     {
+      "id": "presentation-peeking",
+      "description": "Mr. Ashfaque Hasan Khan, DG (NIPS), making a presentation during a webinar on “The Shared Principles of Ombudsmanship and the UN Sustainable Development Goals (SDGs)” held in WMS, Islamabad on 14 July, 2025.",
+      "imageUrl": "https://mohtasib.gov.pk/SiteImage/Slider/presentationspeeking.png",
+      "imageHint": "presentation webinar"
+    },
+    {
       "id": "media-1",
       "description": "A photo from a seminar or event.",
       "imageUrl": "https://picsum.photos/seed/seminar-event/600/400",

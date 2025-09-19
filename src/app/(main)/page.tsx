@@ -130,11 +130,16 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                let itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                let itemImage;
                 if (item.id === 'media-13') {
                   itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
                 } else if (item.id === 'media-14') {
                   itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
+                } else if (item.id === 'media-15') {
+                  itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
+                }
+                else {
+                  itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
                 }
                 
                 return (
@@ -349,11 +354,15 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                    let itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                    let itemImage;
                     if (item.id === 'media-13') {
                       itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
                     } else if (item.id === 'media-14') {
                       itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
+                    } else if (item.id === 'media-15') {
+                        itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
+                    } else {
+                      itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
                     }
 
                     return (
@@ -544,5 +553,3 @@ export default function Dashboard() {
     </>
   );
 }
-
-    
