@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2, CheckCircle } from 'lucide-react';
+import { Search, Loader2, CheckCircle, RefreshCw } from 'lucide-react';
+import { generateCaptcha } from '@/lib/utils';
 
 type StatusHistoryItem = {
   date: string;
@@ -19,14 +20,34 @@ export default function TrackComplaintPage() {
   const [status, setStatus] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [captcha, setCaptcha] = useState('');
+  const [captchaInput, setCaptchaInput] = useState('');
+
+  useEffect(() => {
+    refreshCaptcha();
+  }, []);
+
+  const refreshCaptcha = () => {
+    setCaptcha(generateCaptcha());
+  };
+
 
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    
     if (!trackingId.trim()) {
       setError('Please enter a valid tracking ID.');
       return;
     }
-    setError('');
+
+    if (captchaInput !== captcha) {
+      setError('CAPTCHA verification failed. Please try again.');
+      refreshCaptcha();
+      setCaptchaInput('');
+      return;
+    }
+    
     setLoading(true);
     setStatus(null);
 
@@ -51,6 +72,8 @@ export default function TrackComplaintPage() {
         setError('No complaint found with this Tracking ID.');
       }
       setLoading(false);
+      refreshCaptcha();
+      setCaptchaInput('');
     }, 1500);
   };
 
@@ -67,7 +90,7 @@ export default function TrackComplaintPage() {
           
           <Card>
             <CardContent className="pt-6">
-              <form onSubmit={handleTrack} className="flex flex-col sm:flex-row items-start gap-4">
+              <form onSubmit={handleTrack} className="space-y-6">
                 <div className="relative flex-grow w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
@@ -78,7 +101,31 @@ export default function TrackComplaintPage() {
                       className="pl-10 h-12 text-base"
                     />
                 </div>
-                <Button type="submit" disabled={loading} className="w-full sm:w-auto h-12 px-8">
+
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
+                     <div className="flex-1 text-center bg-muted rounded-md p-3 h-12">
+                        <p 
+                          className="text-2xl font-bold tracking-[.3em] select-none"
+                          style={{ backgroundImage: 'url("/assets/noisy.png")', textShadow: '1px 1px 1px rgba(0,0,0,0.1)' }}
+                        >
+                            {captcha}
+                        </p>
+                      </div>
+                      <Button type="button" variant="ghost" size="icon" onClick={refreshCaptcha}>
+                        <RefreshCw className="h-5 w-5 text-muted-foreground" />
+                      </Button>
+                  </div>
+                   <Input
+                      type="text"
+                      placeholder="Enter CAPTCHA"
+                      value={captchaInput}
+                      onChange={(e) => setCaptchaInput(e.target.value)}
+                      className="h-12 text-base flex-grow w-full"
+                    />
+                </div>
+
+                <Button type="submit" disabled={loading} className="w-full h-12 px-8">
                   {loading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Tracking...

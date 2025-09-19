@@ -13,3 +13,12 @@ export function generateTrackingId() {
   const randomNumber = Math.floor(10000 + Math.random() * 90000);
   return `WM-${year}${month}${day}-${randomNumber}`;
 }
+
+export function generateCaptcha(length = 6) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
