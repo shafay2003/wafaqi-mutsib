@@ -31,7 +31,12 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 let itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina' && item.id === 'media-14') || PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                 let itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                 if (item.id === 'media-13') {
+                   itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
+                 } else if (item.id === 'media-14') {
+                   itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
+                 }
 
                  return (
                     <Dialog key={item.id}>
