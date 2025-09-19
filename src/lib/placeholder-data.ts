@@ -344,6 +344,7 @@ export const keyPersonnel = [
     name: 'Ejaz Ahmad Qureshi',
     title: 'Wafaqi Mohtasib (Ombudsman) of Pakistan',
     imageId: 'mohtasib-profile',
+    summary: 'Mr. Ejaz Ahmad Qureshi, a seasoned civil servant with a distinguished career, is the current Wafaqi Mohtasib of Pakistan and President of the Asian Ombudsman Association.',
     bio: [
       "Mr. Ejaz Ahmad Qureshi took oath of his Office on 27 December 2021 as the 8th regular Wafaqi Mohtasib (Ombudsman) of Pakistan. He holds a Master's degree in Political Science from University of the Punjab and one in Public Policy & Planning from Pennsylvania State University, USA. He joined Civil Service of Pakistan in 1972 through competitive examination.",
       "He has held prestigious positions both in the Federal and the Provincial governments such as Chief Secretary Khyber Pakhtunkhwa, Chief Secretary Sindh and Federal Secretary of the ministries of Railways and the Environment. He remained Provincial Secretary of a number of departments and also served as Additional Chief Secretary (Development), Commissioner, Deputy Commissioner and Assistant Commissioner in various areas. During his service, he has also been the Consul General / Trade Commissioner of Pakistan in Canada and Pakistan's Permanent Representative to the UN Body, International Civil Aviation Organization. He was awarded 'Tamgha-i-Eisar' for his outstanding services in the earthquake of 2005. Before assuming the charge of Wafaqi Mohtasib (Ombudsman), he has served as Senior Advisor to three former ombudsmen; and as the National Commissioner for Children in the Wafaqi Mohtasib Secretariat, Islamabad.",
@@ -355,6 +356,7 @@ export const keyPersonnel = [
     name: 'Ali Tahir (Sitara-i-Imtiaz)',
     title: 'Federal Secretary, Wafaqi Mohtasib Secretariat',
     imageId: 'ali-tahir-profile',
+    summary: 'Mr. Ali Tahir (Sitara-i-Imtiaz) is a distinguished officer of the Pakistan Administrative Service with over thirty-two years of varied experience in public service and international diplomacy.',
     bio: [
         "MR. ALI TAHIR, an officer of Pakistan Administrative Service (PAS), has a rich and varied experience of working in the public, private and development sectors in a career spanning over thirty two years.",
         "He has been the Federal Secretary of Ministries of Science & Technology, National Food Security, Kashmir Affairs & Gilgit Baltistan and Special Secretary in Establishment Division.",

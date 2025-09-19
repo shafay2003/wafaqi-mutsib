@@ -286,26 +286,24 @@ export default function Dashboard() {
                 const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
                 return (
                   <CarouselItem key={person.id} className="md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1 h-full">
-                      <Card className="text-center p-6 flex flex-col items-center h-full">
+                     <Link href={`/profile/${person.id}`} className="p-1 h-full block group">
+                      <Card className="text-center p-6 flex flex-col items-center h-full group-hover:shadow-lg transition-shadow">
                         {personImage && (
                           <Image
                             src={personImage.imageUrl}
                             alt={`Portrait of ${person.name}`}
                             width={120}
                             height={120}
-                            className="rounded-full mb-4 border-4 border-muted object-cover aspect-square"
+                            className="rounded-full mb-4 border-4 border-muted object-cover aspect-square transition-transform group-hover:scale-105"
                             data-ai-hint={personImage.imageHint}
                             quality={95}
                           />
                         )}
                         <h3 className="font-semibold text-lg">{person.name}</h3>
-                        <p className="text-primary text-sm font-medium flex-grow">{person.title}</p>
-                        <Button variant="outline" size="sm" className="mt-4" asChild>
-                            <Link href={`/profile/${person.id}`}>Read More</Link>
-                        </Button>
+                        <p className="text-primary text-sm font-medium">{person.title}</p>
+                        <p className="text-muted-foreground text-sm mt-4 flex-grow line-clamp-3">{person.summary}</p>
                       </Card>
-                    </div>
+                    </Link>
                   </CarouselItem>
                 )
               })}

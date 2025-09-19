@@ -23,7 +23,7 @@ export default function RecentActivity() {
      {
       id: 'act-1',
       user: users[0]?.name || 'Admin',
-      description: 'Added a new FAQ.',
+      description: `Added a new FAQ: "${faqs[0]?.question}"`,
       time: '15 minutes ago',
       icon: FilePenLine
     },
@@ -58,7 +58,7 @@ export default function RecentActivity() {
               <AvatarFallback>{activity.user.slice(0, 2).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div className="grid gap-1">
-              <p className="text-sm font-medium leading-none">
+              <p className="text-sm font-medium leading-none line-clamp-2">
                 {activity.description}
               </p>
               <p className="text-sm text-muted-foreground">

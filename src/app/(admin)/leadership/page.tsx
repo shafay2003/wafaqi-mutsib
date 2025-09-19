@@ -65,7 +65,9 @@ export default function AdminLeadershipPage() {
       name: "",
       title: "",
       imageId: "",
+      summary: "",
       bio: "",
+      image: undefined,
     },
   });
 
@@ -89,6 +91,7 @@ export default function AdminLeadershipPage() {
         name: editingItem.name,
         title: editingItem.title,
         imageId: editingItem.imageId,
+        summary: editingItem.summary,
         bio: editingItem.bio.join('\n\n'),
       });
       const existingImage = PlaceHolderImages.find(p => p.id === editingItem.imageId);
@@ -101,7 +104,9 @@ export default function AdminLeadershipPage() {
         name: "",
         title: "",
         imageId: "",
+        summary: "",
         bio: "",
+        image: undefined,
       });
     }
     if (!open) {
@@ -141,6 +146,7 @@ export default function AdminLeadershipPage() {
         name: data.name,
         title: data.title,
         imageId: data.imageId,
+        summary: data.summary,
         bio: bioArray,
       };
       addPersonnel(newPersonnel);
@@ -195,7 +201,7 @@ export default function AdminLeadershipPage() {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
                   name="id"
                   render={({ field }) => (
@@ -207,19 +213,18 @@ export default function AdminLeadershipPage() {
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
-                  name="imageId"
+                  name="summary"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image ID</FormLabel>
-                      <FormControl><Input placeholder="e.g., mohtasib-profile" {...field} /></FormControl>
-                      <FormDescription>The ID of the placeholder image from placeholder-images.json.</FormDescription>
+                      <FormLabel>Summary</FormLabel>
+                      <FormControl><Textarea placeholder="A short, one-paragraph summary for the homepage." {...field} rows={3} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
+                 <FormField
                   control={form.control}
                   name="bio"
                   render={({ field }) => (
@@ -228,6 +233,46 @@ export default function AdminLeadershipPage() {
                       <FormControl>
                         <Textarea placeholder="Enter the full biography. Separate paragraphs with double line breaks." {...field} rows={10} />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Profile Picture</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="file"
+                          accept="image/png, image/jpeg, image/gif"
+                          onChange={(e) => {
+                            field.onChange(e.target.files);
+                            handleFileChange(e);
+                          }}
+                        />
+                      </FormControl>
+                       <FormDescription>Upload a new photo. Leave blank to keep the current one. Use a square image for best results.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {imagePreview && (
+                  <div className="space-y-2">
+                    <Label>Image Preview</Label>
+                    <Image src={imagePreview} alt="Image preview" width={120} height={120} className="rounded-md object-cover border-4 border-muted aspect-square" />
+                  </div>
+                )}
+                 <FormField
+                  control={form.control}
+                  name="imageId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Fallback Image ID</FormLabel>
+                      <FormControl><Input placeholder="e.g., mohtasib-profile" {...field} /></FormControl>
+                      <FormDescription>If no image is uploaded, the ID of the placeholder image from placeholder-images.json will be used.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

@@ -42,9 +42,9 @@ export default function ProfilePage() {
                  <p className="text-xl font-medium text-primary mt-1">{person.title}</p>
             </div>
           </div>
-          <div className="mt-8 prose prose-gray max-w-none dark:prose-invert text-muted-foreground space-y-4">
+          <div className="mt-8 prose prose-gray max-w-none dark:prose-invert text-muted-foreground space-y-4 leading-relaxed">
             {person.bio.map((paragraph, index) => (
-                <p key={index} className="leading-relaxed text-base">
+                <p key={index}>
                     {paragraph}
                 </p>
             ))}
