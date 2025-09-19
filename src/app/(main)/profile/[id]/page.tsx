@@ -40,6 +40,7 @@ export default function ProfilePage() {
             <div className="flex-grow pt-4 text-center md:text-left">
                  <h1 className="text-3xl font-bold tracking-tight">{person.name}</h1>
                  <p className="text-xl font-medium text-primary mt-1">{person.title}</p>
+                 <p className="text-muted-foreground mt-4 text-base leading-relaxed">{person.summary}</p>
             </div>
           </div>
           <div className="mt-8 prose prose-gray max-w-none dark:prose-invert text-muted-foreground space-y-4 leading-relaxed">
