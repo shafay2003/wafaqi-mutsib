@@ -339,16 +339,24 @@ export const recentActivities = [
 
 export const keyPersonnel = [
   {
-    id: 'kp-1',
+    id: 'ejaz-ahmad-qureshi',
     name: 'Ejaz Ahmad Qureshi',
     title: 'Wafaqi Mohtasib (Ombudsman) of Pakistan',
-    imageId: 'mohtasib-profile'
+    imageId: 'mohtasib-profile',
+    bio: [
+      "Mr. Ejaz Ahmad Qureshi took oath of his Office on 27 December 2021 as the 8th regular Wafaqi Mohtasib (Ombudsman) of Pakistan. He holds a Master's degree in Political Science from University of the Punjab and one in Public Policy & Planning from Pennsylvania State University, USA. He joined Civil Service of Pakistan in 1972 through competitive examination.",
+      "He has held prestigious positions both in the Federal and the Provincial governments such as Chief Secretary Khyber Pakhtunkhwa, Chief Secretary Sindh and Federal Secretary of the ministries of Railways and the Environment. He remained Provincial Secretary of a number of departments and also served as Additional Chief Secretary (Development), Commissioner, Deputy Commissioner and Assistant Commissioner in various areas. During his service, he has also been the Consul General / Trade Commissioner of Pakistan in Canada and Pakistan's Permanent Representative to the UN Body, International Civil Aviation Organization. He was awarded 'Tamgha-i-Eisar' for his outstanding services in the earthquake of 2005. Before assuming the charge of Wafaqi Mohtasib (Ombudsman), he has served as Senior Advisor to three former ombudsmen; and as the National Commissioner for Children in the Wafaqi Mohtasib Secretariat, Islamabad.",
+      "He is also the President of the Asian Ombudsman Association (AOA) and a member each of Forum of Pakistan Ombudsman (FPO), OIC Ombudsman Association (OICOA) and the International Ombudsman Institute (IOI)."
+    ]
   },
   {
-    id: 'kp-2',
+    id: 'ali-tahir',
     name: 'Ali Tahir (Sitara-i-Imtiaz)',
     title: 'Federal Secretary, Wafaqi Mohtasib Secretariat',
-    imageId: 'ali-tahir-profile'
+    imageId: 'ali-tahir-profile',
+    bio: [
+        "Mr. Ali Tahir is a seasoned officer of the Pakistan Administrative Service with extensive experience in public administration and governance. He holds the prestigious Sitara-i-Imtiaz for his services to the nation.",
+        "Throughout his career, he has held various key positions in the federal and provincial governments, contributing significantly to policy formulation and implementation. His expertise spans across multiple sectors, and he is known for his commitment to administrative reforms and improving public service delivery."
+    ]
   }
 ];
-

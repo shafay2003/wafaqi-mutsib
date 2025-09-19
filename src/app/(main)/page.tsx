@@ -300,7 +300,9 @@ export default function Dashboard() {
                         )}
                         <h3 className="font-semibold text-lg">{person.name}</h3>
                         <p className="text-primary text-sm font-medium">{person.title}</p>
-                        <Button variant="outline" size="sm" className="mt-4">Read More</Button>
+                        <Button variant="outline" size="sm" className="mt-4" asChild>
+                            <Link href={`/profile/${person.id}`}>Read More</Link>
+                        </Button>
                       </Card>
                     </div>
                   </CarouselItem>
