@@ -8,10 +8,42 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { recentActivities } from '@/lib/placeholder-data';
+import { useUsers } from '@/context/UsersContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { FilePenLine, MessageSquareQuote, BookOpen } from 'lucide-react';
+import { usePublications } from '@/context/PublicationsContext';
+import { useFaqs } from '@/context/FaqContext';
 
 export default function RecentActivity() {
+  const { users } = useUsers();
+  const { publications } = usePublications();
+  const { faqs } = useFaqs();
+
+  const recentActivities = [
+     {
+      id: 'act-1',
+      user: users[0]?.name || 'Admin',
+      description: 'Added a new FAQ.',
+      time: '15 minutes ago',
+      icon: FilePenLine
+    },
+    {
+      id: 'act-2',
+      user: users[1]?.name || 'Editor',
+      description: 'Submitted feedback on the website.',
+      time: '2 hours ago',
+      icon: MessageSquareQuote
+    },
+    {
+      id: 'act-3',
+      user: 'System',
+      description: `A new publication "${publications[0]?.title}" was added.`,
+      time: '1 day ago',
+      icon: BookOpen
+    },
+  ];
+
+
   return (
     <Card>
       <CardHeader>
@@ -30,7 +62,7 @@ export default function RecentActivity() {
                 {activity.description}
               </p>
               <p className="text-sm text-muted-foreground">
-                {activity.time}
+                {activity.time} by {activity.user}
               </p>
             </div>
           </div>

@@ -30,7 +30,7 @@ function AdminHeader() {
   
   return (
       <header className="flex h-16 items-center justify-between gap-4 border-b bg-background px-4 lg:px-6 sticky top-0 z-30">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-1">
           <Sheet>
             <SheetTrigger asChild>
               <Button

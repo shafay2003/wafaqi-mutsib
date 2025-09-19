@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -67,9 +68,6 @@ export default function AdminLoginPage() {
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Sign In
-              </Button>
-              <Button variant="outline" className="w-full" asChild>
-                  <Link href="/admin/dashboard">Skip to Dashboard (Dev)</Link>
               </Button>
             </div>
           </form>

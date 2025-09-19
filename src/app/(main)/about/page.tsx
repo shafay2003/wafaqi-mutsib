@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { usePages } from "@/context/PagesContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AboutPage() {
   const orgChartImage = PlaceHolderImages.find(p => p.id === 'org-chart');
@@ -42,7 +43,15 @@ export default function AboutPage() {
                     <CardTitle>History & Establishment</CardTitle>
                   </CardHeader>
                   <CardContent className="text-muted-foreground space-y-4 leading-relaxed prose prose-gray max-w-none dark:prose-invert">
-                    {loading ? <p>Loading...</p> : <p>{pages.about}</p>}
+                    {loading ? (
+                      <div className="space-y-2">
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-4 w-3/4" />
+                      </div>
+                    ) : (
+                      <p>{pages.about}</p>
+                    )}
                   </CardContent>
               </Card>
             </div>

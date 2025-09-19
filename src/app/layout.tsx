@@ -12,6 +12,7 @@ import { RegionalOfficesProvider } from '@/context/RegionalOfficesContext';
 import { FaqProvider } from '@/context/FaqContext';
 import { PagesProvider } from '@/context/PagesContext';
 import { KeyPersonnelProvider } from '@/context/KeyPersonnelContext';
+import { UsersProvider } from '@/context/UsersContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -37,23 +38,25 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-body antialiased`}>
         <SettingsProvider>
-          <PagesProvider>
-            <SuccessStoriesProvider>
-              <PublicationsProvider>
-                <NotificationsProvider>
-                   <RegionalOfficesProvider>
-                      <MediaProvider>
-                        <FaqProvider>
-                          <KeyPersonnelProvider>
-                            {children}
-                          </KeyPersonnelProvider>
-                        </FaqProvider>
-                      </MediaProvider>
-                  </RegionalOfficesProvider>
-                </NotificationsProvider>
-              </PublicationsProvider>
-            </SuccessStoriesProvider>
-          </PagesProvider>
+          <UsersProvider>
+            <PagesProvider>
+              <SuccessStoriesProvider>
+                <PublicationsProvider>
+                  <NotificationsProvider>
+                     <RegionalOfficesProvider>
+                        <MediaProvider>
+                          <FaqProvider>
+                            <KeyPersonnelProvider>
+                              {children}
+                            </KeyPersonnelProvider>
+                          </FaqProvider>
+                        </MediaProvider>
+                    </RegionalOfficesProvider>
+                  </NotificationsProvider>
+                </PublicationsProvider>
+              </SuccessStoriesProvider>
+            </PagesProvider>
+          </UsersProvider>
         </SettingsProvider>
         <Toaster />
       </body>

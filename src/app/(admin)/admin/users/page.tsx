@@ -54,19 +54,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUsers } from "@/context/UsersContext";
+import type { User } from "@/context/UsersContext";
 
-const initialUsers = [
-    { id: 'user-1', name: 'Admin User', email: 'admin@example.com', role: 'Administrator' },
-    { id: 'user-2', name: 'Content Manager', email: 'manager@example.com', role: 'Editor' },
-];
 
-type UserItem = typeof initialUsers[0];
 const roles = ['Administrator', 'Editor', 'Viewer'];
 
 export default function AdminUsersPage() {
   const [open, setOpen] = useState(false);
-  const [users, setUsers] = useState(initialUsers);
-  const [editingItem, setEditingItem] = useState<UserItem | null>(null);
+  const { users, addUser, updateUser, deleteUser } = useUsers();
+  const [editingItem, setEditingItem] = useState<User | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -97,13 +94,13 @@ export default function AdminUsersPage() {
     setOpen(true);
   };
 
-  const handleEdit = (item: UserItem) => {
+  const handleEdit = (item: User) => {
     setEditingItem(item);
     setOpen(true);
   };
 
   const handleDelete = (id: string) => {
-    setUsers(users.filter(item => item.id !== id));
+    deleteUser(id);
   };
   
   const handleOpenChange = (isOpen: boolean) => {
@@ -116,16 +113,15 @@ export default function AdminUsersPage() {
 
   const onSubmit = (data: any) => {
     if (editingItem) {
-        const updatedList = users.map(user => user.id === editingItem.id ? { ...user, ...data } : user);
-        setUsers(updatedList);
+        updateUser(editingItem.id, data);
     } else {
-        const newUser = {
+        const newUser: User = {
         id: `user-${users.length + 1}`,
         name: data.name,
         email: data.email,
         role: data.role,
         };
-        setUsers([newUser, ...users]);
+        addUser(newUser);
     }
     
     setOpen(false);

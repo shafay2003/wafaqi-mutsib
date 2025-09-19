@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -22,7 +23,7 @@ export const complaintSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   phone: z
     .string()
-    .regex(/^(03\d{2}-\d{7})$/, { message: 'Invalid phone number format. Use 03XX-XXXXXXX.' }),
+    .regex(/^(03\d{2}-?\d{7})$/, { message: 'Invalid phone number format. Use 03XX-XXXXXXX.' }),
   address: z
     .string()
     .min(10, { message: 'Address must be at least 10 characters.' }),

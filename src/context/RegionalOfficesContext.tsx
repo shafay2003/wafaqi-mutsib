@@ -1,6 +1,7 @@
+
 'use client';
 
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { regionalOffices as initialRegionalOffices } from '@/lib/placeholder-data';
 
 type OfficeItem = (typeof initialRegionalOffices)[0];
@@ -16,6 +17,26 @@ const RegionalOfficesContext = createContext<RegionalOfficesContextType | undefi
 
 export function RegionalOfficesProvider({ children }: { children: ReactNode }) {
   const [regionalOffices, setRegionalOffices] = useState<OfficeItem[]>(initialRegionalOffices);
+
+  useEffect(() => {
+    try {
+      const storedItems = window.localStorage.getItem('regionalOffices');
+      if (storedItems) {
+        setRegionalOffices(JSON.parse(storedItems));
+      }
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('regionalOffices', JSON.stringify(regionalOffices));
+    } catch (error) {
+      console.error('Error writing to localStorage', error);
+    }
+  }, [regionalOffices]);
+
 
   const addRegionalOffice = (item: OfficeItem) => {
     setRegionalOffices((prev) => [item, ...prev]);

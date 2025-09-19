@@ -1,6 +1,7 @@
+
 'use client';
 
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { faqs as initialFaqs } from '@/lib/placeholder-data';
 
 type FaqItem = (typeof initialFaqs)[0];
@@ -16,6 +17,25 @@ const FaqContext = createContext<FaqContextType | undefined>(undefined);
 
 export function FaqProvider({ children }: { children: ReactNode }) {
   const [faqs, setFaqs] = useState<FaqItem[]>(initialFaqs);
+
+    useEffect(() => {
+    try {
+      const storedItems = window.localStorage.getItem('faqs');
+      if (storedItems) {
+        setFaqs(JSON.parse(storedItems));
+      }
+    } catch (error) {
+      console.error('Error reading from localStorage', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('faqs', JSON.stringify(faqs));
+    } catch (error) {
+      console.error('Error writing to localStorage', error);
+    }
+  }, [faqs]);
 
   const addFaq = (item: FaqItem) => {
     setFaqs((prev) => [item, ...prev]);
