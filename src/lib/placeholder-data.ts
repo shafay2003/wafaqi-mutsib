@@ -352,7 +352,7 @@ export const keyPersonnel = [
   },
   {
     id: 'ali-tahir',
-    name: 'Ali Tahir (Sitara-i-Imtiaz)',
+    name: 'Ali Tahir',
     title: 'Federal Secretary, Wafaqi Mohtasib Secretariat',
     imageId: 'ali-tahir-profile',
     bio: [
