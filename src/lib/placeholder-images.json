@@ -14,6 +14,18 @@
       "imageHint": "man portrait"
     },
     {
+      "id": "ali-tahir-profile",
+      "description": "Portrait of Ali Tahir, Federal Secretary.",
+      "imageUrl": "https://picsum.photos/seed/ali-tahir/400/400",
+      "imageHint": "man portrait suit"
+    },
+    {
+      "id": "person-2-profile",
+      "description": "Portrait of another key person.",
+      "imageUrl": "https://picsum.photos/seed/person-2/400/400",
+      "imageHint": "professional portrait"
+    },
+    {
       "id": "success-1",
       "description": "A happy citizen who has received justice.",
       "imageUrl": "https://picsum.photos/seed/happy-person/600/400",

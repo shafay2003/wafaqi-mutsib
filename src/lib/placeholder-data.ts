@@ -1,4 +1,5 @@
 
+
 import {
   Home,
   Users,
@@ -334,4 +335,19 @@ export const recentActivities = [
       time: '2 days ago',
       icon: FilePenLine
     }
+];
+
+export const keyPersonnel = [
+  {
+    id: 'kp-1',
+    name: 'Ali Tahir (Sitara-i-Imtiaz)',
+    title: 'Federal Secretary, Wafaqi Mohtasib Secretariat',
+    imageId: 'ali-tahir-profile'
+  },
+  {
+    id: 'kp-2',
+    name: 'Another Person',
+    title: 'Another Title, Wafaqi Mohtasib Secretariat',
+    imageId: 'person-2-profile'
+  }
 ];

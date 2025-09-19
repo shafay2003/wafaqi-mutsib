@@ -51,7 +51,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Autoplay from "embla-carousel-autoplay"
-import { complaintStats as initialComplaintStats } from '@/lib/placeholder-data'
+import { complaintStats as initialComplaintStats, keyPersonnel } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
 import { Badge } from '@/components/ui/badge'
@@ -302,6 +302,51 @@ export default function Dashboard() {
             </div>
           </Card>
         </section>
+
+        <section>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight">Meet Our Leadership</h2>
+             <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Get to know the dedicated individuals leading the Wafaqi Mohtasib Secretariat.</p>
+          </div>
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {keyPersonnel.map((person) => {
+                const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
+                return (
+                  <CarouselItem key={person.id} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <Card className="text-center p-6 flex flex-col items-center">
+                        {personImage && (
+                          <Image
+                            src={personImage.imageUrl}
+                            alt={`Portrait of ${person.name}`}
+                            width={120}
+                            height={120}
+                            className="rounded-full mb-4 border-4 border-muted"
+                            data-ai-hint={personImage.imageHint}
+                            quality={95}
+                          />
+                        )}
+                        <h3 className="font-semibold text-lg">{person.name}</h3>
+                        <p className="text-primary text-sm font-medium">{person.title}</p>
+                        <Button variant="outline" size="sm" className="mt-4">Read More</Button>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                )
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
+            <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
+          </Carousel>
+        </section>
+
 
          <section>
           <h2 className="text-3xl font-bold tracking-tight mb-6 text-center">Complaint Statistics at a Glance</h2>
