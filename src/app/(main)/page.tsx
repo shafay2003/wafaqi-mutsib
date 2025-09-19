@@ -130,7 +130,7 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                let itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina' && item.id === 'media-14') || PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
 
                 return (
                   <CarouselItem key={item.id}>

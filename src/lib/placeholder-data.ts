@@ -215,6 +215,13 @@ export const internationalAffiliations = [
 
 export const mediaItems = [
    {
+    id: 'media-14',
+    title: 'Wafaqi Mohtasib addressing workshop in China',
+    description: 'The Wafaqi Mohtasib and President of the Asia Ombudsman Association (AOA), Mr.Ejaz Ahmad Qureshi addressing an international workshop on “Stronger Ombudsmanship for People’s Livelihood” held in Nanjing, China on 10 September, 2025.',
+    type: 'Photo',
+    date: '2025-09-10'
+  },
+   {
     id: 'media-13',
     title: 'AOA Board of Directors Meeting in Nanjing, China',
     description: 'The Wafaqi Mohtasib and President of the Asia Ombudsman Association (AOA), Mr. Ejaz Ahmad Qureshi with members of the AOA Board of Directors after its 26th Annual Meeting held in Nanjing, China on 10 September, 2025.',

@@ -55,6 +55,12 @@
       "imageUrl": "https://mohtasib.gov.pk/SiteImage/Slider/hwmgroupphotochina.png",
       "imageHint": "group photo"
     },
+     {
+      "id": "hwmtalkchina",
+      "description": "The Wafaqi Mohtasib and President of the Asia Ombudsman Association (AOA), Mr.Ejaz Ahmad Qureshi addressing an international workshop on “Stronger Ombudsmanship for People’s Livelihood” held in Nanjing, China on 10 September, 2025.",
+      "imageUrl": "https://mohtasib.gov.pk/SiteImage/Slider/hwmtalkchina.png",
+      "imageHint": "man speech"
+    },
     {
       "id": "media-1",
       "description": "A photo from a seminar or event.",
