@@ -3,7 +3,7 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
 import { regionalOffices as initialRegionalOffices } from '@/lib/placeholder-data';
 
-type OfficeItem = typeof initialRegionalOffices[0];
+type OfficeItem = (typeof initialRegionalOffices)[0];
 
 type RegionalOfficesContextType = {
   regionalOffices: OfficeItem[];

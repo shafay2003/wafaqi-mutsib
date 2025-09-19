@@ -3,7 +3,7 @@
 import { createContext, useState, useContext, ReactNode } from 'react';
 import { faqs as initialFaqs } from '@/lib/placeholder-data';
 
-type FaqItem = typeof initialFaqs[0];
+type FaqItem = (typeof initialFaqs)[0];
 
 type FaqContextType = {
   faqs: FaqItem[];

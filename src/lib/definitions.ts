@@ -22,7 +22,7 @@ export const complaintSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   phone: z
     .string()
-    .min(11, { message: 'Phone number must be at least 11 digits.' }),
+    .regex(/^(03\d{2}-\d{7})$/, { message: 'Invalid phone number format. Use 03XX-XXXXXXX.' }),
   address: z
     .string()
     .min(10, { message: 'Address must be at least 10 characters.' }),
