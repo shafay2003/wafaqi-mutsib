@@ -50,6 +50,7 @@ import {
 import { useKeyPersonnel } from "@/context/KeyPersonnelContext";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { keyPersonnel as initialKeyPersonnel } from "@/lib/placeholder-data";
+import { Label } from "@/components/ui/label";
 
 type PersonnelItem = (typeof initialKeyPersonnel)[0];
 
