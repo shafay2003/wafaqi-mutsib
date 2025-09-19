@@ -51,7 +51,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Autoplay from "embla-carousel-autoplay"
-import { complaintStats as initialComplaintStats, keyPersonnel } from '@/lib/placeholder-data'
 import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
 import { Badge } from '@/components/ui/badge'
@@ -59,12 +58,14 @@ import { useMedia } from '@/context/MediaContext';
 import { useNotifications } from '@/context/NotificationsContext';
 import { useSuccessStories } from '@/context/SuccessStoriesContext';
 import React, { useState, useEffect, useCallback } from 'react';
+import { useKeyPersonnel } from '@/context/KeyPersonnelContext'
 
 
 export default function Dashboard() {
   const { mediaItems } = useMedia();
   const { notifications } = useNotifications();
   const { successStories } = useSuccessStories();
+  const { keyPersonnel } = useKeyPersonnel();
 
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
   const videoItems = mediaItems.filter(item => item.type === 'Video');

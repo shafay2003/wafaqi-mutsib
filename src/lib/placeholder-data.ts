@@ -31,7 +31,8 @@ import {
   Image as ImageIcon,
   Video,
   FilePenLine,
-  MessageSquareQuote
+  MessageSquareQuote,
+  UserSquare,
 } from 'lucide-react';
 
 export const navLinks = [

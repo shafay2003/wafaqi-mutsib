@@ -9,6 +9,7 @@ import {
   Users,
   Landmark,
   HelpCircle,
+  UserSquare,
 } from 'lucide-react';
 
 export type AdminNavLink = {
@@ -25,6 +26,7 @@ export const adminNavLinks: AdminNavLink[] = [
   { href: '/admin/notifications', label: 'Notifications', icon: Newspaper, roles: ['Administrator', 'Editor'] },
   { href: '/admin/success-stories', label: 'Success Stories', icon: Award, roles: ['Administrator', 'Editor'] },
   { href: '/admin/publications', label: 'Publications', icon: BookOpen, roles: ['Administrator', 'Editor'] },
+  { href: '/admin/leadership', label: 'Leadership', icon: UserSquare, roles: ['Administrator', 'Editor'] },
   { href: '/admin/regional-offices', label: 'Regional Offices', icon: Landmark, roles: ['Administrator', 'Editor'] },
   { href: '/admin/faq', label: 'FAQ', icon: HelpCircle, roles: ['Administrator', 'Editor'] },
   { href: '/admin/pages', label: 'Pages', icon: FileText, roles: ['Administrator', 'Editor'] },

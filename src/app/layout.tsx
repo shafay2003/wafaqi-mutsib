@@ -11,6 +11,7 @@ import { SettingsProvider } from '@/context/SettingsContext';
 import { RegionalOfficesProvider } from '@/context/RegionalOfficesContext';
 import { FaqProvider } from '@/context/FaqContext';
 import { PagesProvider } from '@/context/PagesContext';
+import { KeyPersonnelProvider } from '@/context/KeyPersonnelContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -43,7 +44,9 @@ export default function RootLayout({
                    <RegionalOfficesProvider>
                       <MediaProvider>
                         <FaqProvider>
-                          {children}
+                          <KeyPersonnelProvider>
+                            {children}
+                          </KeyPersonnelProvider>
                         </FaqProvider>
                       </MediaProvider>
                   </RegionalOfficesProvider>

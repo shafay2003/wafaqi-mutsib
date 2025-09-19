@@ -1,31 +1,18 @@
 
+'use client';
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { keyPersonnel } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Metadata } from 'next';
+import { Card, CardContent } from '@/components/ui/card';
+import { useKeyPersonnel } from '@/context/KeyPersonnelContext';
 
 type Props = {
   params: { id: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const person = keyPersonnel.find(p => p.id === params.id);
-
-  if (!person) {
-    return {
-      title: 'Profile Not Found',
-    };
-  }
-
-  return {
-    title: person.name,
-    description: `Read the profile of ${person.name}, ${person.title}.`,
-  };
-}
-
 export default function ProfilePage({ params }: Props) {
+  const { keyPersonnel } = useKeyPersonnel();
   const person = keyPersonnel.find(p => p.id === params.id);
 
   if (!person) {
