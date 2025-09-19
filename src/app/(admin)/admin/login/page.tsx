@@ -68,6 +68,14 @@ export default function AdminLoginPage() {
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Sign In
               </Button>
+               <Button
+                variant="link"
+                className="w-full"
+                onClick={() => router.push('/admin/dashboard')}
+                type="button"
+              >
+                Skip to Dashboard
+              </Button>
             </div>
           </form>
         </CardContent>
