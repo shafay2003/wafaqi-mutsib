@@ -1,18 +1,22 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { useRegionalOffices } from "@/context/RegionalOfficesContext";
+import { usePages } from "@/context/PagesContext";
+
 
 export default function ContactPage() {
   const { regionalOffices } = useRegionalOffices();
+  const { pages } = usePages();
   
   return (
     <div className="flex flex-col gap-8">
         <header className="text-left space-y-1.5">
           <h1 className="text-2xl font-semibold tracking-tight">Get in Touch</h1>
           <p className="text-sm text-muted-foreground">
-            We are here to help. Find the contact details for our head office and regional centers below.
+            {pages.contact}
           </p>
         </header>
 

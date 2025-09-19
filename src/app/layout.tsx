@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
@@ -9,6 +10,7 @@ import { SuccessStoriesProvider } from '@/context/SuccessStoriesContext';
 import { SettingsProvider } from '@/context/SettingsContext';
 import { RegionalOfficesProvider } from '@/context/RegionalOfficesContext';
 import { FaqProvider } from '@/context/FaqContext';
+import { PagesProvider } from '@/context/PagesContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,19 +36,21 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-body antialiased`}>
         <SettingsProvider>
-          <SuccessStoriesProvider>
-            <PublicationsProvider>
-              <NotificationsProvider>
-                 <RegionalOfficesProvider>
-                    <MediaProvider>
-                      <FaqProvider>
-                        {children}
-                      </FaqProvider>
-                    </MediaProvider>
-                </RegionalOfficesProvider>
-              </NotificationsProvider>
-            </PublicationsProvider>
-          </SuccessStoriesProvider>
+          <PagesProvider>
+            <SuccessStoriesProvider>
+              <PublicationsProvider>
+                <NotificationsProvider>
+                   <RegionalOfficesProvider>
+                      <MediaProvider>
+                        <FaqProvider>
+                          {children}
+                        </FaqProvider>
+                      </MediaProvider>
+                  </RegionalOfficesProvider>
+                </NotificationsProvider>
+              </PublicationsProvider>
+            </SuccessStoriesProvider>
+          </PagesProvider>
         </SettingsProvider>
         <Toaster />
       </body>

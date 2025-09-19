@@ -1,25 +1,15 @@
+
+'use client';
+
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
-import type { Metadata } from 'next';
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-
-export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'Learn about the history, mission, and functions of the Wafaqi Mohtasib (Federal Ombudsman) of Pakistan.',
-};
-
+import { usePages } from "@/context/PagesContext";
 
 export default function AboutPage() {
   const orgChartImage = PlaceHolderImages.find(p => p.id === 'org-chart');
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
-
-  const functions = [
-    "Diagnosing, investigating, redressing and rectifying any injustice done to a person through maladministration.",
-    "Cultivating a transparent and accountable public sector culture.",
-    "Providing free, fair, and expeditious justice.",
-    "Reforming agency procedures to prevent future grievances."
-  ];
+  const { pages, loading } = usePages();
 
   return (
     <div className="flex flex-col gap-8">
@@ -46,24 +36,16 @@ export default function AboutPage() {
         </header>
 
         <main className="grid gap-6 md:gap-8 lg:grid-cols-3">
-            <Card className="lg:col-span-1">
-              <CardHeader>
-                <CardTitle>Our Mission</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-4 leading-relaxed">
-                <p>The mission of the Wafaqi Mohtasib is to provide an effective and efficient mechanism for protecting the rights of the people, ensuring adherence to the rule of law, and promoting good governance. We are dedicated to providing speedy relief to citizens who have suffered from maladministration by any agency of the Federal Government.</p>
-              </CardContent>
-            </Card>
-
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle>History & Establishment</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-4 leading-relaxed">
-                <p>The institution of Wafaqi Mohtasib (Ombudsman) was established in Pakistan on January 24, 1983, through the Establishment of the Office of Wafaqi Mohtasib (Ombudsman) Order, 1983 (President's Order No. 1 of 1983).</p>
-                <p>It is an independent and impartial body that provides a check on the executive branch of the government and has resolved millions of cases, providing relief to the common man without any cost.</p>
-              </CardContent>
-            </Card>
+            <div className="lg:col-span-3">
+              <Card>
+                  <CardHeader>
+                    <CardTitle>History & Establishment</CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-muted-foreground space-y-4 leading-relaxed prose prose-gray max-w-none dark:prose-invert">
+                    {loading ? <p>Loading...</p> : <p>{pages.about}</p>}
+                  </CardContent>
+              </Card>
+            </div>
         </main>
         
          <div className="grid gap-6 md:gap-8 lg:grid-cols-3">
