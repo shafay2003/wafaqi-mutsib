@@ -145,7 +145,7 @@ export default function Dashboard() {
                                 quality={95}
                               />
                             )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                             <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
                               <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
                               <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
@@ -191,13 +191,13 @@ export default function Dashboard() {
                 )
               })}
             </CarouselContent>
+            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
+            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10" />
             <div className="absolute bottom-4 right-4 z-20 flex gap-2">
               <Button size="icon" variant="outline" className="relative" onClick={togglePlay}>
                 {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 <span className="sr-only">{isPlaying ? "Pause slides" : "Play slides"}</span>
               </Button>
-              <CarouselPrevious className="relative translate-y-0 left-0 right-0 top-0" />
-              <CarouselNext className="relative translate-y-0 left-0 right-0 top-0" />
             </div>
           </Carousel>
         </section>
