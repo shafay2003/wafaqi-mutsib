@@ -4,7 +4,14 @@
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { mediaItems as initialMediaItems } from '@/lib/placeholder-data';
 
-type MediaItem = typeof initialMediaItems[0];
+export type MediaItem = {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  date: string;
+  imageUrl?: string;
+};
 
 type MediaContextType = {
   mediaItems: MediaItem[];

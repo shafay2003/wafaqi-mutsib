@@ -130,16 +130,24 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                let itemImage;
-                if (item.id === 'media-13') {
-                  itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-                } else if (item.id === 'media-14') {
-                  itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
-                } else if (item.id === 'media-15') {
-                    itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
-                }
-                else {
-                  itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                let itemImageSrc: string | undefined = item.imageUrl;
+                let itemImageHint: string | undefined;
+
+                if (!itemImageSrc) {
+                    let placeholderId;
+                    if (item.id === 'media-13') {
+                      placeholderId = 'aoa-china-meeting';
+                    } else if (item.id === 'media-14') {
+                      placeholderId = 'hwmtalkchina';
+                    } else if (item.id === 'media-15') {
+                        placeholderId = 'presentation-peeking';
+                    }
+                    else {
+                      placeholderId = `media-${(index % 6) + 1}`;
+                    }
+                    const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                    itemImageSrc = placeholder?.imageUrl;
+                    itemImageHint = placeholder?.imageHint;
                 }
                 
                 return (
@@ -148,13 +156,13 @@ export default function Dashboard() {
                       <DialogTrigger asChild>
                          <div className="cursor-pointer">
                           <div className="relative h-[450px] md:h-[500px]">
-                            {itemImage && (
+                            {itemImageSrc && (
                               <Image
-                                src={itemImage.imageUrl}
+                                src={itemImageSrc}
                                 alt={item.title}
                                 fill
                                 className="object-cover"
-                                data-ai-hint={itemImage.imageHint}
+                                data-ai-hint={itemImageHint}
                                 priority={index === 0}
                                 quality={95}
                               />
@@ -186,10 +194,10 @@ export default function Dashboard() {
                                 Your browser does not support the video tag.
                               </video>
                             </div>
-                          ) : itemImage && (
+                          ) : itemImageSrc && (
                             <div className="relative aspect-video rounded-lg overflow-hidden">
                               <Image
-                                src={itemImage.imageUrl}
+                                src={itemImageSrc}
                                 alt={item.title}
                                 fill
                                 className="object-contain"
@@ -344,29 +352,38 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                    let itemImage;
-                    if (item.id === 'media-13') {
-                      itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-                    } else if (item.id === 'media-14') {
-                      itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
-                    } else if (item.id === 'media-15') {
-                        itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
-                    } else {
-                      itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+                    let itemImageSrc: string | undefined = item.imageUrl;
+                    let itemImageHint: string | undefined;
+
+                    if (!itemImageSrc) {
+                        let placeholderId;
+                        if (item.id === 'media-13') {
+                          placeholderId = 'aoa-china-meeting';
+                        } else if (item.id === 'media-14') {
+                          placeholderId = 'hwmtalkchina';
+                        } else if (item.id === 'media-15') {
+                            placeholderId = 'presentation-peeking';
+                        } else {
+                          placeholderId = `media-${(index % 6) + 1}`;
+                        }
+                        const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                        itemImageSrc = placeholder?.imageUrl;
+                        itemImageHint = placeholder?.imageHint;
                     }
+
 
                     return (
                       <Dialog key={item.id}>
                         <DialogTrigger asChild>
                           <Card className="overflow-hidden group flex flex-col cursor-pointer">
-                              {itemImage && (
+                              {itemImageSrc && (
                               <div className="relative aspect-video">
                                   <Image
-                                      src={itemImage.imageUrl}
-                                      alt={itemImage.description}
+                                      src={itemImageSrc}
+                                      alt={item.title}
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                      data-ai-hint={itemImage.imageHint}
+                                      data-ai-hint={itemImageHint}
                                       quality={90}
                                   />
                               </div>
@@ -386,10 +403,10 @@ export default function Dashboard() {
                               <DialogDescription>{item.date} | {item.type}</DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
-                              {itemImage && (
+                              {itemImageSrc && (
                                   <div className="relative aspect-video rounded-lg overflow-hidden">
                                       <Image
-                                          src={itemImage.imageUrl}
+                                          src={itemImageSrc}
                                           alt={item.title}
                                           fill
                                           className="object-contain"

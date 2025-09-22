@@ -57,16 +57,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useMedia } from "@/context/MediaContext";
+import { useMedia, type MediaItem } from "@/context/MediaContext";
 
-
-type MediaItem = {
-    id: string;
-    title: string;
-    description: string;
-    type: string;
-    date: string;
-}
 
 const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void }) => (
   <Table>
@@ -83,31 +75,35 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
     </TableHeader>
     <TableBody>
       {items.map((item, index) => {
-        let itemImage;
-        if (item.id === 'media-13') {
-          itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting');
-        } else if (item.id === 'media-14') {
-          itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
-        } else if (item.id === 'media-15') {
-            itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
-        } else {
-          itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        let itemImageSrc: string | undefined = item.imageUrl;
+        if (!itemImageSrc) {
+            let placeholderId;
+            if (item.id === 'media-13') {
+              placeholderId = 'aoa-china-meeting';
+            } else if (item.id === 'media-14') {
+              placeholderId = 'hwmtalkchina';
+            } else if (item.id === 'media-15') {
+              placeholderId = 'presentation-peeking';
+            } else {
+              placeholderId = `media-${(index % 6) + 1}`;
+            }
+            itemImageSrc = PlaceHolderImages.find(p => p.id === placeholderId)?.imageUrl;
         }
 
         return (
           <TableRow key={item.id}>
               <TableCell className="hidden sm:table-cell">
-                {itemImage ? (
+                {itemImageSrc ? (
                   <Image
                     alt={item.title}
                     className="aspect-square rounded-md object-cover"
                     height="64"
-                    src={itemImage.imageUrl}
+                    src={itemImageSrc}
                     width="64"
                     quality={85}
                   />
                 ) : (
-                  <div className="h-16 w-16 bg-muted rounded-md" />
+                  <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center text-xs text-muted-foreground">No Image</div>
                 )}
               </TableCell>
             <TableCell className="font-medium">{item.title}</TableCell>
@@ -157,7 +153,7 @@ export default function AdminMediaPage() {
       title: "",
       description: "",
       type: "Photo",
-      image: undefined,
+      file: undefined as FileList | undefined,
     }
   });
 
@@ -187,17 +183,24 @@ export default function AdminMediaPage() {
         description: editingItem.description,
         type: editingItem.type,
       });
+      setFilePreview(editingItem.imageUrl || null);
+      if (editingItem.type === 'Video') {
+        setFileType('video');
+      } else if(editingItem.imageUrl) {
+        setFileType('image');
+      }
     } else {
       form.reset({
         title: "",
         description: "",
         type: "Photo",
-        image: undefined,
+        file: undefined,
       });
     }
     if (!open) {
       setFilePreview(null);
       setFileType(null);
+      setEditingItem(null);
     }
   }, [editingItem, form, open]);
 
@@ -223,21 +226,26 @@ export default function AdminMediaPage() {
   };
 
   const onSubmit = (data: any) => {
+    const newImageUrl = fileType === 'image' && filePreview ? filePreview : undefined;
+
     if (editingItem) {
-      updateMediaItem(editingItem.id, data);
+      updateMediaItem(editingItem.id, { 
+        ...data,
+        imageUrl: newImageUrl || editingItem.imageUrl
+      });
     } else {
-      const newItem = {
+      const newItem: MediaItem = {
         id: `media-${mediaItems.length + 1}`,
         title: data.title,
         description: data.description,
         type: data.type,
         date: new Date().toLocaleDateString('en-CA'),
+        imageUrl: newImageUrl,
       };
       addMediaItem(newItem);
     }
     
-    setOpen(false);
-    setEditingItem(null);
+    handleOpenChange(false);
   };
 
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
@@ -268,7 +276,7 @@ export default function AdminMediaPage() {
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
                 <FormField
                     control={form.control}
                     name="title"
@@ -318,7 +326,7 @@ export default function AdminMediaPage() {
                 />
                 <FormField
                     control={form.control}
-                    name="image"
+                    name="file"
                     render={({ field }) => (
                     <FormItem>
                         <FormLabel>File</FormLabel>
@@ -327,7 +335,7 @@ export default function AdminMediaPage() {
                             type="file" 
                             accept="image/png, image/jpeg, image/gif, video/mp4, video/webm"
                             onChange={(e) => {
-                            field.onChange(e.target.files);
+                            field.onChange(e.target.files?.[0]);
                             handleFileChange(e);
                             }}
                         />
@@ -338,16 +346,16 @@ export default function AdminMediaPage() {
                 />
                 {filePreview && (
                     <div className="mt-4">
-                    <p className="text-sm font-medium mb-2">File Preview:</p>
-                    {fileType === 'image' && (
-                        <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
-                    )}
-                    {fileType === 'video' && (
-                        <video src={filePreview} controls className="rounded-md w-full" />
-                    )}
+                        <p className="text-sm font-medium mb-2">File Preview:</p>
+                        {fileType === 'image' && (
+                            <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-contain w-full max-h-64" />
+                        )}
+                        {fileType === 'video' && (
+                            <video src={filePreview} controls className="rounded-md w-full max-h-64" />
+                        )}
                     </div>
                 )}
-                <DialogFooter>
+                <DialogFooter className="sticky bottom-0 bg-background pt-4 pb-0 -mx-6 px-6">
                     <Button type="submit">Save</Button>
                 </DialogFooter>
                 </form>
@@ -379,3 +387,4 @@ export default function AdminMediaPage() {
     </div>
   );
 }
+
