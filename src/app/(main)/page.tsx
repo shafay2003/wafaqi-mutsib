@@ -284,18 +284,11 @@ export default function Dashboard() {
             <h2 className="text-3xl font-bold tracking-tight">Meet Our Leadership</h2>
              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Get to know the dedicated individuals leading the Wafaqi Mohtasib Secretariat.</p>
           </div>
-          <Carousel
-            opts={{
-              align: "center",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {keyPersonnel.map((person) => {
                 const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
                 return (
-                  <CarouselItem key={person.id} className="md:basis-1/2 lg:basis-1/3">
+                  <div key={person.id}>
                      <Link href={`/profile/${person.id}`} className="p-1 h-full block group">
                       <Card className="text-center p-6 flex flex-col items-center h-full group-hover:shadow-lg transition-shadow">
                         {personImage && (
@@ -314,13 +307,10 @@ export default function Dashboard() {
                         <p className="text-muted-foreground text-sm mt-4 flex-grow line-clamp-3">{person.summary}</p>
                       </Card>
                     </Link>
-                  </CarouselItem>
+                  </div>
                 )
               })}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-[-20px] top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute right-[-20px] top-1/2 -translate-y-1/2" />
-          </Carousel>
+          </div>
         </section>
 
 
