@@ -127,9 +127,7 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                 const placeholder = PlaceHolderImages.find(p => p.id === item.id);
-                 const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
-                 const itemImageHint = placeholder?.imageHint;
+                const itemImageSrc = item.imageUrl;
                 
                 return (
                   <CarouselItem key={item.id}>
@@ -143,7 +141,6 @@ export default function Dashboard() {
                                 alt={item.title}
                                 fill
                                 className="object-cover"
-                                data-ai-hint={itemImageHint}
                                 priority={index === 0}
                                 quality={95}
                               />
@@ -333,26 +330,26 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                     const placeholder = PlaceHolderImages.find(p => p.id === item.id);
-                     const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
-                     const itemImageHint = placeholder?.imageHint;
-
+                    const itemImageSrc = item.imageUrl;
 
                     return (
                       <Dialog key={item.id}>
                         <DialogTrigger asChild>
                           <Card className="overflow-hidden group flex flex-col cursor-pointer">
-                              {itemImageSrc && (
+                              {itemImageSrc ? (
                               <div className="relative aspect-video">
                                   <Image
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                      data-ai-hint={itemImageHint}
                                       quality={90}
                                   />
                               </div>
+                              ) : (
+                                <div className="aspect-video bg-muted flex items-center justify-center">
+                                  <p className="text-xs text-muted-foreground">No image</p>
+                                </div>
                               )}
                               <div className="p-4 flex flex-col flex-grow">
                                   <div className="flex items-center justify-between mb-2">
@@ -401,28 +398,29 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {videoItems.slice(0, 3).map((item, index) => {
-                    const placeholder = PlaceHolderImages.find(p => p.id === item.id);
-                    const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
-                    const itemImageHint = placeholder?.imageHint;
+                    const itemImageSrc = item.imageUrl;
                     
                     return (
                       <Dialog key={item.id}>
                         <DialogTrigger asChild>
                           <Card className="overflow-hidden group flex flex-col cursor-pointer">
-                              {itemImageSrc && (
+                              {itemImageSrc ? (
                               <div className="relative aspect-video">
                                   <Image
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                      data-ai-hint={itemImageHint}
                                       quality={90}
                                   />
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
                                   </div>
                               </div>
+                              ) : (
+                                <div className="aspect-video bg-muted flex items-center justify-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-muted-foreground" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                </div>
                               )}
                               <div className="p-4 flex flex-col flex-grow">
                                   <div className="flex items-center justify-between mb-2">
