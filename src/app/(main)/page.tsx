@@ -140,7 +140,7 @@ export default function Dashboard() {
                                 src={itemImageSrc}
                                 alt={item.title}
                                 fill
-                                className="object-cover"
+                                className="object-contain"
                                 priority={index === 0}
                                 quality={95}
                               />
