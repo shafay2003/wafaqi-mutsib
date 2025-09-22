@@ -19,7 +19,6 @@ export function KeyPersonnelProvider({ children }: { children: ReactNode }) {
   const [keyPersonnel, setKeyPersonnel] = useState<Personnel[]>(initialKeyPersonnel);
 
   useEffect(() => {
-    // Load from localStorage only on the client-side after initial render
     try {
       const storedItems = window.localStorage.getItem('keyPersonnel');
       if (storedItems) {

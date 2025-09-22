@@ -1,3 +1,4 @@
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -15,18 +16,18 @@ type PublicationsContextType = {
 const PublicationsContext = createContext<PublicationsContextType | undefined>(undefined);
 
 export function PublicationsProvider({ children }: { children: ReactNode }) {
-  const [publications, setPublications] = useState<PublicationItem[]>(() => {
-    if (typeof window === 'undefined') {
-      return initialPublications;
-    }
+  const [publications, setPublications] = useState<PublicationItem[]>(initialPublications);
+
+  useEffect(() => {
     try {
       const storedItems = window.localStorage.getItem('publications');
-      return storedItems ? JSON.parse(storedItems) : initialPublications;
+      if (storedItems) {
+        setPublications(JSON.parse(storedItems));
+      }
     } catch (error) {
       console.error('Error reading from localStorage', error);
-      return initialPublications;
     }
-  });
+  }, []);
 
   useEffect(() => {
     try {

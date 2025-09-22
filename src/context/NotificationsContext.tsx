@@ -1,3 +1,4 @@
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -15,18 +16,18 @@ type NotificationsContextType = {
 const NotificationsContext = createContext<NotificationsContextType | undefined>(undefined);
 
 export function NotificationsProvider({ children }: { children: ReactNode }) {
-  const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
-    if (typeof window === 'undefined') {
-      return initialNotifications;
-    }
+  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
+
+  useEffect(() => {
     try {
       const storedItems = window.localStorage.getItem('notifications');
-      return storedItems ? JSON.parse(storedItems) : initialNotifications;
+      if (storedItems) {
+        setNotifications(JSON.parse(storedItems));
+      }
     } catch (error) {
       console.error('Error reading from localStorage', error);
-      return initialNotifications;
     }
-  });
+  }, []);
 
   useEffect(() => {
     try {

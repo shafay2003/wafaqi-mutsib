@@ -18,7 +18,7 @@ const FaqContext = createContext<FaqContextType | undefined>(undefined);
 export function FaqProvider({ children }: { children: ReactNode }) {
   const [faqs, setFaqs] = useState<FaqItem[]>(initialFaqs);
 
-    useEffect(() => {
+  useEffect(() => {
     try {
       const storedItems = window.localStorage.getItem('faqs');
       if (storedItems) {
@@ -26,6 +26,7 @@ export function FaqProvider({ children }: { children: ReactNode }) {
       }
     } catch (error) {
       console.error('Error reading from localStorage', error);
+      // If error, state remains initialFaqs
     }
   }, []);
 

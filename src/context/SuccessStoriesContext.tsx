@@ -1,3 +1,4 @@
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -15,18 +16,18 @@ type SuccessStoriesContextType = {
 const SuccessStoriesContext = createContext<SuccessStoriesContextType | undefined>(undefined);
 
 export function SuccessStoriesProvider({ children }: { children: ReactNode }) {
-  const [successStories, setSuccessStories] = useState<StoryItem[]>(() => {
-    if (typeof window === 'undefined') {
-      return initialSuccessStories;
-    }
+  const [successStories, setSuccessStories] = useState<StoryItem[]>(initialSuccessStories);
+
+  useEffect(() => {
     try {
       const storedItems = window.localStorage.getItem('successStories');
-      return storedItems ? JSON.parse(storedItems) : initialSuccessStories;
+      if (storedItems) {
+        setSuccessStories(JSON.parse(storedItems));
+      }
     } catch (error) {
       console.error('Error reading from localStorage', error);
-      return initialSuccessStories;
     }
-  });
+  }, []);
 
   useEffect(() => {
     try {
