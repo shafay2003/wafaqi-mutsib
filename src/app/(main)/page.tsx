@@ -127,20 +127,9 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                 let itemImageSrc: string | undefined = item.imageUrl;
-                 let itemImageHint: string | undefined;
-                 if (!itemImageSrc) {
-                     let placeholderId: string;
-                     const specificPlaceholders: { [key: string]: string } = {
-                         'media-13': 'aoa-china-meeting',
-                         'media-14': 'hwmtalkchina',
-                         'media-15': 'presentation-peeking',
-                     };
-                     placeholderId = specificPlaceholders[item.id] || `media-${(index % 6) + 1}`;
-                     const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                     itemImageSrc = placeholder?.imageUrl;
-                     itemImageHint = placeholder?.imageHint;
-                 }
+                 const placeholder = PlaceHolderImages.find(p => p.id === item.id);
+                 const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
+                 const itemImageHint = placeholder?.imageHint;
                 
                 return (
                   <CarouselItem key={item.id}>
@@ -344,20 +333,9 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                     let itemImageSrc: string | undefined = item.imageUrl;
-                     let itemImageHint: string | undefined;
-                     if (!itemImageSrc) {
-                         let placeholderId: string;
-                         const specificPlaceholders: { [key: string]: string } = {
-                             'media-13': 'aoa-china-meeting',
-                             'media-14': 'hwmtalkchina',
-                             'media-15': 'presentation-peeking',
-                         };
-                         placeholderId = specificPlaceholders[item.id] || `media-${(index % 6) + 1}`;
-                         const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                         itemImageSrc = placeholder?.imageUrl;
-                         itemImageHint = placeholder?.imageHint;
-                     }
+                     const placeholder = PlaceHolderImages.find(p => p.id === item.id);
+                     const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
+                     const itemImageHint = placeholder?.imageHint;
 
 
                     return (
@@ -423,14 +401,9 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {videoItems.slice(0, 3).map((item, index) => {
-                    let itemImageSrc: string | undefined = item.imageUrl;
-                    let itemImageHint: string | undefined;
-
-                    if (!itemImageSrc) {
-                      const placeholder = PlaceHolderImages.find(p => p.id === `media-${((index + 1) % 3) * 2}`);
-                      itemImageSrc = placeholder?.imageUrl;
-                      itemImageHint = placeholder?.imageHint;
-                    }
+                    const placeholder = PlaceHolderImages.find(p => p.id === item.id);
+                    const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
+                    const itemImageHint = placeholder?.imageHint;
                     
                     return (
                       <Dialog key={item.id}>
@@ -557,3 +530,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+    

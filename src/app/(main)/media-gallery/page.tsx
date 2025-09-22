@@ -32,24 +32,9 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 let itemImageSrc: string | undefined = item.imageUrl;
-                 let itemImageHint: string | undefined;
-
-                 if (!itemImageSrc) {
-                     let placeholderId;
-                     if (item.id === 'media-13') {
-                       placeholderId = 'aoa-china-meeting';
-                     } else if (item.id === 'media-14') {
-                       placeholderId = 'hwmtalkchina';
-                     } else if (item.id === 'media-15') {
-                        placeholderId = 'presentation-peeking';
-                     } else {
-                       placeholderId = `media-${(index % 6) + 1}`;
-                     }
-                     const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                     itemImageSrc = placeholder?.imageUrl;
-                     itemImageHint = placeholder?.imageHint;
-                 }
+                 const placeholder = PlaceHolderImages.find(p => p.id === item.id);
+                 const itemImageSrc = item.imageUrl || placeholder?.imageUrl;
+                 const itemImageHint = placeholder?.imageHint;
 
 
                  return (
@@ -118,3 +103,5 @@ export default function MediaGalleryPage() {
     </div>
   );
 }
+
+    

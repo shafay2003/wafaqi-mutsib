@@ -39,7 +39,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useForm } from "react-hook-form";
 import { PlusCircle, MoreHorizontal } from "lucide-react";
 import {
@@ -74,23 +73,23 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
       </TableRow>
     </TableHeader>
     <TableBody>
-      {items.map((item, index) => {
-        let itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`)?.imageUrl;
-
+      {items.map((item) => {
         return (
           <TableRow key={item.id}>
               <TableCell className="hidden sm:table-cell">
-                {itemImageSrc ? (
+                {item.imageUrl ? (
                   <Image
                     alt={item.title}
                     className="aspect-square rounded-md object-cover"
                     height="64"
-                    src={itemImageSrc}
+                    src={item.imageUrl}
                     width="64"
                     quality={85}
                   />
                 ) : (
-                  <div className="h-16 w-16 bg-muted rounded-md" />
+                  <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center text-xs text-muted-foreground">
+                    No Image
+                  </div>
                 )}
               </TableCell>
             <TableCell className="font-medium">{item.title}</TableCell>
@@ -172,7 +171,7 @@ export default function AdminMediaPage() {
       });
       if (editingItem.imageUrl) {
         setFilePreview(editingItem.imageUrl);
-        setFileType(editingItem.type.toLowerCase() as 'image' | 'video');
+        setFileType(editingItem.type.toLowerCase() === 'video' ? 'video' : 'image');
       }
     } else {
       form.reset({
@@ -389,3 +388,5 @@ export default function AdminMediaPage() {
     </div>
   );
 }
+
+    
