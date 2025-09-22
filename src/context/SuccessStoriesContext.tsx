@@ -1,10 +1,11 @@
 
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { successStories as initialSuccessStories } from '@/lib/placeholder-data';
 
-type StoryItem = typeof initialSuccessStories[0];
+export type StoryItem = (typeof initialSuccessStories)[0] & { imageUrl?: string };
 
 type SuccessStoriesContextType = {
   successStories: StoryItem[];
@@ -17,6 +18,7 @@ const SuccessStoriesContext = createContext<SuccessStoriesContextType | undefine
 
 export function SuccessStoriesProvider({ children }: { children: ReactNode }) {
   const [successStories, setSuccessStories] = useState<StoryItem[]>(initialSuccessStories);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -27,15 +29,18 @@ export function SuccessStoriesProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error reading from localStorage', error);
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    try {
-      window.localStorage.setItem('successStories', JSON.stringify(successStories));
-    } catch (error) {
-      console.error('Error writing to localStorage', error);
+    if (isLoaded) {
+      try {
+        window.localStorage.setItem('successStories', JSON.stringify(successStories));
+      } catch (error) {
+        console.error('Error writing to localStorage', error);
+      }
     }
-  }, [successStories]);
+  }, [successStories, isLoaded]);
 
 
   const addSuccessStory = (item: StoryItem) => {

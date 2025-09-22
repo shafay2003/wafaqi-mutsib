@@ -1,10 +1,11 @@
 
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { notifications as initialNotifications } from '@/lib/placeholder-data';
 
-type NotificationItem = typeof initialNotifications[0];
+export type NotificationItem = (typeof initialNotifications)[0];
 
 type NotificationsContextType = {
   notifications: NotificationItem[];
@@ -17,6 +18,7 @@ const NotificationsContext = createContext<NotificationsContextType | undefined>
 
 export function NotificationsProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -27,15 +29,18 @@ export function NotificationsProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error reading from localStorage', error);
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    try {
-      window.localStorage.setItem('notifications', JSON.stringify(notifications));
-    } catch (error) {
-      console.error('Error writing to localStorage', error);
+    if (isLoaded) {
+      try {
+        window.localStorage.setItem('notifications', JSON.stringify(notifications));
+      } catch (error) {
+        console.error('Error writing to localStorage', error);
+      }
     }
-  }, [notifications]);
+  }, [notifications, isLoaded]);
 
   const addNotification = (item: NotificationItem) => {
     const newItem = { ...item, url: item.url || '#' };

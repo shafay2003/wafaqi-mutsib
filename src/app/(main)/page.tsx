@@ -115,9 +115,6 @@ export default function Dashboard() {
     }
   }, [api]);
   
-  const mohtasibProfileImage = PlaceHolderImages.find(p => p.id === 'mohtasib-profile');
-
-
   return (
     <>
       <div className="flex flex-col gap-12 md:gap-16">
@@ -130,25 +127,20 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                let itemImageSrc: string | undefined = item.imageUrl;
-                let itemImageHint: string | undefined;
-
-                if (!itemImageSrc) {
-                    let placeholderId;
-                    if (item.id === 'media-13') {
-                      placeholderId = 'aoa-china-meeting';
-                    } else if (item.id === 'media-14') {
-                      placeholderId = 'hwmtalkchina';
-                    } else if (item.id === 'media-15') {
-                        placeholderId = 'presentation-peeking';
-                    }
-                    else {
-                      placeholderId = `media-${(index % 6) + 1}`;
-                    }
-                    const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                    itemImageSrc = placeholder?.imageUrl;
-                    itemImageHint = placeholder?.imageHint;
-                }
+                 let itemImageSrc: string | undefined = item.imageUrl;
+                 let itemImageHint: string | undefined;
+                 if (!itemImageSrc) {
+                     let placeholderId: string;
+                     const specificPlaceholders: { [key: string]: string } = {
+                         'media-13': 'aoa-china-meeting',
+                         'media-14': 'hwmtalkchina',
+                         'media-15': 'presentation-peeking',
+                     };
+                     placeholderId = specificPlaceholders[item.id] || `media-${(index % 6) + 1}`;
+                     const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                     itemImageSrc = placeholder?.imageUrl;
+                     itemImageHint = placeholder?.imageHint;
+                 }
                 
                 return (
                   <CarouselItem key={item.id}>
@@ -190,7 +182,7 @@ export default function Dashboard() {
                         <div className="space-y-4">
                           {item.type === 'Video' ? (
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                               <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls className="w-full h-full" autoPlay>
+                               <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
                                 Your browser does not support the video tag.
                               </video>
                             </div>
@@ -294,19 +286,19 @@ export default function Dashboard() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {keyPersonnel.map((person) => {
-                const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
+                const personImage = person.imageUrl || PlaceHolderImages.find(p => p.id === person.imageId)?.imageUrl;
                 return (
                   <div key={person.id}>
                      <Link href={`/profile/${person.id}`} className="p-1 h-full block group">
                       <Card className="text-center p-6 flex flex-col items-center h-full group-hover:shadow-lg transition-shadow">
                         {personImage && (
                           <Image
-                            src={personImage.imageUrl}
+                            src={personImage}
                             alt={`Portrait of ${person.name}`}
                             width={120}
                             height={120}
                             className="rounded-full mb-4 border-4 border-muted object-cover aspect-square transition-transform group-hover:scale-105"
-                            data-ai-hint={personImage.imageHint}
+                            data-ai-hint="man portrait"
                             quality={95}
                           />
                         )}
@@ -352,24 +344,20 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                    let itemImageSrc: string | undefined = item.imageUrl;
-                    let itemImageHint: string | undefined;
-
-                    if (!itemImageSrc) {
-                        let placeholderId;
-                        if (item.id === 'media-13') {
-                          placeholderId = 'aoa-china-meeting';
-                        } else if (item.id === 'media-14') {
-                          placeholderId = 'hwmtalkchina';
-                        } else if (item.id === 'media-15') {
-                            placeholderId = 'presentation-peeking';
-                        } else {
-                          placeholderId = `media-${(index % 6) + 1}`;
-                        }
-                        const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
-                        itemImageSrc = placeholder?.imageUrl;
-                        itemImageHint = placeholder?.imageHint;
-                    }
+                     let itemImageSrc: string | undefined = item.imageUrl;
+                     let itemImageHint: string | undefined;
+                     if (!itemImageSrc) {
+                         let placeholderId: string;
+                         const specificPlaceholders: { [key: string]: string } = {
+                             'media-13': 'aoa-china-meeting',
+                             'media-14': 'hwmtalkchina',
+                             'media-15': 'presentation-peeking',
+                         };
+                         placeholderId = specificPlaceholders[item.id] || `media-${(index % 6) + 1}`;
+                         const placeholder = PlaceHolderImages.find(p => p.id === placeholderId);
+                         itemImageSrc = placeholder?.imageUrl;
+                         itemImageHint = placeholder?.imageHint;
+                     }
 
 
                     return (
@@ -435,19 +423,27 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {videoItems.slice(0, 3).map((item, index) => {
-                    const itemImage = PlaceHolderImages.find(p => p.id === `media-${((index + 1) % 3) * 2}`);
+                    let itemImageSrc: string | undefined = item.imageUrl;
+                    let itemImageHint: string | undefined;
+
+                    if (!itemImageSrc) {
+                      const placeholder = PlaceHolderImages.find(p => p.id === `media-${((index + 1) % 3) * 2}`);
+                      itemImageSrc = placeholder?.imageUrl;
+                      itemImageHint = placeholder?.imageHint;
+                    }
+                    
                     return (
                       <Dialog key={item.id}>
                         <DialogTrigger asChild>
                           <Card className="overflow-hidden group flex flex-col cursor-pointer">
-                              {itemImage && (
+                              {itemImageSrc && (
                               <div className="relative aspect-video">
                                   <Image
-                                      src={itemImage.imageUrl}
-                                      alt={itemImage.description}
+                                      src={itemImageSrc}
+                                      alt={item.title}
                                       fill
                                       className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                      data-ai-hint={itemImage.imageHint}
+                                      data-ai-hint={itemImageHint}
                                       quality={90}
                                   />
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -472,14 +468,14 @@ export default function Dashboard() {
                           <div className="space-y-4">
                               {item.type === 'Video' ? (
                                 <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                                   <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls className="w-full h-full" autoPlay>
+                                   <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
                                     Your browser does not support the video tag.
                                   </video>
                                 </div>
-                              ) : itemImage && (
+                              ) : itemImageSrc && (
                                 <div className="relative aspect-video rounded-lg overflow-hidden">
                                   <Image
-                                      src={itemImage.imageUrl}
+                                      src={itemImageSrc}
                                       alt={item.title}
                                       fill
                                       className="object-contain"
@@ -506,10 +502,11 @@ export default function Dashboard() {
             <h2 className="text-3xl font-bold tracking-tight mb-6">Success Stories</h2>
             <div className="space-y-4">
                 {successStories.slice(0,3).map((story, index) => {
-                    const storyImage = PlaceHolderImages.find(p => p.id === `success-${(index % 3) + 1}`);
+                    const storyImage = story.imageUrl || PlaceHolderImages.find(p => p.id === `success-${(index % 3) + 1}`)?.imageUrl;
+                    const storyImageHint = PlaceHolderImages.find(p => p.id === `success-${(index % 3) + 1}`)?.imageHint;
                     return (
                         <Card key={story.id} className="flex flex-col md:flex-row items-center gap-6 p-4 hover:shadow-md transition-shadow">
-                            {storyImage && <Image src={storyImage.imageUrl} alt={storyImage.description} width={150} height={100} className="rounded-lg object-cover w-full md:w-[150px]" data-ai-hint={storyImage.imageHint} quality={90} />}
+                            {storyImage && <Image src={storyImage} alt={story.title} width={150} height={100} className="rounded-lg object-cover w-full md:w-[150px]" data-ai-hint={storyImageHint} quality={90} />}
                             <div className="flex-1">
                                 <h3 className="font-semibold mb-1">{story.title}</h3>
                                 <p className="text-sm text-muted-foreground line-clamp-2">{story.summary}</p>

@@ -1,10 +1,11 @@
 
+
 'use client';
 
 import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { keyPersonnel as initialKeyPersonnel } from '@/lib/placeholder-data';
 
-type Personnel = (typeof initialKeyPersonnel)[0];
+export type Personnel = (typeof initialKeyPersonnel)[0] & { imageUrl?: string };
 
 type KeyPersonnelContextType = {
   keyPersonnel: Personnel[];
@@ -17,6 +18,7 @@ const KeyPersonnelContext = createContext<KeyPersonnelContextType | undefined>(u
 
 export function KeyPersonnelProvider({ children }: { children: ReactNode }) {
   const [keyPersonnel, setKeyPersonnel] = useState<Personnel[]>(initialKeyPersonnel);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     try {
@@ -27,15 +29,18 @@ export function KeyPersonnelProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error reading from localStorage', error);
     }
+    setIsLoaded(true);
   }, []);
 
   useEffect(() => {
-    try {
-      window.localStorage.setItem('keyPersonnel', JSON.stringify(keyPersonnel));
-    } catch (error) {
-      console.error('Error writing to localStorage', error);
+    if (isLoaded) {
+      try {
+        window.localStorage.setItem('keyPersonnel', JSON.stringify(keyPersonnel));
+      } catch (error) {
+        console.error('Error writing to localStorage', error);
+      }
     }
-  }, [keyPersonnel]);
+  }, [keyPersonnel, isLoaded]);
 
   const addPersonnel = (item: Personnel) => {
     setKeyPersonnel((prev) => [item, ...prev]);

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { notFound, useParams } from 'next/navigation';
@@ -17,7 +18,7 @@ export default function ProfilePage() {
     notFound();
   }
 
-  const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
+  const personImage = person.imageUrl || PlaceHolderImages.find(p => p.id === person.imageId)?.imageUrl;
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -27,7 +28,7 @@ export default function ProfilePage() {
             <div className="flex-shrink-0">
               {personImage && (
                 <Image
-                  src={personImage.imageUrl}
+                  src={personImage}
                   alt={`Portrait of ${person.name}`}
                   width={200}
                   height={200}

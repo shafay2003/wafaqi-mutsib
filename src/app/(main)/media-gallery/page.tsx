@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from "next/image";
@@ -92,7 +93,7 @@ export default function MediaGalleryPage() {
                         <div className="space-y-4">
                           {item.type === 'Video' ? (
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                              <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls className="w-full h-full" autoPlay>
+                              <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
                                 Your browser does not support the video tag.
                               </video>
                             </div>
