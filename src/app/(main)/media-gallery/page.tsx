@@ -45,7 +45,7 @@ export default function MediaGalleryPage() {
                                       alt={item.title}
                                       fill
                                       className="object-contain transition-transform duration-300 group-hover:scale-105"
-                                      quality={90}
+                                      quality={95}
                                   />
                                   {item.type === 'Video' && (
                                       <div className="absolute inset-0 flex items-center justify-center bg-black/40">
