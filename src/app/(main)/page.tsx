@@ -134,13 +134,13 @@ export default function Dashboard() {
                     <Dialog>
                       <DialogTrigger asChild>
                          <div className="cursor-pointer">
-                          <div className="relative h-[450px] md:h-[500px]">
+                          <div className="relative aspect-video bg-muted">
                             {itemImageSrc && (
                               <Image
                                 src={itemImageSrc}
                                 alt={item.title}
                                 fill
-                                className="object-contain"
+                                className="object-cover"
                                 priority={index === 0}
                                 quality={95}
                               />
