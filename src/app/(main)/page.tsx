@@ -125,7 +125,7 @@ export default function Dashboard() {
             plugins={[autoplayPlugin.current]}
             opts={{ loop: true }}
           >
-            <CarouselContent className="h-full">
+            <CarouselContent className="h-[600px]">
               {mediaItems.slice(0, 5).map((item, index) => {
                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                 
@@ -145,7 +145,7 @@ export default function Dashboard() {
                                 quality={95}
                               />
                             )}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                             <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
                               <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
                               <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
@@ -191,7 +191,7 @@ export default function Dashboard() {
                 )
               })}
             </CarouselContent>
-             <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
+            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10" />
             <div className="absolute bottom-4 right-4 z-20 flex gap-2">
               <Button size="icon" variant="outline" className="relative" onClick={togglePlay}>
