@@ -39,8 +39,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-import { PlusCircle, MoreHorizontal } from "lucide-react";
+import { PlusCircle, MoreHorizontal, Pin, PinOff } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -53,16 +55,18 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useMedia } from "@/context/MediaContext";
 import type { MediaItem } from "@/context/MediaContext";
 
-const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void }) => (
+const MediaTable = ({ items, onEdit, onDelete, onPinToggle }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void, onPinToggle: (id: string) => void }) => (
   <Table>
     <TableHeader>
       <TableRow>
+        <TableHead className="w-8"></TableHead>
         <TableHead className="hidden w-24 sm:table-cell">Image</TableHead>
         <TableHead>Title</TableHead>
         <TableHead>Type</TableHead>
@@ -76,6 +80,9 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
       {items.map((item) => {
         return (
           <TableRow key={item.id}>
+             <TableCell>
+                {item.isPinned && <Pin className="h-4 w-4 text-primary" />}
+              </TableCell>
               <TableCell className="hidden sm:table-cell">
                 {item.imageUrl ? (
                   <Image
@@ -114,7 +121,12 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                   <DropdownMenuItem onClick={() => onEdit(item)}>Edit</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onDelete(item.id)}>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onPinToggle(item.id)}>
+                    {item.isPinned ? <PinOff className="mr-2 h-4 w-4" /> : <Pin className="mr-2 h-4 w-4" />}
+                    {item.isPinned ? 'Unpin' : 'Pin'}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onDelete(item.id)} className="text-destructive">Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
@@ -139,6 +151,7 @@ export default function AdminMediaPage() {
       title: "",
       description: "",
       type: "Photo",
+      isPinned: false,
       image: undefined as FileList | undefined,
     }
   });
@@ -168,6 +181,7 @@ export default function AdminMediaPage() {
         title: editingItem.title,
         description: editingItem.description,
         type: editingItem.type,
+        isPinned: !!editingItem.isPinned,
       });
       if (editingItem.imageUrl) {
         setFilePreview(editingItem.imageUrl);
@@ -178,6 +192,7 @@ export default function AdminMediaPage() {
         title: "",
         description: "",
         type: "Photo",
+        isPinned: false,
         image: undefined,
       });
     }
@@ -201,6 +216,13 @@ export default function AdminMediaPage() {
     deleteMediaItem(id);
   };
 
+  const handlePinToggle = (id: string) => {
+    const item = mediaItems.find(i => i.id === id);
+    if (item) {
+      updateMediaItem(id, { isPinned: !item.isPinned });
+    }
+  };
+
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (!isOpen) {
@@ -216,6 +238,7 @@ export default function AdminMediaPage() {
         title: data.title,
         description: data.description,
         type: data.type,
+        isPinned: data.isPinned,
       };
 
       if (imageUrl) {
@@ -324,6 +347,26 @@ export default function AdminMediaPage() {
                         </FormItem>
                         )}
                     />
+                     <FormField
+                        control={form.control}
+                        name="isPinned"
+                        render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                            <div className="space-y-0.5">
+                                <FormLabel>Pin to Homepage Slider</FormLabel>
+                                <FormDescription>
+                                    Enable this to feature the item in the main slider.
+                                </FormDescription>
+                            </div>
+                            <FormControl>
+                               <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                        </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="image"
@@ -374,13 +417,13 @@ export default function AdminMediaPage() {
         <Card className="mt-4">
           <CardContent className="pt-6">
              <TabsContent value="all" className="mt-0">
-              <MediaTable items={mediaItems} onEdit={handleEdit} onDelete={handleDelete} />
+              <MediaTable items={mediaItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
             </TabsContent>
             <TabsContent value="photo" className="mt-0">
-               <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} />
+               <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
             </TabsContent>
             <TabsContent value="video" className="mt-0">
-               <MediaTable items={videoItems} onEdit={handleEdit} onDelete={handleDelete} />
+               <MediaTable items={videoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
             </TabsContent>
           </CardContent>
         </Card>
@@ -388,5 +431,3 @@ export default function AdminMediaPage() {
     </div>
   );
 }
-
-    

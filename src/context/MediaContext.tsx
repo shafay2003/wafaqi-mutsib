@@ -11,6 +11,7 @@ export type MediaItem = {
   type: string;
   date: string;
   imageUrl?: string;
+  isPinned?: boolean;
 };
 
 type MediaContextType = {

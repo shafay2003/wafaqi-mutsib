@@ -70,6 +70,9 @@ export default function Dashboard() {
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
   const videoItems = mediaItems.filter(item => item.type === 'Video');
 
+  const pinnedItems = mediaItems.filter(item => item.isPinned);
+  const sliderItems = pinnedItems.length > 0 ? pinnedItems : mediaItems.slice(0, 5);
+
   const complaintStats = [
     { label: 'Received (YTD)', value: '125,342', change: '+15.2% from last year', icon: FileInput },
     { label: 'Resolved (YTD)', value: '119,876', change: '+18.1% from last year', icon: ShieldCheck },
@@ -125,16 +128,16 @@ export default function Dashboard() {
             plugins={[autoplayPlugin.current]}
             opts={{ loop: true }}
           >
-            <CarouselContent className="h-[600px]">
-              {mediaItems.slice(0, 5).map((item, index) => {
+            <CarouselContent>
+              {sliderItems.map((item, index) => {
                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                 
                 return (
-                  <CarouselItem key={item.id} className="h-full">
+                  <CarouselItem key={item.id}>
                     <Dialog>
                       <DialogTrigger asChild>
                          <div className="cursor-pointer h-full">
-                          <div className="relative bg-muted h-full">
+                          <div className="relative bg-muted h-[600px]">
                             {itemImageSrc && (
                               <Image
                                 src={itemImageSrc}
