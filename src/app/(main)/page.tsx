@@ -136,7 +136,7 @@ export default function Dashboard() {
                 } else if (item.id === 'media-14') {
                   itemImage = PlaceHolderImages.find(p => p.id === 'hwmtalkchina');
                 } else if (item.id === 'media-15') {
-                  itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
+                    itemImage = PlaceHolderImages.find(p => p.id === 'presentation-peeking');
                 }
                 else {
                   itemImage = PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
@@ -286,7 +286,7 @@ export default function Dashboard() {
           </div>
           <Carousel
             opts={{
-              align: "start",
+              align: "center",
               loop: true,
             }}
             className="w-full"
