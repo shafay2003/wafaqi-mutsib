@@ -121,20 +121,20 @@ export default function Dashboard() {
         <section className="relative rounded-xl overflow-hidden max-h-[600px]">
           <Carousel
             setApi={setApi}
-            className="w-full h-full"
+            className="w-full"
             plugins={[autoplayPlugin.current]}
             opts={{ loop: true }}
           >
-            <CarouselContent className="h-full">
+            <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                 
                 return (
-                  <CarouselItem key={item.id} className="h-full">
+                  <CarouselItem key={item.id}>
                     <Dialog>
                       <DialogTrigger asChild>
                          <div className="cursor-pointer h-full">
-                          <div className="relative bg-muted h-full">
+                          <div className="relative bg-muted aspect-video">
                             {itemImageSrc && (
                               <Image
                                 src={itemImageSrc}
