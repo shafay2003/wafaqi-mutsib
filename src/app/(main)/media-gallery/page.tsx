@@ -43,7 +43,7 @@ export default function MediaGalleryPage() {
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
-                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                      className="object-contain transition-transform duration-300 group-hover:scale-105"
                                       quality={90}
                                   />
                                   {item.type === 'Video' && (

@@ -342,7 +342,7 @@ export default function Dashboard() {
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
-                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                      className="object-contain transition-transform duration-300 group-hover:scale-105"
                                       quality={90}
                                   />
                               </div>
@@ -410,7 +410,7 @@ export default function Dashboard() {
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
-                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                      className="object-contain transition-transform duration-300 group-hover:scale-105"
                                       quality={90}
                                   />
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
