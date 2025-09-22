@@ -76,7 +76,7 @@ export default function MediaGalleryPage() {
                           <DialogDescription>{item.date} | {item.type}</DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
-                          {item.type === 'Video' ? (
+                          {item.type === 'Video' && item.imageUrl ? (
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
                               <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
                                 Your browser does not support the video tag.
@@ -103,5 +103,3 @@ export default function MediaGalleryPage() {
     </div>
   );
 }
-
-    

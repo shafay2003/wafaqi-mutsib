@@ -127,36 +127,36 @@ export const faqs = [
 ];
 
 export const publications = [
-    { id: 'pub1', title: 'Annual Report 2023', category: 'Annual Reports', date: '2024-03-15', url: '#' },
-    { id: 'pub2', title: 'Research Paper on Pension Reforms', category: 'Research Papers', date: '2023-11-20', url: '#' },
-    { id: 'pub3', title: 'Establishment of the Office of Wafaqi Mohtasib (Ombudsman) Order, 1983', category: 'Laws & Regulations', date: '1983-01-24', url: '#' },
-    { id: 'pub4', title: 'Annual Report 2022', category: 'Annual Reports', date: '2023-03-10', url: '#' },
-    { id: 'pub5', title: 'The Freedom of Information Ordinance, 2002', category: 'Laws & Regulations', date: '2002-10-26', url: '#' },
-    { id: 'pub6', title: 'Improving Service Delivery in Public Sector', category: 'Research Papers', date: '2022-09-01', url: '#' },
+    { id: 'pub-1', title: 'Annual Report 2023', category: 'Annual Reports', date: '2024-03-15', url: '#' },
+    { id: 'pub-2', title: 'Research Paper on Pension Reforms', category: 'Research Papers', date: '2023-11-20', url: '#' },
+    { id: 'pub-3', title: 'Establishment of the Office of Wafaqi Mohtasib (Ombudsman) Order, 1983', category: 'Laws & Regulations', date: '1983-01-24', url: '#' },
+    { id: 'pub-4', title: 'Annual Report 2022', category: 'Annual Reports', date: '2023-03-10', url: '#' },
+    { id: 'pub-5', title: 'The Freedom of Information Ordinance, 2002', category: 'Laws & Regulations', date: '2002-10-26', url: '#' },
+    { id: 'pub-6', title: 'Improving Service Delivery in Public Sector', category: 'Research Papers', date: '2022-09-01', url: '#' },
 ];
 
 export const notifications = [
-    { id: 'not1', title: 'Circular Regarding Timely Pension Disbursement', type: 'Notification', date: '2024-07-15', url: '#' },
-    { id: 'not2', title: 'Wafaqi Mohtasib addresses seminar on administrative justice', type: 'Press Release', date: '2024-07-12', url: '#' },
-    { id: 'not3', title: 'Public Hearing to be held in Karachi on 25th July', type: 'Notification', date: '2024-07-10', url: '#' },
-    { id: 'not4', title: 'Mohtasib takes notice of delays in utility bill corrections', type: 'Press Release', date: '2024-07-08', url: '#' },
-    { id: 'not5', title: 'New office timings for Ramazan', type: 'Notification', date: '2024-03-01', url: '#' },
-    { id: 'not6', title: 'Awareness campaign launched in rural areas', type: 'Press Release', date: '2024-02-20', url: '#' },
+    { id: 'not-1', title: 'Circular Regarding Timely Pension Disbursement', type: 'Notification', date: '2024-07-15', url: '#' },
+    { id: 'not-2', title: 'Wafaqi Mohtasib addresses seminar on administrative justice', type: 'Press Release', date: '2024-07-12', url: '#' },
+    { id: 'not-3', title: 'Public Hearing to be held in Karachi on 25th July', type: 'Notification', date: '2024-07-10', url: '#' },
+    { id: 'not-4', title: 'Mohtasib takes notice of delays in utility bill corrections', type: 'Press Release', date: '2024-07-08', url: '#' },
+    { id: 'not-5', title: 'New office timings for Ramazan', type: 'Notification', date: '2024-03-01', url: '#' },
+    { id: 'not-6', title: 'Awareness campaign launched in rural areas', type: 'Press Release', date: '2024-02-20', url: '#' },
 ];
 
 export const successStories = [
-    { id: 'ss1', title: 'Pensioner Receives 20 Years of Arrears', summary: 'An elderly pensioner, after years of struggle, received two decades worth of unpaid pension arrears within 45 days of filing a complaint with the Wafaqi Mohtasib.', date: '2024-05-20' },
-    { id: 'ss2', title: 'Illegal Allotment of Plot Cancelled', summary: 'A citizen\'s complaint led to the cancellation of an illegally allotted commercial plot, which was then returned to the rightful government department for transparent auctioning.', date: '2024-04-15' },
-    { id: 'ss3', title: 'Student Gets Unfairly Withheld Degree', summary: 'A university student who was unjustly denied their degree for over a year received it within a month after the Mohtasib\'s intervention.', date: '2024-03-10' },
-    { id: 'ss4', title: 'Family Receives Death Grant After 5 Years', summary: 'The family of a deceased government employee was paid their entitled death grant, which had been pending for five years, following a directive from the Wafaqi Mohtasib.', date: '2024-02-25' },
+    { id: 'ss-1689887958954', title: 'Pensioner Receives 20 Years of Arrears', summary: 'An elderly pensioner, after years of struggle, received two decades worth of unpaid pension arrears within 45 days of filing a complaint with the Wafaqi Mohtasib.', date: '2024-05-20' },
+    { id: 'ss-1689887958955', title: 'Illegal Allotment of Plot Cancelled', summary: 'A citizen\'s complaint led to the cancellation of an illegally allotted commercial plot, which was then returned to the rightful government department for transparent auctioning.', date: '2024-04-15' },
+    { id: 'ss-1689887958956', title: 'Student Gets Unfairly Withheld Degree', summary: 'A university student who was unjustly denied their degree for over a year received it within a month after the Mohtasib\'s intervention.', date: '2024-03-10' },
+    { id: 'ss-1689887958957', title: 'Family Receives Death Grant After 5 Years', summary: 'The family of a deceased government employee was paid their entitled death grant, which had been pending for five years, following a directive from the Wafaqi Mohtasib.', date: '2024-02-25' },
 ];
 
 export const regionalOffices = [
-    { id: 'ro1', name: 'Head Office, Islamabad', address: 'Wafaqi Mohtasib Secretariat, 36-Constitution Avenue, G-5/2, Islamabad.', phone: '(051) 9217211', email: 'info@mohtasib.gov.pk' },
-    { id: 'ro2', name: 'Regional Office, Karachi', address: '4th Floor, Block C, FTC Building, Shahrah-e-Faisal, Karachi.', phone: '(021) 99207121', email: 'ro.khi@mohtasib.gov.pk' },
-    { id: 'ro3', name: 'Regional Office, Lahore', address: 'State Life Building, 15-A Davis Road, Lahore.', phone: '(042) 99201021', email: 'ro.lhe@mohtasib.gov.pk' },
-    { id: 'ro4', name: 'Regional Office, Peshawar', address: 'Banglow No.1, Shami Road, Peshawar Cantt.', phone: '(091) 9212877', email: 'ro.psh@mohtasib.gov.pk' },
-    { id: 'ro5', name: 'Regional Office, Quetta', address: 'Zarghoon Road, Quetta Cantt.', phone: '(081) 9201582', email: 'ro.qta@mohtasib.gov.pk' },
+    { id: 'ro-1', name: 'Head Office, Islamabad', address: 'Wafaqi Mohtasib Secretariat, 36-Constitution Avenue, G-5/2, Islamabad.', phone: '(051) 9217211', email: 'info@mohtasib.gov.pk' },
+    { id: 'ro-2', name: 'Regional Office, Karachi', address: '4th Floor, Block C, FTC Building, Shahrah-e-Faisal, Karachi.', phone: '(021) 99207121', email: 'ro.khi@mohtasib.gov.pk' },
+    { id: 'ro-3', name: 'Regional Office, Lahore', address: 'State Life Building, 15-A Davis Road, Lahore.', phone: '(042) 99201021', email: 'ro.lhe@mohtasib.gov.pk' },
+    { id: 'ro-4', name: 'Regional Office, Peshawar', address: 'Banglow No.1, Shami Road, Peshawar Cantt.', phone: '(091) 9212877', email: 'ro.psh@mohtasib.gov.pk' },
+    { id: 'ro-5', name: 'Regional Office, Quetta', address: 'Zarghoon Road, Quetta Cantt.', phone: '(081) 9201582', email: 'ro.qta@mohtasib.gov.pk' },
 ];
 
 export const dailyCauseList = [
@@ -219,14 +219,16 @@ export const mediaItems = [
     title: 'Webinar on Ombudsmanship and UN SDGs',
     description: 'Mr. Ashfaque Hasan Khan, DG (NIPS), making a presentation during a webinar on “The Shared Principles of Ombudsmanship and the UN Sustainable Development Goals (SDGs)” held in WMS, Islamabad on 14 July, 2025.',
     type: 'Photo',
-    date: '2025-07-14'
+    date: '2025-07-14',
+    imageUrl: 'https://mohtasib.gov.pk/SiteImage/Slider/presentationspeeking.png'
   },
   {
     id: 'media-13',
     title: 'AOA Board of Directors Meeting in Nanjing, China',
     description: 'The Wafaqi Mohtasib and President of the Asia Ombudsman Association (AOA), Mr. Ejaz Ahmad Qureshi with members of the AOA Board of Directors after its 26th Annual Meeting held in Nanjing, China on 10 September, 2025.',
     type: 'Photo',
-    date: '2025-09-10'
+    date: '2025-09-10',
+    imageUrl: 'https://mohtasib.gov.pk/SiteImage/Slider/hwmgroupphotochina.png'
   },
   {
     id: 'media-1',
@@ -365,8 +367,7 @@ export const keyPersonnel = [
     imageId: 'ali-tahir-profile',
     summary: 'MR. ALI TAHIR, an officer of Pakistan Administrative Service (PAS), has a rich and varied experience of working in the public, private and development sectors in a career spanning over thirty two years.',
     bio: [
-        "MR. ALI TAHIR, an officer of Pakistan Administrative Service (PAS), has a rich and varied experience of working in the public, private and development sectors in a career spanning over thirty two years.",
-        "He has been the Federal Secretary of Ministries of Science & Technology, National Food Security, Kashmir Affairs & Gilgit Baltistan and Special Secretary in Establishment Division.",
+        "MR. ALI TAHIR, an officer of Pakistan Administrative Service (PAS), has a rich and varied experience of working in the public, private and development sectors in a career spanning over thirty two. He has been the Federal Secretary of Ministries of Science & Technology, National Food Security, Kashmir Affairs & Gilgit Baltistan and Special Secretary in Establishment Division.",
         "For almost four years, Mr. Ali Tahir held the dual charge of Pakistan’s Economic and Trade Minister in Washington D.C. In this diplomatic role, he closely interacted with senior management and technical staff of the Bretton Woods organizations, other IFIs and multilateral organizations, US Government agencies, diplomatic corps, think tanks, lobbyists, businesses and trade bodies. He also chaired International Cotton Advisory Committee (ICAC), an inter-governmental organization of twenty nine countries, for one year.",
         "As Additional Secretary in Finance Division for two years, he dealt with IMF missions, sovereign credit rating agencies, commercial lenders and other development partners at the most challenging juncture of Pakistan’s economic history. He had a pivotal role in securing the critical IMF Standby Agreement in 2023 which retrieved the country from the brink of default. He was awarded Sitara-i-Imtiaz for this achievement.",
         "Mr. Tahir’s key senior level assignments at the provincial level have included Secretary to Government of the Punjab, in Planning & Development, Finance, Excise & Taxation, Agriculture, Cooperatives, Management and Professional Development departments and also, Additional Chief Secretary. As a PAS officer, he worked as an administrator in initial years of service in far flung subdivisions of Kalat and Mastung in Balochistan, and then in Lahore, the urban heartland of Punjab. He has also worked in the private sector as an entrepreneur before joining service and in the development sector with the Asian Development Bank on deputation from service for a number of years.",
