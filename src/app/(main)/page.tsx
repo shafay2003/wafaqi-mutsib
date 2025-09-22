@@ -121,20 +121,20 @@ export default function Dashboard() {
         <section className="relative rounded-xl overflow-hidden max-h-[600px]">
           <Carousel
             setApi={setApi}
-            className="w-full"
+            className="w-full h-full"
             plugins={[autoplayPlugin.current]}
             opts={{ loop: true }}
           >
-            <CarouselContent>
+            <CarouselContent className="h-full">
               {mediaItems.slice(0, 5).map((item, index) => {
                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                 
                 return (
-                  <CarouselItem key={item.id}>
+                  <CarouselItem key={item.id} className="h-full">
                     <Dialog>
                       <DialogTrigger asChild>
                          <div className="cursor-pointer h-full">
-                          <div className="relative bg-muted aspect-video">
+                          <div className="relative bg-muted h-full">
                             {itemImageSrc && (
                               <Image
                                 src={itemImageSrc}
@@ -191,7 +191,7 @@ export default function Dashboard() {
                 )
               })}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
+             <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
             <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10" />
             <div className="absolute bottom-4 right-4 z-20 flex gap-2">
               <Button size="icon" variant="outline" className="relative" onClick={togglePlay}>
