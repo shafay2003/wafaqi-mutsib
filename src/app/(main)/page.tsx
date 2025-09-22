@@ -127,7 +127,7 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {mediaItems.slice(0, 5).map((item, index) => {
-                const itemImageSrc = item.imageUrl;
+                const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                 
                 return (
                   <CarouselItem key={item.id}>
@@ -330,7 +330,7 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {photoItems.slice(0, 3).map((item, index) => {
-                    const itemImageSrc = item.imageUrl;
+                    const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
 
                     return (
                       <Dialog key={item.id}>
@@ -398,7 +398,7 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {videoItems.slice(0, 3).map((item, index) => {
-                    const itemImageSrc = item.imageUrl;
+                    const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
                     
                     return (
                       <Dialog key={item.id}>

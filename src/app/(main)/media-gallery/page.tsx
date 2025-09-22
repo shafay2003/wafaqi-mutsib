@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge";
 import { useMedia } from "@/context/MediaContext";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function MediaGalleryPage() {
   const { mediaItems } = useMedia();
@@ -31,7 +32,7 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 const itemImageSrc = item.imageUrl;
+                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
 
                  return (
                     <Dialog key={item.id}>
