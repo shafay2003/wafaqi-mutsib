@@ -48,9 +48,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useSuccessStories } from "@/context/SuccessStoriesContext";
-import type { successStories as initialSuccessStories } from "@/lib/placeholder-data";
-
-type StoryItem = (typeof initialSuccessStories)[0];
+import type { StoryItem } from "@/context/SuccessStoriesContext";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function AdminSuccessStoriesPage() {
   const [open, setOpen] = useState(false);
@@ -62,7 +61,7 @@ export default function AdminSuccessStoriesPage() {
     defaultValues: {
       title: "",
       summary: "",
-      image: undefined
+      image: undefined as FileList | undefined,
     }
   });
 
@@ -87,6 +86,9 @@ export default function AdminSuccessStoriesPage() {
         summary: editingItem.summary,
         image: undefined
       });
+      if (editingItem.imageUrl) {
+        setImagePreview(editingItem.imageUrl);
+      }
     } else {
       form.reset({
         title: "",
@@ -121,20 +123,42 @@ export default function AdminSuccessStoriesPage() {
   };
 
   const onSubmit = (data: any) => {
-    if (editingItem) {
-      updateSuccessStory(editingItem.id, data);
-    } else {
-      const newStory: StoryItem = {
-        id: `ss-${successStories.length + 1}`,
+    const uploadedFile = data.image?.[0];
+
+    const processSubmit = (imageUrl?: string) => {
+       const storyData: Partial<StoryItem> = {
         title: data.title,
         summary: data.summary,
-        date: new Date().toLocaleDateString('en-CA'),
       };
-      addSuccessStory(newStory);
+
+      if (imageUrl) {
+        storyData.imageUrl = imageUrl;
+      }
+      
+      if (editingItem) {
+        updateSuccessStory(editingItem.id, storyData);
+      } else {
+        const newStory: StoryItem = {
+          id: `ss-${Date.now()}`,
+          date: new Date().toLocaleDateString('en-CA'),
+          ...storyData
+        } as StoryItem;
+        addSuccessStory(newStory);
+      }
+      
+      setOpen(false);
+      setEditingItem(null);
+    };
+
+    if (uploadedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        processSubmit(reader.result as string);
+      };
+      reader.readAsDataURL(uploadedFile);
+    } else {
+      processSubmit(editingItem?.imageUrl);
     }
-    
-    setOpen(false);
-    setEditingItem(null);
   };
 
   return (
@@ -159,61 +183,63 @@ export default function AdminSuccessStoriesPage() {
                 </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                    <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Title</FormLabel>
-                        <FormControl>
-                            <Input placeholder="e.g., Pensioner Receives Arrears" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name="summary"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Summary</FormLabel>
-                        <FormControl>
-                            <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="image"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Image</FormLabel>
-                            <FormControl>
-                                <Input 
-                                type="file"
-                                accept="image/png, image/jpeg, image/gif"
-                                onChange={(e) => {
-                                    field.onChange(e.target.files);
-                                    handleFileChange(e);
-                                }}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-                    {imagePreview && (
-                        <div className="mt-2">
-                        <p className="text-sm font-medium mb-2">Image Preview:</p>
-                        <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
-                        </div>
-                    )}
-                    <DialogFooter>
-                    <Button type="submit">Save</Button>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
+                      <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                              <Input placeholder="e.g., Pensioner Receives Arrears" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <FormField
+                      control={form.control}
+                      name="summary"
+                      render={({ field }) => (
+                          <FormItem>
+                          <FormLabel>Summary</FormLabel>
+                          <FormControl>
+                              <Textarea placeholder="A short summary of the story..." {...field} rows={6} />
+                          </FormControl>
+                          <FormMessage />
+                          </FormItem>
+                      )}
+                      />
+                      <FormField
+                          control={form.control}
+                          name="image"
+                          render={({ field }) => (
+                              <FormItem>
+                              <FormLabel>Image</FormLabel>
+                              <FormControl>
+                                  <Input 
+                                  type="file"
+                                  accept="image/png, image/jpeg, image/gif"
+                                  onChange={(e) => {
+                                      field.onChange(e.target.files);
+                                      handleFileChange(e);
+                                  }}
+                                  />
+                              </FormControl>
+                              <FormMessage />
+                              </FormItem>
+                          )}
+                          />
+                      {imagePreview && (
+                          <div className="mt-2 space-y-2">
+                            <p className="text-sm font-medium">Image Preview:</p>
+                            <Image src={imagePreview} alt="Image preview" width={400} height={225} className="rounded-md object-contain max-h-60 w-auto" />
+                          </div>
+                      )}
+                    </div>
+                    <DialogFooter className="pt-4 border-t">
+                      <Button type="submit">Save</Button>
                     </DialogFooter>
                 </form>
                 </Form>

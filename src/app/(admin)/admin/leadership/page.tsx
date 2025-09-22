@@ -50,15 +50,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useKeyPersonnel } from "@/context/KeyPersonnelContext";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { keyPersonnel as initialKeyPersonnel } from "@/lib/placeholder-data";
+import type { Personnel } from "@/context/KeyPersonnelContext";
 import { Label } from "@/components/ui/label";
-
-type PersonnelItem = (typeof initialKeyPersonnel)[0];
 
 export default function AdminLeadershipPage() {
   const [open, setOpen] = useState(false);
   const { keyPersonnel, addPersonnel, updatePersonnel, deletePersonnel } = useKeyPersonnel();
-  const [editingItem, setEditingItem] = useState<PersonnelItem | null>(null);
+  const [editingItem, setEditingItem] = useState<Personnel | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm({
@@ -69,7 +67,7 @@ export default function AdminLeadershipPage() {
       imageId: "",
       summary: "",
       bio: "",
-      image: undefined,
+      image: undefined as FileList | undefined,
     },
   });
 
@@ -94,11 +92,12 @@ export default function AdminLeadershipPage() {
         title: editingItem.title,
         imageId: editingItem.imageId,
         summary: editingItem.summary,
-        bio: editingItem.bio.join('\n\n'),
+        bio: Array.isArray(editingItem.bio) ? editingItem.bio.join('\n\n') : editingItem.bio,
+        image: undefined,
       });
-      const existingImage = PlaceHolderImages.find(p => p.id === editingItem.imageId);
+      const existingImage = editingItem.imageUrl || PlaceHolderImages.find(p => p.id === editingItem.imageId)?.imageUrl;
       if (existingImage) {
-        setImagePreview(existingImage.imageUrl);
+        setImagePreview(existingImage);
       }
     } else {
       form.reset({
@@ -121,7 +120,7 @@ export default function AdminLeadershipPage() {
     setOpen(true);
   };
 
-  const handleEdit = (item: PersonnelItem) => {
+  const handleEdit = (item: Personnel) => {
     setEditingItem(item);
     setOpen(true);
   };
@@ -140,19 +139,59 @@ export default function AdminLeadershipPage() {
   const onSubmit = (data: any) => {
     const bioArray = data.bio.split('\n\n').filter((p: string) => p.trim() !== '');
 
-    if (editingItem) {
-      updatePersonnel(editingItem.id, { ...data, bio: bioArray });
+    const uploadedImageFile = data.image?.[0];
+    let imageUrl: string | undefined = editingItem?.imageUrl;
+    let imageId = data.imageId;
+
+    if (uploadedImageFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            imageUrl = reader.result as string;
+            imageId = `personnel-img-${Date.now()}`;
+            
+            const personnelData = { 
+              ...data,
+              bio: bioArray,
+              imageUrl,
+              imageId,
+            };
+
+            if (editingItem) {
+              updatePersonnel(editingItem.id, personnelData);
+            } else {
+              const newPersonnel: Personnel = {
+                id: data.id || `personnel-${Date.now()}`,
+                name: data.name,
+                title: data.title,
+                summary: data.summary,
+                ...personnelData,
+              };
+              addPersonnel(newPersonnel);
+            }
+        };
+        reader.readAsDataURL(uploadedImageFile);
     } else {
-      const newPersonnel: PersonnelItem = {
-        id: data.id || `personnel-${keyPersonnel.length + 1}`,
-        name: data.name,
-        title: data.title,
-        imageId: data.imageId,
-        summary: data.summary,
-        bio: bioArray,
-      };
-      addPersonnel(newPersonnel);
+        const personnelData = { 
+          ...data,
+          bio: bioArray,
+          imageUrl,
+          imageId,
+        };
+        
+        if (editingItem) {
+            updatePersonnel(editingItem.id, personnelData);
+        } else {
+            const newPersonnel: Personnel = {
+                id: data.id || `personnel-${Date.now()}`,
+                name: data.name,
+                title: data.title,
+                summary: data.summary,
+                ...personnelData,
+            };
+            addPersonnel(newPersonnel);
+        }
     }
+
 
     setOpen(false);
     setEditingItem(null);
@@ -180,106 +219,108 @@ export default function AdminLeadershipPage() {
               </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl><Input placeholder="e.g., Ejaz Ahmad Qureshi" {...field} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Title / Designation</FormLabel>
-                      <FormControl><Input placeholder="e.g., Wafaqi Mohtasib (Ombudsman) of Pakistan" {...field} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Profile ID</FormLabel>
-                      <FormControl><Input placeholder="e.g., ejaz-ahmad-qureshi" {...field} disabled={!!editingItem} /></FormControl>
-                      <FormDescription>A unique ID used for the profile page URL. Cannot be changed after creation.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="summary"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Summary</FormLabel>
-                      <FormControl><Textarea placeholder="A short, one-paragraph summary for the homepage." {...field} rows={3} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <FormField
-                  control={form.control}
-                  name="bio"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Biography</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Enter the full biography. Separate paragraphs with double line breaks." {...field} rows={10} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="image"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Profile Picture</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="file"
-                          accept="image/png, image/jpeg, image/gif"
-                          onChange={(e) => {
-                            field.onChange(e.target.files);
-                            handleFileChange(e);
-                          }}
-                        />
-                      </FormControl>
-                       <FormDescription>Upload a new photo. Leave blank to keep the current one. Use a square image for best results.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                 <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl><Input placeholder="e.g., Ejaz Ahmad Qureshi" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title / Designation</FormLabel>
+                          <FormControl><Input placeholder="e.g., Wafaqi Mohtasib (Ombudsman) of Pakistan" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="id"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Profile ID</FormLabel>
+                          <FormControl><Input placeholder="e.g., ejaz-ahmad-qureshi" {...field} disabled={!!editingItem} /></FormControl>
+                          <FormDescription>A unique ID used for the profile page URL. Cannot be changed after creation.</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="summary"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Summary</FormLabel>
+                          <FormControl><Textarea placeholder="A short, one-paragraph summary for the homepage." {...field} rows={3} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="bio"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Biography</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Enter the full biography. Separate paragraphs with double line breaks." {...field} rows={10} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="image"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Profile Picture</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="file"
+                              accept="image/png, image/jpeg, image/gif"
+                              onChange={(e) => {
+                                field.onChange(e.target.files);
+                                handleFileChange(e);
+                              }}
+                            />
+                          </FormControl>
+                          <FormDescription>Upload a new photo. Leave blank to keep the current one. Use a square image for best results.</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                {imagePreview && (
-                  <div className="space-y-2">
-                    <Label>Image Preview</Label>
-                    <Image src={imagePreview} alt="Image preview" width={120} height={120} className="rounded-md object-cover border-4 border-muted aspect-square" />
-                  </div>
-                )}
-                 <FormField
-                  control={form.control}
-                  name="imageId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Fallback Image ID</FormLabel>
-                      <FormControl><Input placeholder="e.g., mohtasib-profile" {...field} /></FormControl>
-                      <FormDescription>If no image is uploaded, the ID of the placeholder image from placeholder-images.json will be used.</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <DialogFooter>
+                    {imagePreview && (
+                      <div className="space-y-2">
+                        <Label>Image Preview</Label>
+                        <Image src={imagePreview} alt="Image preview" width={120} height={120} className="rounded-md object-cover border-4 border-muted aspect-square" />
+                      </div>
+                    )}
+                    <FormField
+                      control={form.control}
+                      name="imageId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Fallback Image ID</FormLabel>
+                          <FormControl><Input placeholder="e.g., mohtasib-profile" {...field} /></FormControl>
+                          <FormDescription>If no image is uploaded, the ID of the placeholder image from placeholder-images.json will be used.</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                </div>
+                <DialogFooter className="pt-4 border-t">
                   <Button type="submit">Save Profile</Button>
                 </DialogFooter>
               </form>
@@ -303,7 +344,7 @@ export default function AdminLeadershipPage() {
             </TableHeader>
             <TableBody>
               {keyPersonnel.map((person) => {
-                const personImage = PlaceHolderImages.find(p => p.id === person.imageId);
+                const personImage = person.imageUrl || PlaceHolderImages.find(p => p.id === person.imageId)?.imageUrl;
                 return (
                   <TableRow key={person.id}>
                     <TableCell>
@@ -312,7 +353,7 @@ export default function AdminLeadershipPage() {
                           alt={person.name}
                           className="aspect-square rounded-md object-cover"
                           height="64"
-                          src={personImage.imageUrl}
+                          src={personImage}
                           width="64"
                         />
                       ) : (
@@ -348,6 +389,3 @@ export default function AdminLeadershipPage() {
     </div>
   );
 }
-
-    
-    

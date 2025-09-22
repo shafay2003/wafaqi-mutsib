@@ -58,15 +58,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useMedia } from "@/context/MediaContext";
-
-
-type MediaItem = {
-    id: string;
-    title: string;
-    description: string;
-    type: string;
-    date: string;
-}
+import type { MediaItem } from "@/context/MediaContext";
 
 const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void }) => (
   <Table>
@@ -83,17 +75,17 @@ const MediaTable = ({ items, onEdit, onDelete }: { items: MediaItem[], onEdit: (
     </TableHeader>
     <TableBody>
       {items.map((item, index) => {
-        let itemImage = PlaceHolderImages.find(p => p.id === 'aoa-china-meeting' && item.id === 'media-13') || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`);
+        let itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === `media-${(index % 6) + 1}`)?.imageUrl;
 
         return (
           <TableRow key={item.id}>
               <TableCell className="hidden sm:table-cell">
-                {itemImage ? (
+                {itemImageSrc ? (
                   <Image
                     alt={item.title}
                     className="aspect-square rounded-md object-cover"
                     height="64"
-                    src={itemImage.imageUrl}
+                    src={itemImageSrc}
                     width="64"
                     quality={85}
                   />
@@ -148,7 +140,7 @@ export default function AdminMediaPage() {
       title: "",
       description: "",
       type: "Photo",
-      image: undefined,
+      image: undefined as FileList | undefined,
     }
   });
 
@@ -178,6 +170,10 @@ export default function AdminMediaPage() {
         description: editingItem.description,
         type: editingItem.type,
       });
+      if (editingItem.imageUrl) {
+        setFilePreview(editingItem.imageUrl);
+        setFileType(editingItem.type.toLowerCase() as 'image' | 'video');
+      }
     } else {
       form.reset({
         title: "",
@@ -214,21 +210,42 @@ export default function AdminMediaPage() {
   };
 
   const onSubmit = (data: any) => {
-    if (editingItem) {
-      updateMediaItem(editingItem.id, data);
-    } else {
-      const newItem = {
-        id: `media-${mediaItems.length + 1}`,
+    const uploadedFile = data.image?.[0];
+
+    const processSubmit = (imageUrl?: string) => {
+      const itemData: Partial<MediaItem> = {
         title: data.title,
         description: data.description,
         type: data.type,
-        date: new Date().toLocaleDateString('en-CA'),
       };
-      addMediaItem(newItem);
+
+      if (imageUrl) {
+        itemData.imageUrl = imageUrl;
+      }
+
+      if (editingItem) {
+        updateMediaItem(editingItem.id, itemData);
+      } else {
+        const newItem: MediaItem = {
+          id: `media-${Date.now()}`,
+          date: new Date().toLocaleDateString('en-CA'),
+          ...itemData
+        } as MediaItem;
+        addMediaItem(newItem);
+      }
+      setOpen(false);
+      setEditingItem(null);
     }
-    
-    setOpen(false);
-    setEditingItem(null);
+
+    if (uploadedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        processSubmit(reader.result as string);
+      };
+      reader.readAsDataURL(uploadedFile);
+    } else {
+      processSubmit(editingItem?.imageUrl);
+    }
   };
 
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
@@ -259,88 +276,90 @@ export default function AdminMediaPage() {
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Title</FormLabel>
-                        <FormControl>
-                        <Input placeholder="e.g., Seminar on Justice" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                            <Input placeholder="e.g., Seminar on Justice" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                            <Textarea placeholder="A short description of the media item..." {...field} rows={4} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select media type" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="Photo">Photo</SelectItem>
+                                <SelectItem value="Video">Video</SelectItem>
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="image"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>File</FormLabel>
+                            <FormControl>
+                            <Input 
+                                type="file" 
+                                accept="image/png, image/jpeg, image/gif, video/mp4, video/webm"
+                                onChange={(e) => {
+                                field.onChange(e.target.files);
+                                handleFileChange(e);
+                                }}
+                            />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    {filePreview && (
+                        <div className="mt-4 space-y-2">
+                          <p className="text-sm font-medium">File Preview:</p>
+                          {fileType === 'image' && (
+                              <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-contain max-h-60 w-auto" />
+                          )}
+                          {fileType === 'video' && (
+                              <video src={filePreview} controls className="rounded-md w-full max-h-60" />
+                          )}
+                        </div>
                     )}
-                />
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                        <Textarea placeholder="A short description of the media item..." {...field} rows={4} />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="type"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                            <SelectTrigger>
-                            <SelectValue placeholder="Select media type" />
-                            </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                            <SelectItem value="Photo">Photo</SelectItem>
-                            <SelectItem value="Video">Video</SelectItem>
-                        </SelectContent>
-                        </Select>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="image"
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>File</FormLabel>
-                        <FormControl>
-                        <Input 
-                            type="file" 
-                            accept="image/png, image/jpeg, image/gif, video/mp4, video/webm"
-                            onChange={(e) => {
-                            field.onChange(e.target.files);
-                            handleFileChange(e);
-                            }}
-                        />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                {filePreview && (
-                    <div className="mt-4">
-                    <p className="text-sm font-medium mb-2">File Preview:</p>
-                    {fileType === 'image' && (
-                        <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-cover" />
-                    )}
-                    {fileType === 'video' && (
-                        <video src={filePreview} controls className="rounded-md w-full" />
-                    )}
-                    </div>
-                )}
-                <DialogFooter>
-                    <Button type="submit">Save</Button>
-                </DialogFooter>
+                  </div>
+                  <DialogFooter className="pt-4 border-t">
+                      <Button type="submit">Save</Button>
+                  </DialogFooter>
                 </form>
             </Form>
             </DialogContent>
