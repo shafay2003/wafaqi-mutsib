@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { usePublications } from "@/context/PublicationsContext";
+import { usePageRefresh } from "@/hooks/use-page-refresh";
 
 const PublicationList = ({ category }: { category: string }) => {
   const { publications } = usePublications();
@@ -37,6 +38,7 @@ const PublicationList = ({ category }: { category: string }) => {
 
 
 export default function PublicationsPage() {
+  usePageRefresh();
   const { publications } = usePublications();
   const categories = [...new Set(publications.map(p => p.category))];
   

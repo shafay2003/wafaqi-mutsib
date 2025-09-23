@@ -8,8 +8,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useFaqs } from "@/context/FaqContext";
+import { usePageRefresh } from "@/hooks/use-page-refresh";
 
 export default function FAQPage() {
+  usePageRefresh();
   const { faqs } = useFaqs();
   return (
     <div className="flex flex-col gap-4">

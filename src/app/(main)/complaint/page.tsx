@@ -1,5 +1,6 @@
 import ComplaintForm from "@/components/complaint/ComplaintForm";
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'File a Complaint',
@@ -18,7 +19,9 @@ export default function ComplaintPage() {
             </p>
         </header>
 
-        <ComplaintForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ComplaintForm />
+        </Suspense>
     </div>
   );
 }

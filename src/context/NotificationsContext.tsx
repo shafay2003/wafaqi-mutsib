@@ -2,7 +2,8 @@
 
 'use client';
 
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 import { notifications as initialNotifications } from '@/lib/placeholder-data';
 
 export type NotificationItem = (typeof initialNotifications)[0];
@@ -17,44 +18,21 @@ type NotificationsContextType = {
 const NotificationsContext = createContext<NotificationsContextType | undefined>(undefined);
 
 export function NotificationsProvider({ children }: { children: ReactNode }) {
-  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const storedItems = window.localStorage.getItem('notifications');
-      if (storedItems) {
-        setNotifications(JSON.parse(storedItems));
-      }
-    } catch (error) {
-      console.error('Error reading from localStorage', error);
-    }
-    setIsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded) {
-      try {
-        window.localStorage.setItem('notifications', JSON.stringify(notifications));
-      } catch (error) {
-        console.error('Error writing to localStorage', error);
-      }
-    }
-  }, [notifications, isLoaded]);
+  const [notifications, setNotifications] = useLocalStorage<NotificationItem[]>('notifications', initialNotifications);
 
   const addNotification = (item: NotificationItem) => {
     const newItem = { ...item, url: item.url || '#' };
-    setNotifications((prev) => [newItem, ...prev]);
+    setNotifications((prev: NotificationItem[]) => [newItem, ...prev]);
   };
 
   const updateNotification = (id: string, updatedItem: Partial<NotificationItem>) => {
-    setNotifications((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, ...updatedItem } : item))
+    setNotifications((prev: NotificationItem[]) =>
+      prev.map((item: NotificationItem) => (item.id === id ? { ...item, ...updatedItem } : item))
     );
   };
 
   const deleteNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((item) => item.id !== id));
+    setNotifications((prev: NotificationItem[]) => prev.filter((item: NotificationItem) => item.id !== id));
   };
 
   return (

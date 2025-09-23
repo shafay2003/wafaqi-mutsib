@@ -57,18 +57,51 @@ import { Badge } from '@/components/ui/badge'
 import { useMedia } from '@/context/MediaContext';
 import { useNotifications } from '@/context/NotificationsContext';
 import { useSuccessStories } from '@/context/SuccessStoriesContext';
+import { usePageRefresh } from '@/hooks/use-page-refresh';
 import React, { useState, useEffect, useCallback } from 'react';
-import { useKeyPersonnel } from '@/context/KeyPersonnelContext'
+import { useKeyPersonnel } from '@/context/KeyPersonnelContext';
 
 
 export default function Dashboard() {
-  const { mediaItems } = useMedia();
+  const refreshTrigger = usePageRefresh(); // This will trigger re-renders when page becomes visible
+  
+  const { mediaItems, refreshFromStorage } = useMedia();
+  
+  // Refresh data when page visibility changes - removed refreshFromStorage from dependencies to prevent infinite loops
+  React.useEffect(() => {
+    console.log('Home page - Refresh triggered:', refreshTrigger);
+    refreshFromStorage();
+  }, [refreshTrigger]);
   const { notifications } = useNotifications();
   const { successStories } = useSuccessStories();
   const { keyPersonnel } = useKeyPersonnel();
 
   const photoItems = mediaItems.filter(item => item.type === 'Photo');
   const videoItems = mediaItems.filter(item => item.type === 'Video');
+  
+  console.log('Home page - Total media items:', mediaItems.length);
+  console.log('Home page - Video items:', videoItems.length);
+  console.log('Home page - Photo items:', photoItems.length);
+  
+  // Check if our uploaded video exists
+  const shafayVideo = mediaItems.find(item => item.title === 'shafay');
+  console.log('Shafay video found:', !!shafayVideo, shafayVideo ? {id: shafayVideo.id, type: shafayVideo.type, hasUrl: !!shafayVideo.imageUrl} : 'NOT FOUND');
+  
+  // Debug video items in detail
+  videoItems.forEach((video, index) => {
+    console.log(`Video ${index + 1}:`, {
+      id: video.id,
+      title: video.title,
+      type: video.type,
+      hasUrl: !!video.imageUrl,
+      urlType: video.imageUrl?.startsWith('data:') ? 'data-url' : 
+               video.imageUrl?.startsWith('local:') ? 'local-storage' :
+               video.imageUrl?.startsWith('session:') ? 'session-storage' :
+               video.imageUrl?.startsWith('indexeddb:') ? 'indexeddb-ref' : 'other',
+      urlLength: video.imageUrl?.length || 0,
+      url: video.imageUrl ? video.imageUrl.substring(0, 50) + (video.imageUrl?.length > 50 ? '...' : '') : 'NO URL'
+    });
+  });
 
   const pinnedItems = mediaItems.filter(item => item.isPinned);
   const sliderItems = pinnedItems.length > 0 ? pinnedItems : mediaItems.slice(0, 5);
@@ -130,7 +163,10 @@ export default function Dashboard() {
           >
             <CarouselContent>
               {sliderItems.map((item, index) => {
-                const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
+                // For videos, prefer thumbnail over main imageUrl for slider display
+                const itemImageSrc = item.type === 'Video' 
+                  ? (item.thumbnailUrl || item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl)
+                  : (item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl);
                 
                 return (
                   <CarouselItem key={item.id}>
@@ -145,7 +181,7 @@ export default function Dashboard() {
                                 fill
                                 className="object-cover"
                                 priority={index === 0}
-                                quality={95}
+                                quality={85}
                               />
                             )}
                             <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -171,9 +207,17 @@ export default function Dashboard() {
                         <div className="space-y-4">
                           {item.type === 'Video' && item.imageUrl ? (
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                               <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
-                                Your browser does not support the video tag.
-                              </video>
+                               <video 
+                                 src={item.imageUrl} 
+                                 controls 
+                                 className="w-full h-full object-contain" 
+                                 preload="metadata"
+                                 onError={(e) => console.error('Video load error:', e, 'URL:', item.imageUrl)}
+                                 onLoadStart={() => console.log('Video load started:', item.title)}
+                                 onCanPlay={() => console.log('Video can play:', item.title)}
+                               >
+                                 Your browser does not support the video tag.
+                               </video>
                             </div>
                           ) : itemImageSrc && (
                             <div className="relative aspect-video rounded-lg overflow-hidden">
@@ -345,7 +389,7 @@ export default function Dashboard() {
                                       src={itemImageSrc}
                                       alt={item.title}
                                       fill
-                                      className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                                       quality={95}
                                   />
                               </div>
@@ -371,13 +415,21 @@ export default function Dashboard() {
                           <div className="space-y-4">
                               {itemImageSrc && (
                                   <div className="relative aspect-video rounded-lg overflow-hidden">
-                                      <Image
+                                      {itemImageSrc.startsWith('data:') || itemImageSrc.startsWith('local:') || itemImageSrc.startsWith('session:') || itemImageSrc.startsWith('indexeddb:') ? (
+                                        <img
                                           src={itemImageSrc}
                                           alt={item.title}
-                                          fill
-                                          className="object-contain"
-                                          quality={95}
-                                      />
+                                          className="w-full h-full object-contain"
+                                        />
+                                      ) : (
+                                        <Image
+                                            src={itemImageSrc}
+                                            alt={item.title}
+                                            fill
+                                            className="object-contain"
+                                            quality={95}
+                                        />
+                                      )}
                                   </div>
                               )}
                               <p className="text-sm text-muted-foreground">{item.description}</p>
@@ -409,13 +461,44 @@ export default function Dashboard() {
                           <Card className="overflow-hidden group flex flex-col cursor-pointer">
                               {itemImageSrc ? (
                               <div className="relative aspect-video">
-                                  <Image
-                                      src={itemImageSrc}
-                                      alt={item.title}
-                                      fill
-                                      className="object-contain transition-transform duration-300 group-hover:scale-105"
-                                      quality={95}
-                                  />
+                                  {item.type === 'Video' ? (
+                                    itemImageSrc && itemImageSrc.startsWith('data:video') ? (
+                                      // Video with data URL - show thumbnail
+                                      <video 
+                                        src={itemImageSrc} 
+                                        className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                        preload="metadata"
+                                        muted
+                                        onError={() => console.error('Video thumbnail error for:', item.title)}
+                                      />
+                                    ) : (
+                                      // Video still loading from IndexedDB or no data - show placeholder
+                                      <div className="w-full h-full bg-gray-200 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                                        <div className="text-center">
+                                          <svg className="w-12 h-12 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                          </svg>
+                                          <p className="text-sm text-gray-500">Loading...</p>
+                                        </div>
+                                      </div>
+                                    )
+                                  ) : (itemImageSrc && (itemImageSrc.startsWith('data:') || itemImageSrc.startsWith('local:') || itemImageSrc.startsWith('session:'))) ? (
+                                    // For custom storage URLs
+                                    <img
+                                        src={itemImageSrc}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                  ) : (
+                                    // For external URLs
+                                    <Image
+                                        src={itemImageSrc}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        quality={95}
+                                    />
+                                  )}
                                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                                       <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
                                   </div>
@@ -440,21 +523,65 @@ export default function Dashboard() {
                               <DialogDescription>{item.date} | {item.type}</DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
-                              {item.type === 'Video' && item.imageUrl ? (
+                              {item.type === 'Video' ? (
                                 <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                                   <video src={item.imageUrl} controls className="w-full h-full" autoPlay>
-                                    Your browser does not support the video tag.
-                                  </video>
+                                  {item.isLoading ? (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                                      <div className="text-white text-center">
+                                        <div className="animate-spin w-8 h-8 border-2 border-white border-t-transparent rounded-full mx-auto mb-2"></div>
+                                        <p className="text-sm">Loading video...</p>
+                                      </div>
+                                    </div>
+                                  ) : item.loadError ? (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                                      <div className="text-white text-center">
+                                        <p className="text-sm">Failed to load video</p>
+                                        <p className="text-xs text-gray-400 mt-1">Video may have been removed or corrupted</p>
+                                      </div>
+                                    </div>
+                                  ) : item.imageUrl ? (
+                                    <video 
+                                      src={item.imageUrl} 
+                                      controls 
+                                      className="w-full h-full object-contain" 
+                                      preload="metadata"
+                                      onError={(e) => {
+                                        console.error('Home page video load error:', e);
+                                        console.error('Video URL type:', item.imageUrl?.startsWith('data:') ? 'data-url' : 'other');
+                                        console.error('Video URL length:', item.imageUrl?.length);
+                                      }}
+                                      onLoadStart={() => console.log('Home page video load started:', item.title)}
+                                      onCanPlay={() => console.log('Home page video can play:', item.title)}
+                                      onLoadedData={() => console.log('Home page video data loaded:', item.title)}
+                                    >
+                                      Your browser does not support the video tag.
+                                    </video>
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
+                                      <div className="text-white text-center">
+                                        <p className="text-sm">No Video</p>
+                                        <p className="text-xs text-gray-400 mt-1">Video content not available</p>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               ) : itemImageSrc && (
                                 <div className="relative aspect-video rounded-lg overflow-hidden">
-                                  <Image
+                                  {itemImageSrc.startsWith('data:') || itemImageSrc.startsWith('local:') || itemImageSrc.startsWith('session:') || itemImageSrc.startsWith('indexeddb:') ? (
+                                    <img
                                       src={itemImageSrc}
                                       alt={item.title}
-                                      fill
-                                      className="object-contain"
-                                      quality={95}
-                                  />
+                                      className="w-full h-full object-contain"
+                                    />
+                                  ) : (
+                                    <Image
+                                        src={itemImageSrc}
+                                        alt={item.title}
+                                        fill
+                                        className="object-contain"
+                                        quality={95}
+                                    />
+                                  )}
                                 </div>
                               )}
                               <p className="text-sm text-muted-foreground">{item.description}</p>

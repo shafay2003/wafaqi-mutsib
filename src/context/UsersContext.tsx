@@ -1,7 +1,8 @@
 
 'use client';
 
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
+import { useLocalStorage } from '@/hooks/use-local-storage';
 
 export type User = {
     id: string;
@@ -26,39 +27,20 @@ type UsersContextType = {
 const UsersContext = createContext<UsersContextType | undefined>(undefined);
 
 export function UsersProvider({ children }: { children: ReactNode }) {
-  const [users, setUsers] = useState<User[]>(initialUsers);
-
-  useEffect(() => {
-    try {
-      const storedItems = window.localStorage.getItem('users');
-      if (storedItems) {
-        setUsers(JSON.parse(storedItems));
-      }
-    } catch (error) {
-      console.error('Error reading from localStorage', error);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem('users', JSON.stringify(users));
-    } catch (error) {
-      console.error('Error writing to localStorage', error);
-    }
-  }, [users]);
+  const [users, setUsers] = useLocalStorage<User[]>('users', initialUsers);
 
   const addUser = (item: User) => {
-    setUsers((prev) => [item, ...prev]);
+    setUsers((prev: User[]) => [item, ...prev]);
   };
 
   const updateUser = (id: string, updatedItem: Partial<User>) => {
-    setUsers((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, ...updatedItem } : item))
+    setUsers((prev: User[]) =>
+      prev.map((item: User) => (item.id === id ? { ...item, ...updatedItem } : item))
     );
   };
 
   const deleteUser = (id: string) => {
-    setUsers((prev) => prev.filter((item) => item.id !== id));
+    setUsers((prev: User[]) => prev.filter((item: User) => item.id !== id));
   };
 
   return (

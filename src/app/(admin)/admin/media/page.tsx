@@ -31,6 +31,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -61,8 +62,17 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useMedia } from "@/context/MediaContext";
 import type { MediaItem } from "@/context/MediaContext";
+import ClientOnly from "@/components/ClientOnly";
+import { StorageDebug } from "@/components/debug/StorageDebug";
+import { handleLargeFile, getFileSizeInfo } from "@/lib/file-compression";
 
-const MediaTable = ({ items, onEdit, onDelete, onPinToggle }: { items: MediaItem[], onEdit: (item: MediaItem) => void, onDelete: (id: string) => void, onPinToggle: (id: string) => void }) => (
+const MediaTable = ({ items, onEdit, onDelete, onPinToggle, onPreview }: { 
+  items: MediaItem[], 
+  onEdit: (item: MediaItem) => void, 
+  onDelete: (id: string) => void, 
+  onPinToggle: (id: string) => void,
+  onPreview?: (item: MediaItem) => void 
+}) => (
   <Table>
     <TableHeader>
       <TableRow>
@@ -84,20 +94,74 @@ const MediaTable = ({ items, onEdit, onDelete, onPinToggle }: { items: MediaItem
                 {item.isPinned && <Pin className="h-4 w-4 text-primary" />}
               </TableCell>
               <TableCell className="hidden sm:table-cell">
-                {item.imageUrl ? (
-                  <Image
-                    alt={item.title}
-                    className="aspect-square rounded-md object-cover"
-                    height="64"
-                    src={item.imageUrl}
-                    width="64"
-                    quality={85}
-                  />
-                ) : (
-                  <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center text-xs text-muted-foreground">
-                    No Image
-                  </div>
-                )}
+                <div className="relative group">
+                  {item.imageUrl ? (
+                    <>
+                      {item.type === 'Video' ? (
+                        <div className="relative">
+                          {(typeof item.imageUrl === 'string' && (item.imageUrl.startsWith('data:') || item.imageUrl.startsWith('local:') || item.imageUrl.startsWith('session:') || item.imageUrl.startsWith('indexeddb:'))) ? (
+                            <video
+                              className="aspect-square rounded-md object-cover w-16 h-16"
+                              src={item.imageUrl}
+                              muted
+                            />
+                          ) : (
+                            <div className="h-16 w-16 bg-red-100 rounded-md flex items-center justify-center">
+                              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                            </div>
+                          )}
+                          <div className="absolute inset-0 bg-black bg-opacity-30 rounded-md flex items-center justify-center">
+                            <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          </div>
+                          {onPreview && (
+                            <button
+                              onClick={() => onPreview(item)}
+                              className="absolute inset-0 bg-transparent hover:bg-black hover:bg-opacity-10 rounded-md transition-colors"
+                              title="Preview video"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        (typeof item.imageUrl === 'string' && (item.imageUrl.startsWith('data:') || item.imageUrl.startsWith('local:') || item.imageUrl.startsWith('session:') || item.imageUrl.startsWith('indexeddb:'))) ? (
+                          <img
+                            alt={item.title}
+                            className="aspect-square rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                            height={64}
+                            src={item.imageUrl}
+                            width={64}
+                            onClick={() => onPreview && onPreview(item)}
+                            title="Click to preview"
+                          />
+                        ) : item.imageUrl ? (
+                          <Image
+                            alt={item.title}
+                            className="aspect-square rounded-md object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                            height={64}
+                            src={item.imageUrl}
+                            width={64}
+                            quality={85}
+                            onClick={() => onPreview && onPreview(item)}
+                            title="Click to preview"
+                          />
+                        ) : (
+                          <div className="h-16 w-16 bg-gray-100 rounded-md flex items-center justify-center">
+                            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        )
+                      )}
+                    </>
+                  ) : (
+                    <div className="h-16 w-16 bg-muted rounded-md flex items-center justify-center text-xs text-muted-foreground">
+                      No {item.type}
+                    </div>
+                  )}
+                </div>
               </TableCell>
             <TableCell className="font-medium">{item.title}</TableCell>
             <TableCell>
@@ -140,7 +204,9 @@ const MediaTable = ({ items, onEdit, onDelete, onPinToggle }: { items: MediaItem
 
 export default function AdminMediaPage() {
   const [open, setOpen] = useState(false);
-  const { mediaItems, addMediaItem, updateMediaItem, deleteMediaItem } = useMedia();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewItem, setPreviewItem] = useState<MediaItem | null>(null);
+  const { mediaItems, addMediaItem, addMediaFromFile, updateMediaItem, deleteMediaItem, refreshFromStorage } = useMedia();
   const [editingItem, setEditingItem] = useState<MediaItem | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [fileType, setFileType] = useState<'image' | 'video' | null>(null);
@@ -159,13 +225,29 @@ export default function AdminMediaPage() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Check file size and show feedback
+      const sizeInfo = getFileSizeInfo(file);
+      console.log(`Selected file: ${file.name} (${sizeInfo.sizeFormatted})`);
+      
+      if (sizeInfo.isLarge) {
+        alert(`File size: ${sizeInfo.sizeFormatted}. Maximum allowed for ${sizeInfo.fileType}s is ${sizeInfo.maxAllowedSize}MB. Please choose a smaller file.`);
+        event.target.value = ''; // Clear the file input
+        setFilePreview(null);
+        setFileType(null);
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onloadend = () => {
         setFilePreview(reader.result as string);
          if (file.type.startsWith('video/')) {
           setFileType('video');
+          // Update the form type to Video when a video file is selected
+          form.setValue('type', 'Video');
         } else {
           setFileType('image');
+          // Update the form type to Photo when an image file is selected
+          form.setValue('type', 'Photo');
         }
       };
       reader.readAsDataURL(file);
@@ -223,6 +305,11 @@ export default function AdminMediaPage() {
     }
   };
 
+  const handlePreview = (item: MediaItem) => {
+    setPreviewItem(item);
+    setPreviewOpen(true);
+  };
+
   const handleOpenChange = (isOpen: boolean) => {
     setOpen(isOpen);
     if (!isOpen) {
@@ -230,43 +317,64 @@ export default function AdminMediaPage() {
     }
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const uploadedFile = data.image?.[0];
+    console.log('Form submission data:', { type: data.type, title: data.title, fileType, hasUploadedFile: !!uploadedFile });
 
-    const processSubmit = (imageUrl?: string) => {
-      const itemData: Partial<MediaItem> = {
-        title: data.title,
-        description: data.description,
-        type: data.type,
-        isPinned: data.isPinned,
-      };
-
-      if (imageUrl) {
-        itemData.imageUrl = imageUrl;
-      }
-
+    try {
       if (editingItem) {
-        updateMediaItem(editingItem.id, itemData);
+        // Update existing item
+        const itemData: Partial<MediaItem> = {
+          title: data.title,
+          description: data.description,
+          type: data.type,
+          isPinned: data.isPinned,
+        };
+        
+        // If new file uploaded, we would need to add addMediaFromFile for updates too
+        // For now, keep existing imageUrl
+        if (!uploadedFile) {
+          updateMediaItem(editingItem.id, itemData);
+          console.log('Updated media item (metadata only)');
+        } else {
+          // For simplicity, delete old and create new with new file
+          deleteMediaItem(editingItem.id);
+          await addMediaFromFile(uploadedFile, data.title, data.description);
+          console.log('Replaced media item with new file');
+        }
       } else {
-        const newItem: MediaItem = {
-          id: `media-${Date.now()}`,
-          date: new Date().toLocaleDateString('en-CA'),
-          ...itemData
-        } as MediaItem;
-        addMediaItem(newItem);
+        // Create new item
+        if (uploadedFile) {
+          console.log(`🆕 Creating new media item with file: ${uploadedFile.name}`);
+          await addMediaFromFile(uploadedFile, data.title, data.description);
+          console.log('✅ Successfully added new media item with optimized processing');
+        } else {
+          // Create item without file (metadata only)
+          const newItem: MediaItem = {
+            id: `media-${Date.now()}`,
+            title: data.title,
+            description: data.description,
+            type: data.type,
+            date: new Date().toLocaleDateString('en-CA'),
+            isPinned: data.isPinned,
+          };
+          addMediaItem(newItem);
+          console.log('✅ Successfully added metadata-only media item');
+        }
       }
+
+      // Close dialog and reset state
       setOpen(false);
       setEditingItem(null);
-    }
-
-    if (uploadedFile) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        processSubmit(reader.result as string);
-      };
-      reader.readAsDataURL(uploadedFile);
-    } else {
-      processSubmit(editingItem?.imageUrl);
+      setFilePreview(null);
+      setFileType(null);
+      
+      // Force refresh to ensure thumbnails appear immediately
+      setTimeout(() => refreshFromStorage(), 100);
+      
+    } catch (error) {
+      console.error('❌ Error in media submission:', error);
+      alert(error instanceof Error ? error.message : 'Failed to save media item. Please try again.');
     }
   };
 
@@ -275,12 +383,18 @@ export default function AdminMediaPage() {
 
 
   return (
-    <div className="flex flex-col gap-4">
-       <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight">Media Gallery</h1>
-            <p className="text-sm text-muted-foreground">Manage photos and videos for your website's gallery.</p>
+    <ClientOnly fallback={<div className="flex items-center justify-center p-4">Loading...</div>}>
+      <div className="flex flex-col gap-4">
+        {/* Debug component to monitor storage - moved to bottom left to avoid interference */}
+        <div className="fixed bottom-4 left-4 z-40">
+          <StorageDebug />
         </div>
+        
+         <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="space-y-1">
+              <h1 className="text-2xl font-semibold tracking-tight">Media Gallery</h1>
+              <p className="text-sm text-muted-foreground">Manage photos and videos for your website's gallery.</p>
+          </div>
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
             <Button size="sm" className="h-8 gap-1" onClick={handleAddNew}>
@@ -383,6 +497,9 @@ export default function AdminMediaPage() {
                                 }}
                             />
                             </FormControl>
+                            <FormDescription>
+                              Upload images (max 5MB) or videos (max 100MB). Supported formats: PNG, JPEG, GIF, MP4, WebM.
+                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                         )}
@@ -391,7 +508,11 @@ export default function AdminMediaPage() {
                         <div className="mt-4 space-y-2">
                           <p className="text-sm font-medium">File Preview:</p>
                           {fileType === 'image' && (
-                              <Image src={filePreview} alt="Image preview" width={400} height={225} className="rounded-md object-contain max-h-60 w-auto" />
+                            filePreview && typeof filePreview === 'string' && filePreview.startsWith('data:') ? (
+                              <img src={filePreview} alt="Image preview" className="rounded-md object-contain max-h-60 w-auto" />
+                            ) : (
+                              <Image src={filePreview || ''} alt="Image preview" width={400} height={225} className="rounded-md object-contain max-h-60 w-auto" />
+                            )
                           )}
                           {fileType === 'video' && (
                               <video src={filePreview} controls className="rounded-md w-full max-h-60" />
@@ -408,26 +529,126 @@ export default function AdminMediaPage() {
         </Dialog>
         </header>
 
+      {/* Media Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <div className="p-2 bg-blue-100 rounded-full">
+                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Total Media</p>
+                <p className="text-2xl font-bold">{mediaItems.length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <div className="p-2 bg-green-100 rounded-full">
+                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Photos</p>
+                <p className="text-2xl font-bold">{photoItems.length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center space-x-2">
+              <div className="p-2 bg-red-100 rounded-full">
+                <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Videos</p>
+                <p className="text-2xl font-bold">{videoItems.length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <Tabs defaultValue="all">
         <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="photo">Photos</TabsTrigger>
-            <TabsTrigger value="video">Videos</TabsTrigger>
+            <TabsTrigger value="all">All ({mediaItems.length})</TabsTrigger>
+            <TabsTrigger value="photo">Photos ({photoItems.length})</TabsTrigger>
+            <TabsTrigger value="video">Videos ({videoItems.length})</TabsTrigger>
         </TabsList>
         <Card className="mt-4">
           <CardContent className="pt-6">
              <TabsContent value="all" className="mt-0">
-              <MediaTable items={mediaItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
+              <MediaTable items={mediaItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} onPreview={handlePreview} />
             </TabsContent>
             <TabsContent value="photo" className="mt-0">
-               <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
+               <MediaTable items={photoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} onPreview={handlePreview} />
             </TabsContent>
             <TabsContent value="video" className="mt-0">
-               <MediaTable items={videoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} />
+               <MediaTable items={videoItems} onEdit={handleEdit} onDelete={handleDelete} onPinToggle={handlePinToggle} onPreview={handlePreview} />
             </TabsContent>
           </CardContent>
         </Card>
     </Tabs>
-    </div>
+
+    {/* Preview Modal */}
+    <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+      <DialogContent className="sm:max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>{previewItem?.title}</DialogTitle>
+          <DialogDescription>
+            {previewItem?.description}
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-center">
+          {previewItem?.type === 'Video' && previewItem?.imageUrl ? (
+            <video 
+              src={previewItem.imageUrl} 
+              controls 
+              className="rounded-md max-h-96 w-auto"
+              autoPlay={false}
+            />
+          ) : previewItem?.imageUrl ? (
+            previewItem.imageUrl.startsWith('data:') ? (
+              <img 
+                src={previewItem.imageUrl} 
+                alt={previewItem.title}
+                className="rounded-md max-h-96 w-auto object-contain"
+              />
+            ) : (
+              <Image 
+                src={previewItem.imageUrl} 
+                alt={previewItem.title}
+                width={800}
+                height={600}
+                className="rounded-md max-h-96 w-auto object-contain"
+                quality={90}
+              />
+            )
+          ) : (
+            <div className="h-48 w-full bg-muted rounded-md flex items-center justify-center">
+              <p className="text-muted-foreground">No preview available</p>
+            </div>
+          )}
+        </div>
+        <div className="flex justify-between items-center text-sm text-muted-foreground">
+          <span>Type: {previewItem?.type}</span>
+          <span>Date: {previewItem?.date}</span>
+          {previewItem?.isPinned && <Badge variant="secondary">Pinned</Badge>}
+        </div>
+      </DialogContent>
+    </Dialog>
+      </div>
+    </ClientOnly>
   );
 }

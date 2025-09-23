@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNotifications } from "@/context/NotificationsContext";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
+import { usePageRefresh } from "@/hooks/use-page-refresh";
 
 const RenderNotificationList = ({ type }: { type: string }) => {
   const { notifications } = useNotifications();
@@ -34,6 +35,7 @@ const RenderNotificationList = ({ type }: { type: string }) => {
 
 
 export default function NotificationsPage() {
+  usePageRefresh();
   const { notifications } = useNotifications();
 
   return (

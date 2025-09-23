@@ -32,7 +32,10 @@ export default function MediaGalleryPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {mediaItems.map((item, index) => {
-                 const itemImageSrc = item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl;
+                 // For video items, prefer thumbnail over main imageUrl for gallery display
+                 const itemImageSrc = item.type === 'Video' 
+                   ? (item.thumbnailUrl || item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl)
+                   : (item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl);
 
                  return (
                     <Dialog key={item.id}>

@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import { PT_Sans } from 'next/font/google';
 import { Toaster } from "@/components/ui/toaster";
@@ -13,6 +12,9 @@ import { FaqProvider } from '@/context/FaqContext';
 import { PagesProvider } from '@/context/PagesContext';
 import { KeyPersonnelProvider } from '@/context/KeyPersonnelContext';
 import { UsersProvider } from '@/context/UsersContext';
+import ClientOnly from '@/components/ClientOnly';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { MediaStorageDebug } from '@/components/debug/MediaStorageDebug';
 
 const ptSans = PT_Sans({
   subsets: ['latin'],
@@ -38,27 +40,32 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${ptSans.variable} font-body antialiased`}>
-        <SettingsProvider>
-          <UsersProvider>
-            <PagesProvider>
-              <SuccessStoriesProvider>
-                <PublicationsProvider>
-                  <NotificationsProvider>
-                     <RegionalOfficesProvider>
-                        <MediaProvider>
-                          <FaqProvider>
-                            <KeyPersonnelProvider>
-                              {children}
-                            </KeyPersonnelProvider>
-                          </FaqProvider>
-                        </MediaProvider>
-                    </RegionalOfficesProvider>
-                  </NotificationsProvider>
-                </PublicationsProvider>
-              </SuccessStoriesProvider>
-            </PagesProvider>
-          </UsersProvider>
-        </SettingsProvider>
+        <ClientOnly fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+          <ErrorBoundary>
+            <SettingsProvider>
+              <UsersProvider>
+                <PagesProvider>
+                  <SuccessStoriesProvider>
+                    <PublicationsProvider>
+                      <NotificationsProvider>
+                         <RegionalOfficesProvider>
+                            <MediaProvider>
+                              <FaqProvider>
+                                <KeyPersonnelProvider>
+                                  {children}
+                                  <MediaStorageDebug />
+                                </KeyPersonnelProvider>
+                              </FaqProvider>
+                            </MediaProvider>
+                        </RegionalOfficesProvider>
+                      </NotificationsProvider>
+                    </PublicationsProvider>
+                  </SuccessStoriesProvider>
+                </PagesProvider>
+              </UsersProvider>
+            </SettingsProvider>
+          </ErrorBoundary>
+        </ClientOnly>
         <Toaster />
       </body>
     </html>
