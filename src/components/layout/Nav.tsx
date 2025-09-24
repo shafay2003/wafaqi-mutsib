@@ -26,17 +26,38 @@ export function Nav() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="border-r bg-white">
-      <SidebarHeader className="border-b">
-        <div className="flex items-center gap-2.5">
-          <Logo className="h-9 w-9 text-primary" />
-          <div className="flex flex-col">
-            <h2 className="text-base font-semibold tracking-tight text-gray-800">
-              Wafaqi Mohtasib
-            </h2>
-            <p className="text-xs text-muted-foreground">Ombudsman's Secretariat</p>
+    <Sidebar className="border-r bg-white w-72">
+      <SidebarHeader className="border-b border-green-100/50 bg-gradient-to-r from-white to-green-50/20 p-4">
+        <Link href="/" className="group">
+          <div className="flex items-center gap-3">
+            {/* Compact Logo Design */}
+            <div className="relative flex-shrink-0">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-2.5 shadow-sm border border-green-200/50 group-hover:shadow-md group-hover:border-green-300 transition-all duration-200">
+                <img
+                  src="/images/ombudsman-logo.png"
+                  alt="Wafaqi Mohtasib (Ombudsman) Logo"
+                  className="h-10 w-10 object-contain"
+                />
+              </div>
+            </div>
+            
+            {/* Compact Typography */}
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <h1 className="text-base font-bold text-gray-900 leading-tight tracking-tight group-hover:text-green-700 transition-colors">
+                Wafaqi Mohtasib
+              </h1>
+              <p className="text-sm text-green-700 font-semibold leading-tight">
+                Ombudsman's Secretariat
+              </p>
+              <div className="flex items-center gap-1 mt-1">
+                <div className="h-0.5 w-6 bg-gradient-to-r from-green-600 to-green-400"></div>
+                <p className="text-xs text-green-800 font-medium tracking-wide uppercase">
+                  Govt of Pakistan
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -94,18 +115,43 @@ export function Nav() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter>
-        <div className="border-t -mx-2 p-4">
-            <div className="p-4 rounded-lg bg-gray-100 text-center space-y-3">
-                <h4 className="font-semibold text-sm text-gray-800">Need Help?</h4>
-                <p className="text-xs text-muted-foreground">
-                    Visit our help center or contact support for assistance.
-                </p>
-                <Button size="sm" className="w-full" asChild>
-                  <Link href="/faq">
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Help Center
-                  </Link>
-                </Button>
+        <div className="border-t border-green-100/50 bg-gradient-to-r from-white to-green-50/20 p-4">
+            <div className="text-center space-y-3">
+                <div className="space-y-2">
+                  <h4 className="font-bold text-gray-900 text-base">Citizen Services</h4>
+                  <div className="h-0.5 w-10 bg-gradient-to-r from-green-600 to-green-400 mx-auto"></div>
+                </div>
+                
+                <div className="space-y-2">
+                  <Button 
+                    size="sm" 
+                    className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-sm hover:shadow-md transition-all text-white font-semibold text-sm" 
+                    asChild
+                  >
+                    <Link href="/complaint">
+                        🏛️ File Complaint
+                    </Link>
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="w-full border border-green-200 text-green-700 hover:bg-green-50 hover:border-green-300 font-medium text-sm" 
+                    asChild
+                  >
+                    <Link href="/contact">
+                        📞 Contact Support
+                    </Link>
+                  </Button>
+                </div>
+                
+                <div className="pt-2 border-t border-green-200/50">
+                  <p className="text-sm font-bold text-green-800">
+                    Helpline: +92-51-9201715
+                  </p>
+                  <p className="text-xs text-gray-600 mt-0.5 font-medium">
+                    Free Service • 24/7
+                  </p>
+                </div>
             </div>
         </div>
       </SidebarFooter>

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -34,7 +35,15 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted p-4">
       <Card className="w-full max-w-md mx-auto">
         <CardHeader className="items-center text-center">
-          <Logo className="h-12 w-12 text-primary mb-2" />
+          <div className="relative h-12 w-12 mb-2">
+            <Image
+              src="/images/ombudsman-logo.png"
+              alt="Wafaqi Mutsib (Ombudsman) Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
           <CardTitle className="text-2xl">Admin Panel</CardTitle>
           <CardDescription>
             Enter your credentials to access the dashboard.

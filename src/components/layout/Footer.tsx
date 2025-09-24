@@ -3,6 +3,7 @@
 
 import { Facebook, Phone, Twitter, Youtube, Instagram, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Logo } from "../icons";
 import { useSettings } from "@/context/SettingsContext";
 
@@ -14,7 +15,14 @@ export function Footer() {
             <div className="grid gap-10 lg:grid-cols-4">
                 <div className="space-y-4">
                     <Link href="/" className="flex items-center gap-2.5 font-semibold">
-                        <Logo className="h-10 w-10 text-primary" />
+                        <div className="relative h-10 w-10">
+                          <Image
+                            src="/images/ombudsman-logo.png"
+                            alt="Wafaqi Mutsib (Ombudsman) Logo"
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
                         <span className="font-semibold text-lg text-gray-800">{settings.siteName}</span>
                     </Link>
                     <p className="text-muted-foreground text-sm">Providing transparent and speedy justice against administrative injustices.</p>

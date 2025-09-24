@@ -123,9 +123,13 @@ export function MediaProvider({ children }: { children: ReactNode }) {
             const storedThumbnail = window.localStorage.getItem(storageKey);
             if (storedThumbnail && storedThumbnail.startsWith('data:')) {
               processedItem.thumbnailUrl = storedThumbnail;
+            } else {
+              // Clear thumbnailUrl if not found to prevent Next.js Image errors
+              processedItem.thumbnailUrl = '';
             }
           } catch (error) {
             console.warn('Could not retrieve thumbnail from localStorage:', error);
+            processedItem.thumbnailUrl = '';
           }
         } else if (item.thumbnailUrl.startsWith('indexeddb:')) {
           const fileId = item.thumbnailUrl.replace('indexeddb:', '');
@@ -146,11 +150,26 @@ export function MediaProvider({ children }: { children: ReactNode }) {
                 console.warn('Could not retrieve thumbnail from IndexedDB:', error);
               });
             }
+            
+            // IMPORTANT: Clear thumbnailUrl while loading to prevent Next.js Image errors
+            processedItem.thumbnailUrl = '';
           }
         } else if (item.thumbnailUrl.startsWith('data:')) {
           processedItem.thumbnailUrl = item.thumbnailUrl;
         }
       }
+    }
+
+    // SAFETY CHECK: Ensure no invalid URL schemes are passed to Next.js Image
+    if (processedItem.imageUrl && !processedItem.imageUrl.startsWith('data:') && !processedItem.imageUrl.startsWith('http://') && !processedItem.imageUrl.startsWith('https://') && !processedItem.imageUrl.startsWith('/')) {
+      console.warn(`🚨 Invalid imageUrl detected and cleared: ${processedItem.imageUrl.substring(0, 50)}...`);
+      processedItem.imageUrl = '';
+      processedItem.loadError = true;
+    }
+    
+    if (processedItem.thumbnailUrl && !processedItem.thumbnailUrl.startsWith('data:') && !processedItem.thumbnailUrl.startsWith('http://') && !processedItem.thumbnailUrl.startsWith('https://') && !processedItem.thumbnailUrl.startsWith('/')) {
+      console.warn(`🚨 Invalid thumbnailUrl detected and cleared: ${processedItem.thumbnailUrl.substring(0, 50)}...`);
+      processedItem.thumbnailUrl = '';
     }
 
     return processedItem;
