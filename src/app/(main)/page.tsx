@@ -153,8 +153,8 @@ export default function Dashboard() {
   
   return (
     <>
-      <div className="flex flex-col gap-12 md:gap-16">
-        <section className="relative rounded-xl overflow-hidden max-h-[600px]">
+      <div className="flex flex-col gap-8 md:gap-12">
+        <section className="relative rounded-xl overflow-hidden h-[400px] sm:h-[500px] md:h-[600px] bg-gray-100">
           <Carousel
             setApi={setApi}
             className="w-full h-full"
@@ -173,7 +173,7 @@ export default function Dashboard() {
                     <Dialog>
                       <DialogTrigger asChild>
                          <div className="cursor-pointer h-full">
-                          <div className="relative bg-muted h-[600px]">
+                          <div className="relative bg-gray-200 h-full">
                             {itemImageSrc && (
                               <Image
                                 src={itemImageSrc}
@@ -184,16 +184,30 @@ export default function Dashboard() {
                                 quality={85}
                               />
                             )}
-                            <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                            <div className="absolute bottom-0 left-0 p-8 text-white z-10 max-w-3xl">
-                              <Badge variant={item.type === 'Video' ? 'destructive' : 'secondary'} className="mb-2">{item.type}</Badge>
-                              <h2 className="text-3xl md:text-4xl font-bold tracking-tight !leading-tight text-white/95 line-clamp-3">{item.title}</h2>
-                              <p className="text-white/80 mt-2">{item.date}</p>
+                            {/* Enhanced mobile-friendly overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20 sm:from-black/80 sm:via-black/40 sm:to-transparent" />
+                            
+                            {/* Mobile-optimized content positioning */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white z-10">
+                              <Badge 
+                                variant={item.type === 'Video' ? 'destructive' : 'secondary'} 
+                                className="mb-2 bg-white/20 text-white border-white/30 backdrop-blur-sm"
+                              >
+                                {item.type}
+                              </Badge>
+                              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight !leading-tight text-white drop-shadow-lg line-clamp-2 md:line-clamp-3">
+                                {item.title}
+                              </h2>
+                              <p className="text-white/90 text-sm sm:text-base mt-1 md:mt-2 drop-shadow">{item.date}</p>
                             </div>
 
                             {item.type === 'Video' && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white/80 drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="bg-black/50 rounded-full p-3 md:p-4 backdrop-blur-sm">
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                                      </svg>
+                                    </div>
                                 </div>
                             )}
                           </div>
@@ -238,11 +252,19 @@ export default function Dashboard() {
                 )
               })}
             </CarouselContent>
-            <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10" />
-            <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10" />
-            <div className="absolute bottom-4 right-4 z-20 flex gap-2">
-              <Button size="icon" variant="outline" className="relative" onClick={togglePlay}>
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+            {/* Mobile-friendly navigation */}
+            <CarouselPrevious className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" />
+            <CarouselNext className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" />
+            
+            {/* Mobile-friendly controls */}
+            <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 z-20 flex gap-2">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" 
+                onClick={togglePlay}
+              >
+                {isPlaying ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
                 <span className="sr-only">{isPlaying ? "Pause slides" : "Play slides"}</span>
               </Button>
             </div>
