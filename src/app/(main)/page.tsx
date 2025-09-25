@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import Link from 'next/link'
@@ -55,6 +53,7 @@ import Image from 'next/image'
 import { PlaceHolderImages } from '@/lib/placeholder-images'
 import { Badge } from '@/components/ui/badge'
 import { useMedia } from '@/context/MediaContext';
+import type { MediaItem } from '@/context/MediaContext';
 import { useNotifications } from '@/context/NotificationsContext';
 import { useSuccessStories } from '@/context/SuccessStoriesContext';
 import { usePageRefresh } from '@/hooks/use-page-refresh';
@@ -104,7 +103,43 @@ export default function Dashboard() {
   });
 
   const pinnedItems = mediaItems.filter(item => item.isPinned);
-  const sliderItems = pinnedItems.length > 0 ? pinnedItems : mediaItems.slice(0, 5);
+  
+  // Default placeholder items if no media items are available
+  const defaultSliderItems: MediaItem[] = [
+    {
+      id: 'default-1',
+      title: 'Welcome to Wafaqi Mohtasib Portal',
+      description: 'Your gateway to federal ombudsman services in Pakistan',
+      date: new Date().toLocaleDateString(),
+      type: 'Photo',
+      imageUrl: '/images/ombudsman-logo.png',
+      isPinned: false
+    },
+    {
+      id: 'default-2', 
+      title: 'File Your Complaints Online',
+      description: 'Easy and efficient complaint filing system for citizens',
+      date: new Date().toLocaleDateString(),
+      type: 'Photo',
+      imageUrl: '/images/ombudsman-logo.png',
+      isPinned: false
+    },
+    {
+      id: 'default-3',
+      title: 'Transparency and Accountability',
+      description: 'Ensuring government accountability through effective oversight',
+      date: new Date().toLocaleDateString(),
+      type: 'Photo', 
+      imageUrl: '/images/ombudsman-logo.png',
+      isPinned: false
+    }
+  ];
+  
+  const sliderItems = pinnedItems.length > 0 
+    ? pinnedItems 
+    : mediaItems.length > 0 
+      ? mediaItems.slice(0, 5)
+      : defaultSliderItems;
 
   const complaintStats = [
     { label: 'Received (YTD)', value: '125,342', change: '+15.2% from last year', icon: FileInput },
@@ -151,124 +186,143 @@ export default function Dashboard() {
     }
   }, [api]);
   
+  // Debug logging
+  console.log('📊 Homepage Debug - Media Items:', {
+    totalMediaItems: mediaItems.length,
+    pinnedItems: pinnedItems.length,
+    sliderItemsLength: sliderItems.length,
+    sliderItems: sliderItems.map(item => ({ id: item.id, title: item.title, type: item.type }))
+  });
+
   return (
     <>
-      <div className="flex flex-col gap-8 md:gap-12">
-        <section className="relative rounded-xl overflow-hidden h-[400px] sm:h-[500px] md:h-[600px] bg-gray-100">
-          <Carousel
-            setApi={setApi}
-            className="w-full h-full"
-            plugins={[autoplayPlugin.current]}
-            opts={{ loop: true }}
-          >
-            <CarouselContent>
-              {sliderItems.map((item, index) => {
-                // For videos, prefer thumbnail over main imageUrl for slider display
-                const itemImageSrc = item.type === 'Video' 
-                  ? (item.thumbnailUrl || item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl)
-                  : (item.imageUrl || PlaceHolderImages.find(p => p.id === item.id)?.imageUrl);
-                
-                return (
-                  <CarouselItem key={item.id}>
-                    <Dialog>
-                      <DialogTrigger asChild>
-                         <div className="cursor-pointer h-full">
-                          <div className="relative bg-gray-200 h-full">
-                            {itemImageSrc && (
-                              <Image
-                                src={itemImageSrc}
-                                alt={item.title}
-                                fill
-                                className="object-cover"
-                                priority={index === 0}
-                                quality={85}
-                              />
-                            )}
-                            {/* Enhanced mobile-friendly overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20 sm:from-black/80 sm:via-black/40 sm:to-transparent" />
-                            
-                            {/* Mobile-optimized content positioning */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white z-10">
-                              <Badge 
-                                variant={item.type === 'Video' ? 'destructive' : 'secondary'} 
-                                className="mb-2 bg-white/20 text-white border-white/30 backdrop-blur-sm"
-                              >
-                                {item.type}
-                              </Badge>
-                              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight !leading-tight text-white drop-shadow-lg line-clamp-2 md:line-clamp-3">
-                                {item.title}
-                              </h2>
-                              <p className="text-white/90 text-sm sm:text-base mt-1 md:mt-2 drop-shadow">{item.date}</p>
-                            </div>
-
-                            {item.type === 'Video' && (
+      <div className="flex flex-col gap-4 md:gap-4">
+        {/* Hero Slider Section - Always show */}
+        <section className="relative rounded-xl overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 mb-8 pb-0 w-full mx-auto">
+          {sliderItems.length > 0 ? (
+            <Carousel
+              setApi={setApi}
+              className="w-full h-full min-h-[500px] max-h-[700px] overflow-hidden rounded-xl"
+              plugins={[autoplayPlugin.current]}
+              opts={{ loop: true }}
+            >
+              <CarouselContent className="-ml-0">
+                {sliderItems.map((item, index) => {
+                  const itemImageSrc = item.type === 'Video'
+                    ? (item.thumbnailUrl || item.imageUrl || '/images/placeholder-video.png')
+                    : (item.imageUrl || '/images/placeholder-image.png');
+                  return (
+                    <CarouselItem key={item.id} className="pl-0">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <div className="cursor-pointer h-full w-full">
+                            <div className="relative bg-gray-200 h-full aspect-[16/7] flex items-center justify-center overflow-hidden rounded-xl">
+                              {itemImageSrc ? (
+                                <Image
+                                  src={itemImageSrc}
+                                  alt={item.title}
+                                  fill
+                                  className="object-cover w-full h-full"
+                                  priority={index === 0}
+                                  quality={95}
+                                  sizes="100vw"
+                                />
+                              ) : null}
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+                              <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-12 text-white z-10">
+                                <Badge
+                                  variant={item.type === 'Video' ? 'destructive' : 'secondary'}
+                                  className="mb-3 bg-white/20 text-white border-white/30 backdrop-blur-sm text-sm px-3 py-1"
+                                >
+                                  {item.type}
+                                </Badge>
+                                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight !leading-tight text-white drop-shadow-lg line-clamp-2 md:line-clamp-3 mb-2">
+                                  {item.title}
+                                </h2>
+                                <p className="text-white/90 text-base sm:text-lg mt-2 md:mt-3 drop-shadow max-w-2xl">{item.date}</p>
+                              </div>
+                              {item.type === 'Video' && (
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="bg-black/50 rounded-full p-3 md:p-4 backdrop-blur-sm">
-                                      <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
-                                      </svg>
-                                    </div>
+                                  <div className="bg-black/50 rounded-full p-3 md:p-4 backdrop-blur-sm hover:bg-black/70 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 md:h-16 md:w-16 lg:h-20 lg:w-20 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+                                    </svg>
+                                  </div>
                                 </div>
-                            )}
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-3xl">
-                        <DialogHeader>
-                          <DialogTitle>{item.title}</DialogTitle>
-                          <DialogDescription>{item.date} | {item.type}</DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          {item.type === 'Video' && item.imageUrl ? (
-                            <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
-                               <video 
-                                 src={item.imageUrl} 
-                                 controls 
-                                 className="w-full h-full object-contain" 
-                                 preload="metadata"
-                                 onError={(e) => console.error('Video load error:', e, 'URL:', item.imageUrl)}
-                                 onLoadStart={() => console.log('Video load started:', item.title)}
-                                 onCanPlay={() => console.log('Video can play:', item.title)}
-                               >
-                                 Your browser does not support the video tag.
-                               </video>
-                            </div>
-                          ) : itemImageSrc && (
-                            <div className="relative aspect-video rounded-lg overflow-hidden">
-                              <Image
-                                src={itemImageSrc}
-                                alt={item.title}
-                                fill
-                                className="object-contain"
-                                quality={95}
-                              />
-                            </div>
-                          )}
-                          <p className="text-sm text-muted-foreground">{item.description}</p>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </CarouselItem>
-                )
-              })}
-            </CarouselContent>
-            {/* Mobile-friendly navigation */}
-            <CarouselPrevious className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" />
-            <CarouselNext className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" />
-            
-            {/* Mobile-friendly controls */}
-            <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 z-20 flex gap-2">
-              <Button 
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-3xl">
+                          <DialogHeader>
+                            <DialogTitle>{item.title}</DialogTitle>
+                            <DialogDescription>{item.date} | {item.type}</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            {item.type === 'Video' && item.imageUrl ? (
+                              <div className="relative aspect-video rounded-lg overflow-hidden bg-black">
+                                 <video 
+                                   src={item.imageUrl} 
+                                   controls 
+                                   className="w-full h-full object-contain" 
+                                   preload="metadata"
+                                   onError={(e) => console.error('Video load error:', e, 'URL:', item.imageUrl)}
+                                   onLoadStart={() => console.log('Video load started:', item.title)}
+                                   onCanPlay={() => console.log('Video can play:', item.title)}
+                                 >
+                                   Your browser does not support the video tag.
+                                 </video>
+                              </div>
+                            ) : itemImageSrc && (
+                              <div className="relative aspect-video rounded-lg overflow-hidden flex items-center justify-center">
+                                <Image
+                                  src={itemImageSrc}
+                                  alt={item.title}
+                                  fill
+                                  className="object-contain max-h-full max-w-full"
+                                  quality={95}
+                                />
+                              </div>
+                            )}
+                            <p className="text-sm text-muted-foreground">{item.description}</p>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+            {/* Mobile-friendly navigation - positioned within bounds */}
+            <CarouselPrevious className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 bg-black/30 border-white/20 backdrop-blur-sm text-white hover:bg-black/50 hover:scale-105 transition-all duration-200" />
+            <CarouselNext className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 bg-black/30 border-white/20 backdrop-blur-sm text-white hover:bg-black/50 hover:scale-105 transition-all duration-200" />
+            {/* Mobile-friendly controls - positioned within bounds */}
+            <div className="absolute bottom-3 sm:bottom-5 right-3 sm:right-5 z-20 flex gap-2">
+              <Button
                 size="sm" 
                 variant="outline" 
-                className="h-8 w-8 sm:h-10 sm:w-10 bg-white/20 border-white/30 backdrop-blur-sm text-white hover:bg-white/30" 
+                className="h-10 w-10 sm:h-12 sm:w-12 bg-black/30 border-white/20 backdrop-blur-sm text-white hover:bg-black/50 hover:scale-105 transition-all duration-200"
                 onClick={togglePlay}
               >
-                {isPlaying ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
+                {isPlaying ? <Pause className="h-4 w-4 sm:h-5 sm:w-5" /> : <Play className="h-4 w-4 sm:h-5 sm:w-5" />}
                 <span className="sr-only">{isPlaying ? "Pause slides" : "Play slides"}</span>
               </Button>
             </div>
           </Carousel>
+          ) : (
+            <div className="h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center aspect-[20/8] rounded-xl min-h-[450px]">
+              <div className="text-center p-8">
+                <div className="mb-4">
+                  <img 
+                    src="/images/ombudsman-logo.png" 
+                    alt="Ombudsman Logo" 
+                    className="w-20 h-20 mx-auto mb-4"
+                  />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Wafaqi Mohtasib</h2>
+                <p className="text-gray-700">Federal Ombudsman of Pakistan</p>
+              </div>
+            </div>
+          )}
         </section>
 
          <section>
